@@ -60,13 +60,18 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
         tasks: ['stylus', 'copy:styles', 'autoprefixer']
       },
+      jade: {
+        files: '**/*.jade',
+        tasks: ['jade' ]
+      },
       livereload: {
         options: {
           livereload: LIVERELOAD_PORT
         },
         files: [
-          '<%= yeoman.app %>/{,*/}*.html',
-          '.tmp/styles/{,*/}*.css',
+          '<% yeoman.app %>/*.html',
+          '**/*.jade',
+          'styles/{,*/}*.css',
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
@@ -234,6 +239,20 @@ module.exports = function (grunt) {
       //   }
       // }
     },
+    jade: {
+      dist: {
+        options: {
+          pretty: true
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/jade',
+          src: '**/*.jade',
+          ext: '.html',
+          dest: '<%= yeoman.app %>/views'
+        }]
+      }
+    },
     htmlmin: {
       dist: {
         options: {
@@ -344,6 +363,7 @@ module.exports = function (grunt) {
       'clean:server',
       'concurrent:server',
       'autoprefixer',
+      'jade',
       'connect:livereload',
       'open',
       'watch'
@@ -367,6 +387,8 @@ module.exports = function (grunt) {
     'copy:dist',
     'cdnify',
     'ngmin',
+    'jade',
+    'stylus',
     'cssmin',
     'uglify',
     'rev',

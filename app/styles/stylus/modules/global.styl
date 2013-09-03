@@ -1,20 +1,19 @@
+html,
+body,
+.container[ng-view]
+    @extends $full-size
+
 body
-    background #fafafa
+    background _red
     font normal $root-font-size/1.2em $root-font
     color $root-color
 
-.hero-unit
-    margin 50px auto 0 auto
-    width 300px
-    font-size 18px
-    font-weight 200
-    line-height 30px
-    background-color #eee
-    border-radius 6px
-    padding 60px
+div,
+section
+    box-sizing border-box
 
 
-.hero-unit h1
-    font-size 60px
-    line-height 1em
-    letter-spacing -1px
+
+.inner
+    @extends $full-size
+    position relative

@@ -1,0 +1,76 @@
+$width = 54em
+$height = 27.5em
+$depth = 23.5em
+
+// front/back
+$front
+	width $width
+	height $height
+
+// right/left
+$side
+	height $height
+	width $depth
+	background rgba(200, 200, 200, 0.8)
+
+// top/bottom
+$surface
+	width $width
+	height $depth
+	background rgba(200, 200, 200, 0.8)
+
+.youtube-cover
+	@extends $full-size
+
+.youtube-unit
+	font-size $root-font-size
+	position absolute
+	left 50%
+	margin-left s('-%s', $width/2)
+	top 50%
+	margin-top s('-%s', $height/2)
+
+	.sides
+		width $width
+		height $height
+
+		perspective 265em
+		transform-style preserve-3d
+		transform rotateY(-35deg) rotateX(-20deg) rotateZ(4deg)
+
+		> div
+			position absolute
+
+	.front
+		@extends $front
+		background _dark-gray
+		// border-radius 1em
+		padding 1em
+		transform translate3d(0, 0, $depth/2)
+
+		.inner-frame
+			padding 0.5em
+			border 0.75em solid #fa9933
+			background #EAEAEA
+			border-radius 0.5em
+
+	.back
+		@extends $front
+		background _dark-gray
+		transform rotateY(180deg) translate3d(0, 0, $depth/2)
+
+	.left
+		@extends $side
+		transform rotateY(-90deg) translate3d(0, 0, $depth/2)
+
+	.right
+		@extends $side
+		transform rotateY(90deg) translate3d(0, 0, $width - $depth/2)
+
+	.top
+		@extends $surface
+		transform rotateX(90deg) translate3d(0, 0, $depth/2)
+
+	.bottom
+		@extends $surface
+		transform rotateX(-90deg) translate3d(0, 0, $height - $depth/2)

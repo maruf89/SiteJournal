@@ -2,7 +2,7 @@
 
 angular.module('mvmdApp')
   .controller 'MainCtrl', ($scope) ->
-    $scope.awesomeThings = [
+    $scope.awesomeThingss = [
       'HTML5 Boilerplate'
       'AngularJS'
       'Karma'
