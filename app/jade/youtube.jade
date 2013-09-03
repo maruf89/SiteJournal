@@ -1,7 +1,7 @@
-.youtube-cover(ng-mousemove='onMouse($event)', ngResize='')
+.youtube-cover(ng-mousemove='onMouse($event)')
 
 .youtube-unit
-  .sides.inner
+  .sides.inner(ng-resize='', my-directive='myDirective')
     .front
       .inner-frame
         iframe(width='560', height='315', src='//www.youtube.com/embed/2FNEiTjcMM0', frameborder='0', allowfullscreen='allowfullscreen')

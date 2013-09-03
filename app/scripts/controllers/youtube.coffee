@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('mvmdApp')
-  .controller 'YoutubeCtrl', ($scope) ->
+  .controller 'YoutubeCtrl', ($scope, $rootScope) ->
     side = angular.element( '.sides' )
 
     left = bottom = -90
@@ -9,6 +9,7 @@ angular.module('mvmdApp')
     rotateX = rotateY = 0
     x = y = 0
 
+    $rootScope.$watch 'dimensions', ( newVal, oldVal ) ->
 
     $scope.onMouse = ( e ) ->
       # flip top/bottom
