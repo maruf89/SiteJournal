@@ -1,5 +1,6 @@
 // Generated on 2013-08-30 using generator-angular 0.4.0
 'use strict';
+var path = require('path');
 var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
 var mountFolder = function (connect, dir) {
@@ -43,6 +44,21 @@ module.exports = function (grunt) {
         }
       }
     },
+    // express: {
+    //   livereload: {
+    //     options: {
+    //       background: true,
+    //       port: 9000,
+    //       hostname: 'localhost',
+    //       //bases: path.resolve('public'),  // not sure this is needed ??
+    //       // error: function(err, result, code) {
+    //       //   console.log( arguments );
+    //       // },
+    //       debug: false,
+    //       server: path.resolve('.','./')
+    //     }
+    //   }
+    // },
     watch: {
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
@@ -62,8 +78,16 @@ module.exports = function (grunt) {
       },
       jade: {
         files: '**/*.jade',
-        tasks: ['jade' ]
+        tasks: ['jade','htmlmin' ]
       },
+      // express: {
+      //   files: [
+      //     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.styl',
+      //     '{.tmp,<%= yeoman.app %>}/scripts/{,*/,*/*/}*.coffee',
+      //     '<%= Project.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
+      //   ],
+      //   tasks: ['livereload']
+      // },
       livereload: {
         options: {
           livereload: LIVERELOAD_PORT
@@ -100,7 +124,8 @@ module.exports = function (grunt) {
             return [
               lrSnippet,
               mountFolder(connect, '.tmp'),
-              mountFolder(connect, yeomanConfig.app)
+              mountFolder(connect, yeomanConfig.app),
+              require('./server') // your server packaged as a nodejs module
             ];
           }
         }
@@ -127,6 +152,7 @@ module.exports = function (grunt) {
     },
     open: {
       server: {
+        //path: 'http://localhost:<%= express.livereload.options.port %>'
         url: 'http://localhost:<%= connect.options.port %>'
       }
     },
@@ -256,7 +282,7 @@ module.exports = function (grunt) {
     htmlmin: {
       dist: {
         options: {
-          /*removeCommentsFromCDATA: true,
+          removeCommentsFromCDATA: true,
           // https://github.com/yeoman/grunt-usemin/issues/44
           //collapseWhitespace: true,
           collapseBooleanAttributes: true,
@@ -264,12 +290,12 @@ module.exports = function (grunt) {
           removeRedundantAttributes: true,
           useShortDoctype: true,
           removeEmptyAttributes: true,
-          removeOptionalTags: true*/
+          removeOptionalTags: true
         },
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>',
-          src: ['*.html', 'views/*.html'],
+          src: ['*.html', 'views/*.html', 'views/**/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -364,6 +390,9 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'jade',
+      'coffee',
+      'htmlmin',
+      //'express',
       'connect:livereload',
       'open',
       'watch'

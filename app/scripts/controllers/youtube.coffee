@@ -1,9 +1,9 @@
 'use strict'
 
-angular.module('mvmdApp')
-  .controller 'YoutubeCtrl', ($scope) ->
-    side = angular.element( '.sides' )
+myApp = window.myApp
 
+myApp.controller 'YoutubeCtrl', ($scope) ->
+    side = angular.element( '.sides' )
     left = bottom = -90
     right = top = Math.abs left
     rotateX = rotateY = 0
@@ -17,22 +17,22 @@ angular.module('mvmdApp')
 
       threshX = $scope.width / 2
       threshY = $scope.height / 2
-      domainX = if clientX >= threshX then right else left
-      domainY = if clientY >= threshY then top else bottom 
+      domainX = if clientY >= threshY then top else bottom
+      domainY = if clientX >= threshX then right else left 
 
       # map out coords so center of screen is (0,0)
-      if domainX is left
+      if domainX is right
         x = clientX - threshX
       else
         x = threshX - clientX
 
-      if domainY is bottom
+      if domainY is top
         y = clientY - threshY
       else
         y = threshY - clientY
 
-      rotateX = 'rotateX(' + ( x / threshX ) * domainX + 'deg) '
-      rotateY = 'rotateY(' + ( y / threshY ) * domainY + 'deg)'
+      rotateX = 'rotateY(' + ( x / threshX ) * domainX + 'deg) '
+      rotateY = 'rotateX(' + ( y / threshY ) * domainY + 'deg)'
 
       side.css 'transform', rotateX + rotateY
 
