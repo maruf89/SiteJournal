@@ -1,5 +1,6 @@
 // Generated on 2013-08-30 using generator-angular 0.4.0
 'use strict';
+var path = require('path');
 var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
 var mountFolder = function (connect, dir) {
@@ -43,24 +44,25 @@ module.exports = function (grunt) {
         }
       }
     },
-    express: {
-      livereload {
-        options: {
-          background: true,
-          port: 9000,
-          hostname: 'localhost',
-          bases: path.resolve('public'),  // not sure this is needed ??
-          error: function(err, result, code) {
-            console.log( arguments );
-          },
-          debug: false,
-          server: path.resolve('./server')
-        }
-    },
+    // express: {
+    //   livereload: {
+    //     options: {
+    //       background: true,
+    //       port: 9000,
+    //       hostname: 'localhost',
+    //       //bases: path.resolve('public'),  // not sure this is needed ??
+    //       // error: function(err, result, code) {
+    //       //   console.log( arguments );
+    //       // },
+    //       debug: false,
+    //       server: path.resolve('.','./')
+    //     }
+    //   }
+    // },
     watch: {
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-        tasks: ['coffee:dist','express:dev']
+        tasks: ['coffee:dist']
       },
       coffeeTest: {
         files: ['test/spec/{,*/}*.coffee'],
@@ -78,14 +80,14 @@ module.exports = function (grunt) {
         files: '**/*.jade',
         tasks: ['jade','htmlmin' ]
       },
-      express: {
-        files: [
-          '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.styl',
-          '{.tmp,<%= yeoman.app %>}/scripts/{,*/,*/*/}*.coffee',
-          '<%= Project.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
-        ],
-        tasks: ['livereload']
-      },
+      // express: {
+      //   files: [
+      //     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.styl',
+      //     '{.tmp,<%= yeoman.app %>}/scripts/{,*/,*/*/}*.coffee',
+      //     '<%= Project.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
+      //   ],
+      //   tasks: ['livereload']
+      // },
       livereload: {
         options: {
           livereload: LIVERELOAD_PORT
@@ -122,7 +124,8 @@ module.exports = function (grunt) {
             return [
               lrSnippet,
               mountFolder(connect, '.tmp'),
-              mountFolder(connect, yeomanConfig.app)
+              mountFolder(connect, yeomanConfig.app),
+              require('./server') // your server packaged as a nodejs module
             ];
           }
         }
@@ -149,8 +152,8 @@ module.exports = function (grunt) {
     },
     open: {
       server: {
-        url: 'http://localhost:<%= express.livereload.options.port %>'
-        //url: 'http://localhost:<%= connect.options.port %>'
+        //path: 'http://localhost:<%= express.livereload.options.port %>'
+        url: 'http://localhost:<%= connect.options.port %>'
       }
     },
     clean: {
@@ -389,8 +392,8 @@ module.exports = function (grunt) {
       'jade',
       'coffee',
       'htmlmin',
-      'express',
-      // 'connect:livereload',
+      //'express',
+      'connect:livereload',
       'open',
       'watch'
     ]);
