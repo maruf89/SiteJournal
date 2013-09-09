@@ -43,10 +43,24 @@ module.exports = function (grunt) {
         }
       }
     },
+    express: {
+      livereload {
+        options: {
+          background: true,
+          port: 9000,
+          hostname: 'localhost',
+          bases: path.resolve('public'),  // not sure this is needed ??
+          error: function(err, result, code) {
+            console.log( arguments );
+          },
+          debug: false,
+          server: path.resolve('./server')
+        }
+    },
     watch: {
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-        tasks: ['coffee:dist']
+        tasks: ['coffee:dist','express:dev']
       },
       coffeeTest: {
         files: ['test/spec/{,*/}*.coffee'],
@@ -63,6 +77,14 @@ module.exports = function (grunt) {
       jade: {
         files: '**/*.jade',
         tasks: ['jade','htmlmin' ]
+      },
+      express: {
+        files: [
+          '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.styl',
+          '{.tmp,<%= yeoman.app %>}/scripts/{,*/,*/*/}*.coffee',
+          '<%= Project.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
+        ],
+        tasks: ['livereload']
       },
       livereload: {
         options: {
@@ -127,7 +149,8 @@ module.exports = function (grunt) {
     },
     open: {
       server: {
-        url: 'http://localhost:<%= connect.options.port %>'
+        url: 'http://localhost:<%= express.livereload.options.port %>'
+        //url: 'http://localhost:<%= connect.options.port %>'
       }
     },
     clean: {
@@ -366,7 +389,8 @@ module.exports = function (grunt) {
       'jade',
       'coffee',
       'htmlmin',
-      'connect:livereload',
+      'express',
+      // 'connect:livereload',
       'open',
       'watch'
     ]);

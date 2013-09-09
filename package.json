@@ -29,7 +29,8 @@
     "time-grunt": "~0.1.0",
     "grunt-karma": "~0.6.2",
     "grunt-contrib-stylus": "~0.8.0",
-    "grunt-express": "~1.0.1"
+    "grunt-express": "~1.0.1",
+    "grunt-express-server": "~0.4.3"
   },
   "engines": {
     "node": ">=0.8.0"
