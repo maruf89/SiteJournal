@@ -4,7 +4,10 @@ myApp.directive 'resize', ($window) ->
     (scope) ->
         scope.width = $window.innerWidth
         scope.height = $window.innerHeight
-        angular.element( $window ).bind 'resize', ->
+
+        $window.onresize = ->
             scope.$apply ->
                 scope.width = $window.innerWidth
                 scope.height = $window.innerHeight
+            console.log scope.width
+            

@@ -2,13 +2,21 @@
 
 myApp = window.myApp
 
+prefix = ( property, value ) ->
+  obj = {}
+  obj[ "-webkit-#{property}" ] = value
+  obj[ "-moz-#{property}" ] = value
+  obj[ "-ms-#{property}" ] = value
+  obj[ property ] = value
+
+  obj
+
 myApp.controller 'YoutubeCtrl', ($scope) ->
-    side = angular.element( '.sides' )
     left = bottom = -90
     right = top = Math.abs left
     rotateX = rotateY = 0
     x = y = 0
-
+    $scope.angle = background: 'blue'
 
     $scope.onMouse = ( e ) ->
       # flip top/bottom
@@ -34,6 +42,6 @@ myApp.controller 'YoutubeCtrl', ($scope) ->
       rotateX = 'rotateY(' + ( x / threshX ) * domainX + 'deg) '
       rotateY = 'rotateX(' + ( y / threshY ) * domainY + 'deg)'
 
-      side.css 'transform', rotateX + rotateY
+      $scope.angle = prefix 'transform', rotateX + rotateY
 
 
