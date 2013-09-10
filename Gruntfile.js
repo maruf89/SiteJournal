@@ -23,6 +23,24 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  var nodemonIgnoredFiles = [
+    'README.md',
+    'Gruntfile.js',
+    'node-inspector.js',
+    'karma.conf.js',
+    '/.git/',
+    '/node_modules/',
+    '/app/',
+    '/dist/',
+    '/test/',
+    '/coverage/',
+    '/temp/',
+    '/.tmp',
+    '/.sass-cache',
+    '*.txt',
+    '*.jade',
+  ];
+
   try {
     yeomanConfig.app = require('./bower.json').appPath || yeomanConfig.app;
   } catch (e) {}
@@ -76,10 +94,6 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
         tasks: ['stylus', 'copy:styles', 'autoprefixer']
       },
-      jade: {
-        files: '**/*.jade',
-        tasks: ['jade','htmlmin' ]
-      },
       // express: {
       //   files: [
       //     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.styl',
@@ -93,6 +107,7 @@ module.exports = function (grunt) {
           livereload: LIVERELOAD_PORT
         },
         files: [
+          'server.js',
           '<% yeoman.app %>/*.html',
           '**/*.jade',
           'styles/{,*/}*.css',
@@ -192,6 +207,15 @@ module.exports = function (grunt) {
           ext: '.js'
         }]
       },
+      server: {
+        files: [{
+          expand: true,
+          cwd: './',
+          src: '{,*/}*.coffee',
+          dest: './',
+          ext: '.js'
+        }]
+      },
       test: {
         files: [{
           expand: true,
@@ -265,20 +289,7 @@ module.exports = function (grunt) {
       //   }
       // }
     },
-    jade: {
-      dist: {
-        options: {
-          pretty: true
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/jade',
-          src: '**/*.jade',
-          ext: '.html',
-          dest: '<%= yeoman.app %>/views'
-        }]
-      }
-    },
+
     htmlmin: {
       dist: {
         options: {
@@ -332,6 +343,16 @@ module.exports = function (grunt) {
       }
     },
     concurrent: {
+      nodemon: {
+        options: {
+          logConcurrentOutput: true,
+        },
+        tasks: [
+          'nodemon:nodeInspector',
+          'nodemon:dev',
+          'watch',
+        ],
+      },
       server: [
         'coffee:dist',
         'copy:styles'
@@ -369,6 +390,38 @@ module.exports = function (grunt) {
         }]
       }
     },
+    nodemon: {
+      dev: {
+        options: {
+          file: 'server.js',
+          args: ['development'],
+          watchedExtensions: [
+            'js',
+            // This might cause an issue starting the server
+            // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
+            //'coffee'
+          ],
+          // nodemon watches the current directory recursively by default
+          // watchedFolders: ['.'],
+          debug: true,
+          delayTime: 1,
+          ignoredFiles: nodemonIgnoredFiles,
+        }
+    },
+    nodeInspector: {
+        options: {
+          file: 'node-inspector.js',
+          watchedExtensions: [
+              'js',
+              // This might cause an issue starting the server
+              // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
+              // 'coffee'
+          ],
+          exec: 'node-inspector',
+          ignoredFiles: nodemonIgnoredFiles,
+        },
+      },
+    },
     uglify: {
       dist: {
         files: {
@@ -398,6 +451,17 @@ module.exports = function (grunt) {
       'watch'
     ]);
   });
+
+  grunt.registerTask('express', [
+    'concurrent:server',
+
+    // start karma server
+    //'karma:app',
+
+    'concurrent:nodemon',
+
+    'watch:coffee:server'
+  ]);
 
   grunt.registerTask('test', [
     'clean:server',
