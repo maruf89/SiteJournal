@@ -1,15 +1,3 @@
-# var express = require('express')
-#   , app = express()
-#   ;
-
-# app.get('/bob', function(req, res) {
-#     res.send('hello world');
-# 	console.log("I run!!");
-# })
-
-# app.listen( 9000 );
-
-# module.exports = app;
 "use strict"
 
 #
@@ -155,7 +143,7 @@ app.get "/", (req, res, next) ->
   
   # we use a direct database connection here
   # because the API would have sent JSON itself
-  res.send "hello Godzilla!"
+  res.send "hello "
 
 
 # app.db.getPeople(function (err, people) {

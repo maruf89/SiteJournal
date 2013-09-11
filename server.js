@@ -91,7 +91,7 @@
   });
 
   app.get("/", function(req, res, next) {
-    return res.send("hello Bob!");
+    return res.send("hello ");
   });
 
   app.get("/normal", function(req, res, next) {

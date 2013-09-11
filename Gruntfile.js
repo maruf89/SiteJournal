@@ -4,7 +4,7 @@ var path = require('path');
 var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
 var mountFolder = function (connect, dir) {
-  return connect.static(require('path').resolve(dir));
+  return connect.static(path.resolve(dir));
 };
 
 // # Globbing
@@ -62,22 +62,11 @@ module.exports = function (grunt) {
         }
       }
     },
-    // express: {
-    //   livereload: {
-    //     options: {
-    //       background: true,
-    //       port: 9000,
-    //       hostname: 'localhost',
-    //       //bases: path.resolve('public'),  // not sure this is needed ??
-    //       // error: function(err, result, code) {
-    //       //   console.log( arguments );
-    //       // },
-    //       debug: false,
-    //       server: path.resolve('.','./')
-    //     }
-    //   }
-    // },
     watch: {
+      server: {
+        files: ['./{,*/}*.coffee'],
+        tasks: ['coffee:server', 'wait:reload']
+      },
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
         tasks: ['coffee:dist']
@@ -94,20 +83,14 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
         tasks: ['stylus', 'copy:styles', 'autoprefixer']
       },
-      // express: {
-      //   files: [
-      //     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.styl',
-      //     '{.tmp,<%= yeoman.app %>}/scripts/{,*/,*/*/}*.coffee',
-      //     '<%= Project.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
-      //   ],
-      //   tasks: ['livereload']
-      // },
       livereload: {
         options: {
+          debounceDelay: 2000,
+          interval: 2000,
           livereload: LIVERELOAD_PORT
         },
         files: [
-          'server.js',
+          './trigger.file',
           '<% yeoman.app %>/*.html',
           '**/*.jade',
           'styles/{,*/}*.css',
@@ -350,7 +333,7 @@ module.exports = function (grunt) {
         tasks: [
           'nodemon:nodeInspector',
           'nodemon:dev',
-          'watch',
+          'wait:open'
         ],
       },
       server: [
@@ -390,6 +373,11 @@ module.exports = function (grunt) {
         }]
       }
     },
+    shell: {
+      trigger: {
+        command: 'echo a > trigger.file'
+      }
+    },
     nodemon: {
       dev: {
         options: {
@@ -405,7 +393,7 @@ module.exports = function (grunt) {
           // watchedFolders: ['.'],
           debug: true,
           delayTime: 1,
-          ignoredFiles: nodemonIgnoredFiles,
+          ignoredFiles: nodemonIgnoredFiles
         }
     },
     nodeInspector: {
@@ -430,8 +418,29 @@ module.exports = function (grunt) {
           ]
         }
       }
+    },
+    wait: {
+      options: {
+        delay: 550
+      },
+      open: {
+        options: {
+          after: function() {
+            grunt.task.run( 'waitDelay' );
+          }
+        }
+      },
+      reload: {
+        options: {
+          after: function() {
+            grunt.task.run( 'shell:trigger' );
+          }
+        }
+      }
     }
   });
+  
+  grunt.registerTask('waitDelay', ['open', 'watch'/*, 'connect:livereload'*/]);
 
   grunt.registerTask('server', function (target) {
     if (target === 'dist') {
@@ -453,14 +462,16 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('express', [
+    'clean:server',
     'concurrent:server',
+    'coffee',
+    'htmlmin',
 
     // start karma server
     //'karma:app',
 
-    'concurrent:nodemon',
-
-    'watch:coffee:server'
+    'concurrent:nodemon'
+    
   ]);
 
   grunt.registerTask('test', [
