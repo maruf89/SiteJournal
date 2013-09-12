@@ -2,10 +2,14 @@
 
 #
 # * Express Dependencies
-# 
+# http://howtonode.org/express-mongodb
+Db = require('mongodb').Db
+Connection = require('mongodb').Connection
+Server = require('mongodb').Server
+BSON = require('mongodb').BSON
+ObjectID = require('mongodb').ObjectID
 express = require 'express'
-#stylus = require 'stylus'
-#nib = require 'nib'
+#googleapis = require 'googleapis'
 app = express()
 
 
