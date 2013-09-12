@@ -3,19 +3,17 @@
 #
 # * Express Dependencies
 # 
-express = require("express")
+express = require 'express'
+#stylus = require 'stylus'
+#nib = require 'nib'
 app = express()
+
+
 port = 9000
 
 #
 # * App methods and libraries
 # 
-
-#app.db = require('./lib/database');
-#app.api = require('./lib/api');
-
-# propagate app instance throughout app methods
-#app.api.use(app);
 
 #
 # * Set app settings depending on environment mode.
@@ -30,18 +28,35 @@ if process.env.NODE_ENV is "production" or process.argv[2] is "production"
 else
   app.locals.dev = true
 
-#
+
 # * Config
 # 
-app.set "views", __dirname + "/views"
+
+# html/jage engine
+#app.engine '.html', require('jade').__express
+
+# compile = (str, path) ->
+#   stylus( str )
+#     .set( 'filename',path )
+#     .use( nib() )
+
+app.locals.basedir = '/app'
+app.set "views", __dirname + "/app/"
 app.set "view engine", "jade"
 app.use express.logger("dev")  if app.get("env") is "development"
+# app.use stylus.middleware
+#   src: "#{__dirname}/styles"
+#   compile: compile
 
 # app.use(express.favicon());
 app.use express.cookieParser("keyboardcat") # 'some secret key to sign cookies'
 app.use express.bodyParser()
 app.use express.compress()
 app.use express.methodOverride()
+
+
+
+
 
 # our custom "verbose errors" setting
 # which we can use in the templates
@@ -143,18 +158,9 @@ app.get "/", (req, res, next) ->
   
   # we use a direct database connection here
   # because the API would have sent JSON itself
-  res.send "hello "
+  res.render 'index'
+  #res.send "hello Marius!!!"
 
-
-# app.db.getPeople(function (err, people) {
-#   if (err) {
-#     return next(err);
-#   }
-
-#   res.render('app', {
-#     bootstrap: 'var bootstrap = ' + JSON.stringify(people) + ';',
-#   });
-# });
 app.get "/normal", (req, res, next) ->
   res.render "normal"
 

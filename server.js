@@ -2,7 +2,7 @@
   "use strict";
   var app, express, port;
 
-  express = require("express");
+  express = require('express');
 
   app = express();
 
@@ -16,7 +16,9 @@
     app.locals.dev = true;
   }
 
-  app.set("views", __dirname + "/views");
+  app.locals.basedir = '/app';
+
+  app.set("views", __dirname + "/app/");
 
   app.set("view engine", "jade");
 
@@ -91,7 +93,7 @@
   });
 
   app.get("/", function(req, res, next) {
-    return res.send("hello ");
+    return res.render('index');
   });
 
   app.get("/normal", function(req, res, next) {

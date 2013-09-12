@@ -5,12 +5,9 @@ node-inspector.js
 karma.conf.js
 /.git/
 /node_modules/
-/app/
 /dist/
 /test/
 /coverage/
 /temp/
-/.tmp
 /.sass-cache
 *.txt
-*.jade

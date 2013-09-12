@@ -30,15 +30,15 @@ module.exports = function (grunt) {
     'karma.conf.js',
     '/.git/',
     '/node_modules/',
-    '/app/',
+    //'/app/',
     '/dist/',
     '/test/',
     '/coverage/',
     '/temp/',
-    '/.tmp',
+    //'/.tmp',
     '/.sass-cache',
     '*.txt',
-    '*.jade',
+    //'*.jade',
   ];
 
   try {
@@ -81,7 +81,7 @@ module.exports = function (grunt) {
       },
       stylus: {
         files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
-        tasks: ['stylus', 'copy:styles', 'autoprefixer']
+        tasks: ['stylus', 'copy:styles', 'autoprefixer', 'wait:reload']
       },
       livereload: {
         options: {
@@ -90,8 +90,7 @@ module.exports = function (grunt) {
           livereload: LIVERELOAD_PORT
         },
         files: [
-          './trigger.file',
-          '<% yeoman.app %>/*.html',
+          '<% yeoman.app %>/*.jade',
           '**/*.jade',
           'styles/{,*/}*.css',
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
@@ -385,6 +384,8 @@ module.exports = function (grunt) {
           args: ['development'],
           watchedExtensions: [
             'js',
+            'jade',
+            'styl'
             // This might cause an issue starting the server
             // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
             //'coffee'
@@ -432,8 +433,9 @@ module.exports = function (grunt) {
       },
       reload: {
         options: {
+          delay: 2750,
           after: function() {
-            grunt.task.run( 'shell:trigger' );
+            grunt.task.run( 'reload' );
           }
         }
       }
@@ -441,6 +443,14 @@ module.exports = function (grunt) {
   });
   
   grunt.registerTask('waitDelay', ['open', 'watch'/*, 'connect:livereload'*/]);
+
+  grunt.registerTask("reload", "reload Chrome on OS X", function() {
+    require("child_process").exec("osascript " +
+      "-e 'tell application \"Google Chrome\" " +
+          "to tell the active tab of its first window' " +
+      "-e 'reload' " +
+      "-e 'end tell'");
+  });
 
   grunt.registerTask('server', function (target) {
     if (target === 'dist') {
