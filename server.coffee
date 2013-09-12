@@ -161,8 +161,8 @@ app.get "/", (req, res, next) ->
   res.render 'index'
   #res.send "hello Marius!!!"
 
-app.get "/normal", (req, res, next) ->
-  res.render "normal"
+app.get "/youtube", (req, res, next) ->
+  res.render 'index'
 
 
 #

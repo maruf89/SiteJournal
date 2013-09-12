@@ -6,8 +6,9 @@ karma.conf.js
 /.git/
 /node_modules/
 /dist/
+*.styl
+*.coffee
 /test/
 /coverage/
 /temp/
-/.sass-cache
 *.txt

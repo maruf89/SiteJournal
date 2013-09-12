@@ -32,11 +32,12 @@ module.exports = function (grunt) {
     '/node_modules/',
     //'/app/',
     '/dist/',
+    '*.styl',
+    '*.coffee',
     '/test/',
     '/coverage/',
     '/temp/',
     //'/.tmp',
-    '/.sass-cache',
     '*.txt',
     //'*.jade',
   ];
@@ -67,36 +68,40 @@ module.exports = function (grunt) {
         files: ['./{,*/}*.coffee'],
         tasks: ['coffee:server', 'wait:reload']
       },
+      reload: {
+        files: ['./{,*/}*.jade'],
+        tasks: ['wait:reload']
+      },
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-        tasks: ['coffee:dist']
+        tasks: ['coffee:dist', 'wait:reload']
       },
-      coffeeTest: {
-        files: ['test/spec/{,*/}*.coffee'],
-        tasks: ['coffee:test']
-      },
+      // coffeeTest: {
+      //   files: ['test/spec/{,*/}*.coffee'],
+      //   tasks: ['coffee:test']
+      // },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['copy:styles', 'autoprefixer']
+        tasks: ['copy:styles', 'autoprefixer', 'wait:reload']
       },
       stylus: {
         files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
         tasks: ['stylus', 'copy:styles', 'autoprefixer', 'wait:reload']
-      },
-      livereload: {
-        options: {
-          debounceDelay: 2000,
-          interval: 2000,
-          livereload: LIVERELOAD_PORT
-        },
-        files: [
-          '<% yeoman.app %>/*.jade',
-          '**/*.jade',
-          'styles/{,*/}*.css',
-          '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-        ]
       }
+      // livereload: {
+      //   options: {
+      //     debounceDelay: 2000,
+      //     interval: 2000,
+      //     livereload: LIVERELOAD_PORT
+      //   },
+      //   files: [
+      //     '<% yeoman.app %>/*.jade',
+      //     '**/*.jade',
+      //     'styles/{,*/}*.css',
+      //     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
+      //     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+      //   ]
+      // }
     },
     autoprefixer: {
       options: ['last 1 version'],

@@ -7,7 +7,7 @@ window.$q = ( selector, all = true ) ->
 window.myApp = angular.module("mvmdApp", ['ngResource', 'ngSanitize'])
 
 myApp.config( ($routeProvider, $locationProvider) ->
-  # $locationProvider.html5Mode true
+  $locationProvider.html5Mode true
 
   $routeProvider
     .when "/",

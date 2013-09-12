@@ -96,8 +96,8 @@
     return res.render('index');
   });
 
-  app.get("/normal", function(req, res, next) {
-    return res.render("normal");
+  app.get("/youtube", function(req, res, next) {
+    return res.render('index');
   });
 
   app.get("/404", function(req, res, next) {
