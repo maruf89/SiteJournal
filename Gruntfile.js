@@ -49,7 +49,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     yeoman: yeomanConfig,
     stylus: {
-      compile: {
+      default: {
         options: {
           urlfunc: 'embedurl',
           compress: true,
@@ -84,10 +84,14 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
         tasks: ['copy:styles', 'autoprefixer', 'wait:reload']
       },
-      stylus: {
+      stylusExpress: {
         files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
-        tasks: ['stylus', 'copy:styles', 'autoprefixer', 'wait:reload']
+        tasks: ['copy:stylus']
       }
+      // stylus: {
+      //   files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
+      //   tasks: ['stylus', 'copy:styles', 'autoprefixer', 'wait:reload']
+      //}
       // livereload: {
       //   options: {
       //     debounceDelay: 2000,
@@ -197,9 +201,9 @@ module.exports = function (grunt) {
       server: {
         files: [{
           expand: true,
-          cwd: './',
+          cwd: '<%= yeoman.app %>',
           src: '{,*/}*.coffee',
-          dest: './',
+          dest: '<%= yeoman.app %>',
           ext: '.js'
         }]
       },
@@ -300,6 +304,21 @@ module.exports = function (grunt) {
     },
     // Put files not handled in other tasks here
     copy: {
+      express: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/styles',
+          dest: '.tmp/styles/',
+          src: '{,*/}*.{styl,css}'
+        }, {
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/scripts',
+          dest: '.tmp/scripts/',
+          src: '{,*/}*.coffee'
+        }]
+      },
       dist: {
         files: [{
           expand: true,
@@ -342,7 +361,8 @@ module.exports = function (grunt) {
       },
       server: [
         'coffee:dist',
-        'copy:styles'
+        //'copy:styles'
+        'copy:stylus'
       ],
       test: [
         'coffee',
@@ -385,7 +405,7 @@ module.exports = function (grunt) {
     nodemon: {
       dev: {
         options: {
-          file: 'server.js',
+          file: 'app/server.js',
           args: ['development'],
           watchedExtensions: [
             'js',

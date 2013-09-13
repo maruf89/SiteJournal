@@ -3,17 +3,26 @@
 #
 # * Express Dependencies
 # http://howtonode.org/express-mongodb
-Db = require('mongodb').Db
-Connection = require('mongodb').Connection
-Server = require('mongodb').Server
-BSON = require('mongodb').BSON
-ObjectID = require('mongodb').ObjectID
+
 express = require 'express'
-#googleapis = require 'googleapis'
+googleapis = require 'googleapis'
+OAuth2Client = googleapis.OAuth2Client
+youtubeConnect = require './server/youtubeConnect'
+coffee = require "coffee-script"
+path = require "path"
 app = express()
 
+google =
+  clientId: ''
+  clientSecret: ''
+  redirectUrl: ''
 
-port = 9000
+oauth2Client = new OAuth2Client google.clientId, google.clientSecret, google.redirectUrl
+
+url = oauth2Client.generateAuthUrl
+  access_type: 'offline'
+  scope: 'https://www.googleapis.com/auth/plus.me'
+
 
 #
 # * App methods and libraries
@@ -36,27 +45,36 @@ else
 # * Config
 # 
 
-# html/jage engine
-#app.engine '.html', require('jade').__express
-
-# compile = (str, path) ->
-#   stylus( str )
-#     .set( 'filename',path )
-#     .use( nib() )
-
-app.locals.basedir = '/app'
-app.set "views", __dirname + "/app/"
-app.set "view engine", "jade"
-app.use express.logger("dev")  if app.get("env") is "development"
+app.locals.basedir = '/../'
+app.configure ->
+  @.set "port", 9000
+  @.set "views", __dirname + "/"
+  @.set "view engine", "jade"
+  @.use express.logger("dev")  if app.get("env") is "development"
 # app.use stylus.middleware
 #   src: "#{__dirname}/styles"
 #   compile: compile
+  @.use express.cookieParser("keyboardcat") # 'some secret key to sign cookies'
+  @.use express.bodyParser()
+  @.use express.compress()
+  @.use express.methodOverride()
+
+  # "app.router" positions our routes
+  # above the middleware defined below,
+  # this means that Express will attempt
+  # to match & call routes _before_ continuing
+  # on, at which point we assume it's a 404 because
+  # no route has handled the request.
+  @.use app.router
+
+  @.use require("connect-assets")()
+  @.use require("stylus").middleware(
+    src: "#{@locals.basedir}.tmp/styles"
+    compress: true
+  )
 
 # app.use(express.favicon());
-app.use express.cookieParser("keyboardcat") # 'some secret key to sign cookies'
-app.use express.bodyParser()
-app.use express.compress()
-app.use express.methodOverride()
+
 
 
 
@@ -71,13 +89,7 @@ app.enable "verbose errors"
 # use $ NODE_ENV=production node server.js
 app.disable "verbose errors"  if app.get("env") is "production"
 
-# "app.router" positions our routes
-# above the middleware defined below,
-# this means that Express will attempt
-# to match & call routes _before_ continuing
-# on, at which point we assume it's a 404 because
-# no route has handled the request.
-app.use app.router
+
 
 # host dev files if in dev mode
 if app.get("env") is "development"
@@ -186,10 +198,11 @@ app.get "/403", (req, res, next) ->
   err.status = 403
   next err
 
+
 app.get "/500", (req, res, next) ->
   
   # trigger a generic (500) error
   next new Error("keyboard cat!")
 
-app.listen port
-console.log "Express started on port " + port
+app.listen app.locals.settings.port
+console.log "Express started on port #{app.locals.settings.port}"

@@ -1,22 +1,33 @@
 (function() {
   "use strict";
-  var BSON, Connection, Db, ObjectID, Server, app, express, port;
-
-  Db = require('mongodb').Db;
-
-  Connection = require('mongodb').Connection;
-
-  Server = require('mongodb').Server;
-
-  BSON = require('mongodb').BSON;
-
-  ObjectID = require('mongodb').ObjectID;
+  var OAuth2Client, app, coffee, express, google, googleapis, oauth2Client, path, url, youtubeConnect;
 
   express = require('express');
 
+  googleapis = require('googleapis');
+
+  OAuth2Client = googleapis.OAuth2Client;
+
+  youtubeConnect = require('./server/youtubeConnect');
+
+  coffee = require("coffee-script");
+
+  path = require("path");
+
   app = express();
 
-  port = 9000;
+  google = {
+    clientId: '793238808427.apps.googleusercontent.com',
+    clientSecret: 'F37f5_1HLwwLEOrYTafL-hBX',
+    redirectUrl: 'https://localhost:9000/oauth2callback'
+  };
+
+  oauth2Client = new OAuth2Client(google.clientId, google.clientSecret, google.redirectUrl);
+
+  url = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: 'https://www.googleapis.com/auth/plus.me'
+  });
 
   if (process.env.NODE_ENV === "production" || process.argv[2] === "production") {
     console.log("Setting production env variable");
@@ -26,31 +37,32 @@
     app.locals.dev = true;
   }
 
-  app.locals.basedir = '/app';
+  app.locals.basedir = '/';
 
-  app.set("views", __dirname + "/app/");
-
-  app.set("view engine", "jade");
-
-  if (app.get("env") === "development") {
-    app.use(express.logger("dev"));
-  }
-
-  app.use(express.cookieParser("keyboardcat"));
-
-  app.use(express.bodyParser());
-
-  app.use(express.compress());
-
-  app.use(express.methodOverride());
+  app.configure(function() {
+    this.set("port", 9000);
+    this.set("views", __dirname + "/");
+    this.set("view engine", "jade");
+    if (app.get("env") === "development") {
+      this.use(express.logger("dev"));
+    }
+    this.use(express.cookieParser("keyboardcat"));
+    this.use(express.bodyParser());
+    this.use(express.compress());
+    this.use(express.methodOverride());
+    this.use(app.router);
+    this.use(require("connect-assets")());
+    return this.use(require("stylus").middleware({
+      src: "" + __dirname + "styles/stylus",
+      compress: true
+    }));
+  });
 
   app.enable("verbose errors");
 
   if (app.get("env") === "production") {
     app.disable("verbose errors");
   }
-
-  app.use(app.router);
 
   if (app.get("env") === "development") {
     app.use(express["static"](".tmp"));
@@ -125,9 +137,9 @@
     return next(new Error("keyboard cat!"));
   });
 
-  app.listen(port);
+  app.listen(app.locals.settings.port);
 
-  console.log("Express started on port " + port);
+  console.log("Express started on port " + app.locals.settings.port);
 
 }).call(this);
 
