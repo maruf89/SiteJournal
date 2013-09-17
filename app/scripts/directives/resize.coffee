@@ -9,5 +9,4 @@ myApp.directive 'resize', ($window) ->
             scope.$apply ->
                 scope.width = $window.innerWidth
                 scope.height = $window.innerHeight
-            console.log scope.width
             

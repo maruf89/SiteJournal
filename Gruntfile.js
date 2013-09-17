@@ -72,21 +72,21 @@ module.exports = function (grunt) {
         files: ['./{,*/}*.jade'],
         tasks: ['wait:reload']
       },
-      coffee: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-        tasks: ['coffee:dist', 'wait:reload']
-      },
+      // coffee: {
+      //   files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
+      //   tasks: ['coffee:dist', 'wait:reload']
+      // },
       // coffeeTest: {
       //   files: ['test/spec/{,*/}*.coffee'],
       //   tasks: ['coffee:test']
       // },
-      styles: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['copy:styles', 'autoprefixer', 'wait:reload']
+      scripts: {
+        files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
+        tasks: ['copy:coffee', 'reload']
       },
-      stylusExpress: {
-        files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
-        tasks: ['copy:stylus']
+      styles: {
+        files: ['<%= yeoman.app %>/styles/{,*/}*.styl'],
+        tasks: ['copy:stylus', 'reload']
       }
       // stylus: {
       //   files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
@@ -304,7 +304,7 @@ module.exports = function (grunt) {
     },
     // Put files not handled in other tasks here
     copy: {
-      express: {
+      stylus: {
         files: [{
           expand: true,
           dot: true,
@@ -312,12 +312,16 @@ module.exports = function (grunt) {
           dest: '.tmp/styles/',
           src: '{,*/}*.{styl,css}'
         }, {
-          expand: true,
-          dot: true,
-          cwd: '<%= yeoman.app %>/scripts',
-          dest: '.tmp/scripts/',
-          src: '{,*/}*.coffee'
+          src: '<%= yeoman.app %>/styles/main.styl',
+          dest: '.tmp/styles/main.styl'
         }]
+      },
+      coffee: {
+        expand: true,
+        dot: true,
+        cwd: '<%= yeoman.app %>/scripts',
+        dest: '.tmp/scripts/',
+        src: '{,*/}*.coffee'
       },
       dist: {
         files: [{
@@ -340,12 +344,6 @@ module.exports = function (grunt) {
             'generated/*'
           ]
         }]
-      },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '{,*/}*.css'
       }
     },
     concurrent: {
@@ -360,9 +358,8 @@ module.exports = function (grunt) {
         ],
       },
       server: [
-        'coffee:dist',
-        //'copy:styles'
-        'copy:stylus'
+        'copy:stylus',
+        'copy:coffee'
       ],
       test: [
         'coffee',
@@ -416,7 +413,7 @@ module.exports = function (grunt) {
             //'coffee'
           ],
           // nodemon watches the current directory recursively by default
-          // watchedFolders: ['.'],
+          // watchedFolders: ['app'],
           debug: true,
           delayTime: 1,
           ignoredFiles: nodemonIgnoredFiles
@@ -458,7 +455,7 @@ module.exports = function (grunt) {
       },
       reload: {
         options: {
-          delay: 2750,
+          delay: 3500,
           after: function() {
             grunt.task.run( 'reload' );
           }
@@ -499,8 +496,8 @@ module.exports = function (grunt) {
   grunt.registerTask('express', [
     'clean:server',
     'concurrent:server',
-    'coffee',
-    'htmlmin',
+    //'coffee',
+    //'htmlmin',
 
     // start karma server
     //'karma:app',

@@ -17,9 +17,9 @@
   app = express();
 
   google = {
-    clientId: '793238808427.apps.googleusercontent.com',
-    clientSecret: 'F37f5_1HLwwLEOrYTafL-hBX',
-    redirectUrl: 'https://localhost:9000/oauth2callback'
+    clientId: '',
+    clientSecret: '',
+    redirectUrl: ''
   };
 
   oauth2Client = new OAuth2Client(google.clientId, google.clientSecret, google.redirectUrl);
@@ -37,7 +37,7 @@
     app.locals.dev = true;
   }
 
-  app.locals.basedir = '/';
+  app.locals.basedir = '/../';
 
   app.configure(function() {
     this.set("port", 9000);
@@ -51,9 +51,13 @@
     this.use(express.compress());
     this.use(express.methodOverride());
     this.use(app.router);
-    this.use(require("connect-assets")());
+    this.use(require("connect-asset")({
+      assets: path.resolve(__dirname),
+      "public": path.resolve("" + app.locals.basedir + ".tmp"),
+      buidls: true
+    }));
     return this.use(require("stylus").middleware({
-      src: "" + __dirname + "styles/stylus",
+      src: "" + this.locals.basedir + ".tmp/styles",
       compress: true
     }));
   });

@@ -67,7 +67,11 @@ app.configure ->
   # no route has handled the request.
   @.use app.router
 
-  @.use require("connect-assets")()
+  @.use require("connect-asset")(
+    assets: path.resolve __dirname
+    public: path.resolve "#{app.locals.basedir}.tmp"
+    buidls: true
+  )
   @.use require("stylus").middleware(
     src: "#{@locals.basedir}.tmp/styles"
     compress: true
