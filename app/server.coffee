@@ -5,23 +5,13 @@
 # http://howtonode.org/express-mongodb
 
 express = require 'express'
-googleapis = require 'googleapis'
-OAuth2Client = googleapis.OAuth2Client
-youtubeConnect = require './server/youtubeConnect'
 coffee = require "coffee-script"
+authenticate = require './server/MVMAuthenticate'
+oauth = new authenticate.MVMAuthenticate()
 path = require "path"
 app = express()
 
-google =
-  clientId: ''
-  clientSecret: ''
-  redirectUrl: ''
 
-oauth2Client = new OAuth2Client google.clientId, google.clientSecret, google.redirectUrl
-
-url = oauth2Client.generateAuthUrl
-  access_type: 'offline'
-  scope: 'https://www.googleapis.com/auth/plus.me'
 
 
 #
@@ -175,13 +165,15 @@ app.use (err, req, res, next) ->
 # * Routes
 # 
 app.get "/", (req, res, next) ->
-  
   # we use a direct database connection here
   # because the API would have sent JSON itself
   res.render 'index'
-  #res.send "hello Marius!!!"
 
-app.get "/youtube", (req, res, next) ->
+app.get "/oauth/:service", (req, res, next) ->
+  oauth.init req, res
+  
+
+app.get "/:catchall", (req, res, next) ->
   res.render 'index'
 
 

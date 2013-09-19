@@ -1,33 +1,18 @@
 (function() {
   "use strict";
-  var OAuth2Client, app, coffee, express, google, googleapis, oauth2Client, path, url, youtubeConnect;
+  var app, authenticate, coffee, express, oauth, path;
 
   express = require('express');
 
-  googleapis = require('googleapis');
-
-  OAuth2Client = googleapis.OAuth2Client;
-
-  youtubeConnect = require('./server/youtubeConnect');
-
   coffee = require("coffee-script");
+
+  authenticate = require('./server/MVMAuthenticate');
+
+  oauth = new authenticate.MVMAuthenticate();
 
   path = require("path");
 
   app = express();
-
-  google = {
-    clientId: '',
-    clientSecret: '',
-    redirectUrl: ''
-  };
-
-  oauth2Client = new OAuth2Client(google.clientId, google.clientSecret, google.redirectUrl);
-
-  url = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: 'https://www.googleapis.com/auth/plus.me'
-  });
 
   if (process.env.NODE_ENV === "production" || process.argv[2] === "production") {
     console.log("Setting production env variable");
@@ -122,7 +107,11 @@
     return res.render('index');
   });
 
-  app.get("/youtube", function(req, res, next) {
+  app.get("/oauth/:service", function(req, res, next) {
+    return oauth.init(req, res);
+  });
+
+  app.get("/:catchall", function(req, res, next) {
     return res.render('index');
   });
 
