@@ -4,12 +4,12 @@ Server = require('mongodb').Server
 BSON = require('mongodb').BSON
 ObjectID = require('mongodb').ObjectID
 
-class youtubeConnect
+class DBSave
     constructor: ->
         this.db= new Db 'node-mongo-blog', new Server host, port, {auto_reconnect: true}, {}
         this.db.open ->
 
-    save: ( keys, callback ) ->
+    save: ( collection, keys, callback ) ->
         this.db.collection 'api', ( err, keysColl ) ->
             if err then callback err
             else
@@ -18,4 +18,4 @@ class youtubeConnect
                 keysColl.insert keys, ->
                     callback null, keys
 
-exports.youtubeConnect = youtubeConnect
+exports.youtubeConnect = DBSave

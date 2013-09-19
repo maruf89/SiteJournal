@@ -4,14 +4,20 @@
 # * Express Dependencies
 # http://howtonode.org/express-mongodb
 
+fs = require 'fs'
+http = require 'http'
+https = require 'https'
 express = require 'express'
 coffee = require "coffee-script"
 authenticate = require './server/MVMAuthenticate'
 oauth = new authenticate.MVMAuthenticate()
 path = require "path"
+
+options =
+  key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
+  cert: fs.readFileSync "#{__dirname}/../ssl/certificate.crt"
+
 app = express()
-
-
 
 
 #
@@ -169,9 +175,15 @@ app.get "/", (req, res, next) ->
   # because the API would have sent JSON itself
   res.render 'index'
 
-app.get "/oauth/:service", (req, res, next) ->
+app.get "/ssl-gen", (req, res) ->
+  do csrgen.sslGen
+  res.render 'index'
+
+app.get "/authenticate/:service", (req, res, next) ->
   oauth.init req, res
-  
+
+app.get "/oauth2callback", (req, res, next) ->
+  oauth.handle req, res
 
 app.get "/:catchall", (req, res, next) ->
   res.render 'index'
@@ -200,5 +212,7 @@ app.get "/500", (req, res, next) ->
   # trigger a generic (500) error
   next new Error("keyboard cat!")
 
-app.listen app.locals.settings.port
-console.log "Express started on port #{app.locals.settings.port}"
+server = https.createServer( options, app ).listen app.locals.settings.port, ->
+  console.log "Express started on port #{app.locals.settings.port}"
+
+# app.listen app.locals.settings.port

@@ -1,5 +1,6 @@
 (function() {
-  var OAuth2Client, authenticate, googleapis, path, youtubeConnect;
+  "use strict";
+  var OAuth2Client, authenticate, googleapis, path, services, url, youtubeConnect;
 
   googleapis = require('googleapis');
 
@@ -7,9 +8,11 @@
 
   youtubeConnect = require('./youtubeConnect');
 
+  url = require('url');
+
   path = require("path");
 
-  exports.MVMAuthenticate = authenticate = (function() {
+  services = exports.MVMAuthenticate = authenticate = (function() {
     authenticate.prototype._this = null;
 
     function authenticate() {
@@ -17,24 +20,29 @@
     }
 
     authenticate.prototype.init = function(req, res) {
-      var service, _this;
-      _this = this._this;
+      var service;
       service = req.params.service;
-      return res.render('jade/oauth', {
+      return res.render("jade/oauth", {
         service: service,
-        serviceURL: _this[service].init()
+        serviceURL: this[service].init()
       });
+    };
+
+    authenticate.prototype.handle = function(req, res) {
+      var query, urlParts;
+      urlParts = url.parse(req.url, true);
+      query = urlParts.query;
+      console.log(query);
+      return res.render("index");
     };
 
     authenticate.prototype.google = {
       init: function() {
-        var oauth2Client, url;
-        ({
-          clientId: '793238808427.apps.googleusercontent.com',
-          clientSecret: 'F37f5_1HLwwLEOrYTafL-hBX',
-          redirectUrl: 'https://localhost:9000/oauth2callback'
-        });
-        oauth2Client = new OAuth2Client(google.clientId, google.clientSecret, google.redirectUrl);
+        var clientId, clientSecret, oauth2Client, redirectUrl;
+        clientId = '793238808427.apps.googleusercontent.com';
+        clientSecret = 'F37f5_1HLwwLEOrYTafL-hBX';
+        redirectUrl = 'https://localhost:9000/oauth2callback';
+        oauth2Client = new OAuth2Client(clientId, clientSecret, redirectUrl);
         return url = oauth2Client.generateAuthUrl({
           access_type: 'offline',
           scope: 'https://gdata.youtube.com'

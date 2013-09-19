@@ -1,6 +1,12 @@
 (function() {
   "use strict";
-  var app, authenticate, coffee, express, oauth, path;
+  var app, authenticate, coffee, express, fs, http, https, oauth, options, path, server;
+
+  fs = require('fs');
+
+  http = require('http');
+
+  https = require('https');
 
   express = require('express');
 
@@ -11,6 +17,11 @@
   oauth = new authenticate.MVMAuthenticate();
 
   path = require("path");
+
+  options = {
+    key: fs.readFileSync("" + __dirname + "/../ssl/localhost.key"),
+    cert: fs.readFileSync("" + __dirname + "/../ssl/certificate.crt")
+  };
 
   app = express();
 
@@ -107,8 +118,17 @@
     return res.render('index');
   });
 
-  app.get("/oauth/:service", function(req, res, next) {
+  app.get("/ssl-gen", function(req, res) {
+    csrgen.sslGen();
+    return res.render('index');
+  });
+
+  app.get("/authenticate/:service", function(req, res, next) {
     return oauth.init(req, res);
+  });
+
+  app.get("/oauth2callback", function(req, res, next) {
+    return oauth.handle(req, res);
   });
 
   app.get("/:catchall", function(req, res, next) {
@@ -130,9 +150,9 @@
     return next(new Error("keyboard cat!"));
   });
 
-  app.listen(app.locals.settings.port);
-
-  console.log("Express started on port " + app.locals.settings.port);
+  server = https.createServer(options, app).listen(app.locals.settings.port, function() {
+    return console.log("Express started on port " + app.locals.settings.port);
+  });
 
 }).call(this);
 

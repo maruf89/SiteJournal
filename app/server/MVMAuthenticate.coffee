@@ -1,7 +1,13 @@
+"use strict"
+
 googleapis = require 'googleapis'
 OAuth2Client = googleapis.OAuth2Client
-youtubeConnect = require './youtubeConnect'
+db = require './DBSave'
+url = require 'url'
 path = require "path"
+
+services =
+
 
 exports.MVMAuthenticate = class authenticate
     _this: null
@@ -9,20 +15,28 @@ exports.MVMAuthenticate = class authenticate
         @_this = this
 
     init: (req, res) ->
-        _this = @_this
         service = req.params.service
 
-        res.render 'jade/oauth',
+        res.render "jade/oauth"
+            ,
             service: service
-            serviceURL: _this[ service ].init()
+            serviceURL: @[ service ].init()
+    
+    handle: (req, res) ->
+        urlParts = url.parse req.url, true
+        query = urlParts.query
+
+        console.log query
+
+        res.render "index"
 
     google:
         init: ->
-            clientId: '793238808427.apps.googleusercontent.com'
-            clientSecret: 'F37f5_1HLwwLEOrYTafL-hBX'
-            redirectUrl: 'https://localhost:9000/oauth2callback'
+            clientId = '793238808427.apps.googleusercontent.com'
+            clientSecret = 'F37f5_1HLwwLEOrYTafL-hBX'
+            redirectUrl = 'https://localhost:9000/oauth2callback'
 
-            oauth2Client = new OAuth2Client google.clientId, google.clientSecret, google.redirectUrl
+            oauth2Client = new OAuth2Client clientId, clientSecret, redirectUrl
 
             url = oauth2Client.generateAuthUrl
                 access_type: 'offline'
