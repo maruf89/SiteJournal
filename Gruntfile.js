@@ -160,7 +160,7 @@ module.exports = function (grunt) {
     open: {
       server: {
         //path: 'http://localhost:<%= express.livereload.options.port %>'
-        url: 'http://localhost:<%= connect.options.port %>'
+        url: 'https://localhost:<%= connect.options.port %>'
       }
     },
     clean: {

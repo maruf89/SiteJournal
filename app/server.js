@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var app, authenticate, coffee, express, fs, http, https, oauth, options, path, server;
+  var app, authenticate, coffee, express, fs, http, https, oauth, options, path, serverHTTPS;
 
   fs = require('fs');
 
@@ -43,6 +43,9 @@
       this.use(express.logger("dev"));
     }
     this.use(express.cookieParser("keyboardcat"));
+    this.use(express.session({
+      secret: 'nte234jkTeinuhn234ee2'
+    }));
     this.use(express.bodyParser());
     this.use(express.compress());
     this.use(express.methodOverride());
@@ -123,13 +126,9 @@
     return res.render('index');
   });
 
-  app.get("/authenticate/:service", function(req, res, next) {
-    return oauth.init(req, res);
-  });
+  app.get("/authenticate/:service", oauth.init);
 
-  app.get("/oauth2callback", function(req, res, next) {
-    return oauth.handle(req, res);
-  });
+  app.get("/oauth2callback", oauth.token);
 
   app.get("/:catchall", function(req, res, next) {
     return res.render('index');
@@ -150,8 +149,8 @@
     return next(new Error("keyboard cat!"));
   });
 
-  server = https.createServer(options, app).listen(app.locals.settings.port, function() {
-    return console.log("Express started on port " + app.locals.settings.port);
+  serverHTTPS = https.createServer(options, app).listen(app.locals.settings.port, function() {
+    return console.log("HTTPS server started on port " + app.locals.settings.port);
   });
 
 }).call(this);

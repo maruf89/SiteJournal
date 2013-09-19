@@ -2,12 +2,33 @@
 
 googleapis = require 'googleapis'
 OAuth2Client = googleapis.OAuth2Client
-db = require './DBSave'
+db = require('./DB').DB()
 url = require 'url'
-path = require "path"
+path = require 'path'
 
 services =
+    google:
+        clientId: '793238808427.apps.googleusercontent.com'
+        clientSecret: 'F37f5_1HLwwLEOrYTafL-hBX'
+        redirectUrl: 'https://localhost:9000/oauth2callback'
+        oauth2Client: null
 
+        init: ->
+            services.google.oauth2Client = new OAuth2Client services.google.clientId,
+                                                            services.google.clientSecret,
+                                                            services.google.redirectUrl
+            
+            url = services.google.oauth2Client.generateAuthUrl
+                access_type: 'offline'
+                scope: 'https://gdata.youtube.com'
+
+        handleToken: (query) ->
+            services.google.oauth2Client.getToken query.code, (err, tokens) ->
+                if err then console.log err
+                else
+                    console.log 'Token Success!'
+                    console.log tokens
+                    db.save 'api', google: tokens
 
 exports.MVMAuthenticate = class authenticate
     _this: null
@@ -16,28 +37,13 @@ exports.MVMAuthenticate = class authenticate
 
     init: (req, res) ->
         service = req.params.service
+        req.session.oauthService = service
 
-        res.render "jade/oauth"
-            ,
+        res.render 'jade/oauth',
             service: service
-            serviceURL: @[ service ].init()
+            serviceURL: services[ service ].init()
     
-    handle: (req, res) ->
-        urlParts = url.parse req.url, true
-        query = urlParts.query
+    token: (req, res) ->
+        query = req.query
 
-        console.log query
-
-        res.render "index"
-
-    google:
-        init: ->
-            clientId = '793238808427.apps.googleusercontent.com'
-            clientSecret = 'F37f5_1HLwwLEOrYTafL-hBX'
-            redirectUrl = 'https://localhost:9000/oauth2callback'
-
-            oauth2Client = new OAuth2Client clientId, clientSecret, redirectUrl
-
-            url = oauth2Client.generateAuthUrl
-                access_type: 'offline'
-                scope: 'https://gdata.youtube.com'
+        services[ req.session.oauthService ].handleToken query

@@ -4,7 +4,7 @@ Server = require('mongodb').Server
 BSON = require('mongodb').BSON
 ObjectID = require('mongodb').ObjectID
 
-class DBSave
+class DB
     constructor: ->
         this.db= new Db 'node-mongo-blog', new Server host, port, {auto_reconnect: true}, {}
         this.db.open ->
@@ -18,4 +18,4 @@ class DBSave
                 keysColl.insert keys, ->
                     callback null, keys
 
-exports.youtubeConnect = DBSave
+exports.DB = DB

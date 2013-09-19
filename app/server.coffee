@@ -19,11 +19,6 @@ options =
 
 app = express()
 
-
-#
-# * App methods and libraries
-# 
-
 #
 # * Set app settings depending on environment mode.
 # * Express automatically sets the environment to 'development'
@@ -43,17 +38,17 @@ else
 
 app.locals.basedir = '/../'
 app.configure ->
-  @.set "port", 9000
-  @.set "views", __dirname + "/"
-  @.set "view engine", "jade"
-  @.use express.logger("dev")  if app.get("env") is "development"
-# app.use stylus.middleware
-#   src: "#{__dirname}/styles"
-#   compile: compile
-  @.use express.cookieParser("keyboardcat") # 'some secret key to sign cookies'
-  @.use express.bodyParser()
-  @.use express.compress()
-  @.use express.methodOverride()
+  @set "port", 9000
+  @set "views", __dirname + "/"
+  @set "view engine", "jade"
+  @use express.logger("dev")  if app.get("env") is "development"
+
+  @use express.cookieParser("keyboardcat") # 'some secret key to sign cookies'
+  @use express.session
+    secret: 'nte234jkTeinuhn234ee2'
+  @use express.bodyParser()
+  @use express.compress()
+  @use express.methodOverride()
 
   # "app.router" positions our routes
   # above the middleware defined below,
@@ -179,11 +174,9 @@ app.get "/ssl-gen", (req, res) ->
   do csrgen.sslGen
   res.render 'index'
 
-app.get "/authenticate/:service", (req, res, next) ->
-  oauth.init req, res
+app.get "/authenticate/:service", oauth.init
 
-app.get "/oauth2callback", (req, res, next) ->
-  oauth.handle req, res
+app.get "/oauth2callback", oauth.token
 
 app.get "/:catchall", (req, res, next) ->
   res.render 'index'
@@ -212,7 +205,10 @@ app.get "/500", (req, res, next) ->
   # trigger a generic (500) error
   next new Error("keyboard cat!")
 
-server = https.createServer( options, app ).listen app.locals.settings.port, ->
-  console.log "Express started on port #{app.locals.settings.port}"
+# serverHTTP = http.createServer( app ).listen app.locals.settings.port, ->
+#   console.log "HTTP server started on port #{app.locals.settings.port}"
+
+serverHTTPS = https.createServer( options, app ).listen app.locals.settings.port, ->
+  console.log "HTTPS server started on port #{app.locals.settings.port}"
 
 # app.listen app.locals.settings.port
