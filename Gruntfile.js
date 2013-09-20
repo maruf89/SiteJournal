@@ -4,7 +4,7 @@ var path = require('path');
 var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
 var mountFolder = function (connect, dir) {
-  return connect.static(require('path').resolve(dir));
+  return connect.static(path.resolve(dir));
 };
 
 // # Globbing
@@ -23,6 +23,26 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  var nodemonIgnoredFiles = [
+    'README.md',
+    'Gruntfile.js',
+    'node-inspector.js',
+    'karma.conf.js',
+    '/.git/',
+    '/node_modules/',
+    //'/app/',
+    '/dist/',
+    //'*.styl',
+    //'*.coffee',
+    '/app/server.coffee',
+    '/test/',
+    '/coverage/',
+    '/temp/',
+    //'/.tmp',
+    '*.txt',
+    //'*.jade',
+  ];
+
   try {
     yeomanConfig.app = require('./bower.json').appPath || yeomanConfig.app;
   } catch (e) {}
@@ -30,7 +50,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     yeoman: yeomanConfig,
     stylus: {
-      compile: {
+      default: {
         options: {
           urlfunc: 'embedurl',
           compress: true,
@@ -44,62 +64,49 @@ module.exports = function (grunt) {
         }
       }
     },
-    // express: {
-    //   livereload: {
-    //     options: {
-    //       background: true,
-    //       port: 9000,
-    //       hostname: 'localhost',
-    //       //bases: path.resolve('public'),  // not sure this is needed ??
-    //       // error: function(err, result, code) {
-    //       //   console.log( arguments );
-    //       // },
-    //       debug: false,
-    //       server: path.resolve('.','./')
-    //     }
-    //   }
-    // },
     watch: {
-      coffee: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-        tasks: ['coffee:dist']
+      server: {
+        files: ['./{,*/}*.coffee'],
+        tasks: ['coffee:server', 'wait:reload']
       },
-      coffeeTest: {
-        files: ['test/spec/{,*/}*.coffee'],
-        tasks: ['coffee:test']
+      reload: {
+        files: ['./{,*/}*.jade'],
+        tasks: ['wait:reload']
+      },
+      // coffee: {
+      //   files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
+      //   tasks: ['coffee:dist', 'wait:reload']
+      // },
+      // coffeeTest: {
+      //   files: ['test/spec/{,*/}*.coffee'],
+      //   tasks: ['coffee:test']
+      // },
+      scripts: {
+        files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
+        tasks: ['copy:coffee', 'reload']
       },
       styles: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['copy:styles', 'autoprefixer']
-      },
-      stylus: {
-        files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
-        tasks: ['stylus', 'copy:styles', 'autoprefixer']
-      },
-      jade: {
-        files: '**/*.jade',
-        tasks: ['jade','htmlmin' ]
-      },
-      // express: {
-      //   files: [
-      //     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.styl',
-      //     '{.tmp,<%= yeoman.app %>}/scripts/{,*/,*/*/}*.coffee',
-      //     '<%= Project.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
-      //   ],
-      //   tasks: ['livereload']
-      // },
-      livereload: {
-        options: {
-          livereload: LIVERELOAD_PORT
-        },
-        files: [
-          '<% yeoman.app %>/*.html',
-          '**/*.jade',
-          'styles/{,*/}*.css',
-          '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-        ]
+        files: ['<%= yeoman.app %>/styles/{,*/}*.styl'],
+        tasks: ['copy:stylus', 'reload']
       }
+      // stylus: {
+      //   files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
+      //   tasks: ['stylus', 'copy:styles', 'autoprefixer', 'wait:reload']
+      //}
+      // livereload: {
+      //   options: {
+      //     debounceDelay: 2000,
+      //     interval: 2000,
+      //     livereload: LIVERELOAD_PORT
+      //   },
+      //   files: [
+      //     '<% yeoman.app %>/*.jade',
+      //     '**/*.jade',
+      //     'styles/{,*/}*.css',
+      //     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
+      //     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+      //   ]
+      // }
     },
     autoprefixer: {
       options: ['last 1 version'],
@@ -153,7 +160,7 @@ module.exports = function (grunt) {
     open: {
       server: {
         //path: 'http://localhost:<%= express.livereload.options.port %>'
-        url: 'http://localhost:<%= connect.options.port %>'
+        url: 'https://localhost:<%= connect.options.port %>'
       }
     },
     clean: {
@@ -189,6 +196,15 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>/scripts',
           src: '{,*/}*.coffee',
           dest: '.tmp/scripts',
+          ext: '.js'
+        }]
+      },
+      server: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          src: '{,*/}*.coffee',
+          dest: '<%= yeoman.app %>',
           ext: '.js'
         }]
       },
@@ -265,20 +281,7 @@ module.exports = function (grunt) {
       //   }
       // }
     },
-    jade: {
-      dist: {
-        options: {
-          pretty: true
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/jade',
-          src: '**/*.jade',
-          ext: '.html',
-          dest: '<%= yeoman.app %>/views'
-        }]
-      }
-    },
+
     htmlmin: {
       dist: {
         options: {
@@ -302,6 +305,25 @@ module.exports = function (grunt) {
     },
     // Put files not handled in other tasks here
     copy: {
+      stylus: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/styles',
+          dest: '.tmp/styles/',
+          src: '{,*/}*.{styl,css}'
+        }, {
+          src: '<%= yeoman.app %>/styles/main.styl',
+          dest: '.tmp/styles/main.styl'
+        }]
+      },
+      coffee: {
+        expand: true,
+        dot: true,
+        cwd: '<%= yeoman.app %>/scripts',
+        dest: '.tmp/scripts/',
+        src: '{,*/}*.coffee'
+      },
       dist: {
         files: [{
           expand: true,
@@ -323,18 +345,22 @@ module.exports = function (grunt) {
             'generated/*'
           ]
         }]
-      },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '{,*/}*.css'
       }
     },
     concurrent: {
+      nodemon: {
+        options: {
+          logConcurrentOutput: true,
+        },
+        tasks: [
+          'nodemon:nodeInspector',
+          'nodemon:dev',
+          'wait:open'
+        ],
+      },
       server: [
-        'coffee:dist',
-        'copy:styles'
+        'copy:stylus',
+        'copy:coffee'
       ],
       test: [
         'coffee',
@@ -369,6 +395,45 @@ module.exports = function (grunt) {
         }]
       }
     },
+    shell: {
+      trigger: {
+        command: 'echo a > trigger.file'
+      }
+    },
+    nodemon: {
+      dev: {
+        options: {
+          file: 'app/server.js',
+          args: ['development'],
+          watchedExtensions: [
+            'js',
+            'jade',
+            'styl'
+            // This might cause an issue starting the server
+            // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
+            //'coffee'
+          ],
+          // nodemon watches the current directory recursively by default
+          // watchedFolders: ['app'],
+          debug: true,
+          delayTime: 1,
+          ignoredFiles: nodemonIgnoredFiles
+        }
+    },
+    nodeInspector: {
+        options: {
+          file: 'node-inspector.js',
+          watchedExtensions: [
+              'js',
+              // This might cause an issue starting the server
+              // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
+              // 'coffee'
+          ],
+          exec: 'node-inspector',
+          ignoredFiles: nodemonIgnoredFiles,
+        },
+      },
+    },
     uglify: {
       dist: {
         files: {
@@ -377,7 +442,37 @@ module.exports = function (grunt) {
           ]
         }
       }
+    },
+    wait: {
+      options: {
+        delay: 550
+      },
+      open: {
+        options: {
+          after: function() {
+            grunt.task.run( 'waitDelay' );
+          }
+        }
+      },
+      reload: {
+        options: {
+          delay: 3500,
+          after: function() {
+            grunt.task.run( 'reload' );
+          }
+        }
+      }
     }
+  });
+  
+  grunt.registerTask('waitDelay', ['open', 'watch'/*, 'connect:livereload'*/]);
+
+  grunt.registerTask("reload", "reload Chrome on OS X", function() {
+    require("child_process").exec("osascript " +
+      "-e 'tell application \"Google Chrome\" " +
+          "to tell the active tab of its first window' " +
+      "-e 'reload' " +
+      "-e 'end tell'");
   });
 
   grunt.registerTask('server', function (target) {
@@ -398,6 +493,19 @@ module.exports = function (grunt) {
       'watch'
     ]);
   });
+
+  grunt.registerTask('express', [
+    'clean:server',
+    'concurrent:server',
+    //'coffee',
+    //'htmlmin',
+
+    // start karma server
+    //'karma:app',
+
+    'concurrent:nodemon'
+    
+  ]);
 
   grunt.registerTask('test', [
     'clean:server',
