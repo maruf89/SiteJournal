@@ -6,7 +6,7 @@
 
   OAuth2Client = googleapis.OAuth2Client;
 
-  db = require('./DBSave');
+  db = require('./DB').Database;
 
   url = require('url');
 
@@ -25,20 +25,28 @@
           scope: 'https://gdata.youtube.com'
         });
       },
-      handleToken: function(query) {
+      handleToken: function(query, req, res) {
         return services.google.oauth2Client.getToken(query.code, function(err, tokens) {
           if (err) {
             return console.log(err);
           } else {
             console.log('Token Success!');
-            return console.log(tokens);
+            console.log(tokens);
+            return db.save('api', {
+              google: tokens
+            }, function(keys) {
+              console.log(keys);
+              return res.render('jade/authenticated', {
+                service: req.session.oauthService
+              });
+            });
           }
         });
       }
     }
   };
 
-  exports.MVMAuthenticate = authenticate = (function() {
+  authenticate = (function() {
     authenticate.prototype._this = null;
 
     function authenticate() {
@@ -58,12 +66,14 @@
     authenticate.prototype.token = function(req, res) {
       var query;
       query = req.query;
-      return services[req.session.oauthService].handleToken(query);
+      return services[req.session.oauthService].handleToken(query, req, res);
     };
 
     return authenticate;
 
   })();
+
+  exports.MVMAuthenticate = new authenticate();
 
 }).call(this);
 

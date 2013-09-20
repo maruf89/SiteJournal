@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var app, authenticate, coffee, express, fs, http, https, oauth, options, path, serverHTTPS;
+  var app, coffee, express, fs, http, https, oauth, options, path, serverHTTPS;
 
   fs = require('fs');
 
@@ -12,11 +12,11 @@
 
   coffee = require("coffee-script");
 
-  authenticate = require('./server/MVMAuthenticate');
-
-  oauth = new authenticate.MVMAuthenticate();
+  oauth = require('./server/MVMAuthenticate').MVMAuthenticate;
 
   path = require("path");
+
+  console.log(oauth);
 
   options = {
     key: fs.readFileSync("" + __dirname + "/../ssl/localhost.key"),

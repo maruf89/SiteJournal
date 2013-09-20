@@ -4,15 +4,23 @@
 # * Express Dependencies
 # http://howtonode.org/express-mongodb
 
+# Db = require('mongodb').Db
+# Server = require('mongodb').Server
+# server_config = new Server 'localhost',
+#                             27017,
+#                               auto_reconnect: true
+#                               native_parser: true
+# db = new Db 'api', server_config, {}
+# mongoStore = require 'connect-mongodb'
+
 fs = require 'fs'
 http = require 'http'
 https = require 'https'
 express = require 'express'
 coffee = require "coffee-script"
-authenticate = require './server/MVMAuthenticate'
-oauth = new authenticate.MVMAuthenticate()
+oauth = require('./server/MVMAuthenticate').MVMAuthenticate
 path = require "path"
-
+console.log oauth
 options =
   key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
   cert: fs.readFileSync "#{__dirname}/../ssl/certificate.crt"

@@ -2,7 +2,7 @@
 
 googleapis = require 'googleapis'
 OAuth2Client = googleapis.OAuth2Client
-db = require('./DB').DB()
+db = require('./DB').Database
 url = require 'url'
 path = require 'path'
 
@@ -22,15 +22,18 @@ services =
                 access_type: 'offline'
                 scope: 'https://gdata.youtube.com'
 
-        handleToken: (query) ->
+        handleToken: (query, req, res) ->
             services.google.oauth2Client.getToken query.code, (err, tokens) ->
                 if err then console.log err
                 else
                     console.log 'Token Success!'
                     console.log tokens
-                    db.save 'api', google: tokens
+                    db.save 'api', google: tokens, (keys) ->
+                        console.log keys
+                        res.render 'jade/authenticated',
+                            service: req.session.oauthService
 
-exports.MVMAuthenticate = class authenticate
+class authenticate
     _this: null
     constructor: ->
         @_this = this
@@ -46,4 +49,6 @@ exports.MVMAuthenticate = class authenticate
     token: (req, res) ->
         query = req.query
 
-        services[ req.session.oauthService ].handleToken query
+        services[ req.session.oauthService ].handleToken query, req, res
+
+exports.MVMAuthenticate = new authenticate()
