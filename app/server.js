@@ -1,6 +1,8 @@
 (function() {
   "use strict";
-  var app, coffee, express, fs, http, https, oauth, options, path, serverHTTPS;
+  var app, coffee, domain, express, fs, http, https, oauth, options, path, serverHTTPS;
+
+  domain = 'https://localhost:9000/';
 
   fs = require('fs');
 
@@ -16,7 +18,7 @@
 
   path = require("path");
 
-  console.log(oauth);
+  oauth = new oauth(domain);
 
   options = {
     key: fs.readFileSync("" + __dirname + "/../ssl/localhost.key"),
@@ -126,7 +128,11 @@
     return res.render('index');
   });
 
-  app.get("/authenticate/:service", oauth.init);
+  app.get("/authenticate", oauth.init);
+
+  app.get("/authenticate/success", oauth.success);
+
+  app.get("/authenticate/:service", oauth.service);
 
   app.get("/oauth2callback", oauth.token);
 

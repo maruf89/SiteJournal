@@ -38,7 +38,6 @@
           }
           return keysColl.insert(keys, function() {
             console.log("Successfully inserted into " + collection);
-            console.log(keys);
             return callback(null, keys);
           });
         }
