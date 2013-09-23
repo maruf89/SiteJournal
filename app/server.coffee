@@ -46,7 +46,7 @@ else
 
 app.locals.basedir = '/../'
 app.configure ->
-  @set "port", 9000
+  @set "port", 80
   @set "views", __dirname + "/"
   @set "view engine", "jade"
   @use express.logger("dev")  if app.get("env") is "development"
@@ -216,7 +216,7 @@ app.get "/500", (req, res, next) ->
 # serverHTTP = http.createServer( app ).listen app.locals.settings.port, ->
 #   console.log "HTTP server started on port #{app.locals.settings.port}"
 
-serverHTTPS = https.createServer( options, app ).listen app.locals.settings.port, ->
+serverHTTPS = https.createServer( options, app ).listen app.locals.settings.port, 'mariusmiliunas.com', ->
   console.log "HTTPS server started on port #{app.locals.settings.port}"
 
 # app.listen app.locals.settings.port

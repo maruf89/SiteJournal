@@ -36,7 +36,7 @@
   app.locals.basedir = '/../';
 
   app.configure(function() {
-    this.set("port", 9000);
+    this.set("port", 80);
     this.set("views", __dirname + "/");
     this.set("view engine", "jade");
     if (app.get("env") === "development") {
@@ -149,7 +149,7 @@
     return next(new Error("keyboard cat!"));
   });
 
-  serverHTTPS = https.createServer(options, app).listen(app.locals.settings.port, function() {
+  serverHTTPS = https.createServer(options, app).listen(app.locals.settings.port, 'mariusmiliunas.com', function() {
     return console.log("HTTPS server started on port " + app.locals.settings.port);
   });
 
