@@ -355,11 +355,12 @@ module.exports = function (grunt) {
         tasks: [
           'nodemon:nodeInspector',
           'nodemon:dev',
-          'wait:open'
+          //'wait:open'
         ],
       },
       server: [
         'copy:stylus',
+	'coffee:server',
         'copy:coffee'
       ],
       test: [
@@ -431,6 +432,10 @@ module.exports = function (grunt) {
           ],
           exec: 'node-inspector',
           ignoredFiles: nodemonIgnoredFiles,
+          'web-port': 3000,
+          'web-host': '173.234.60.108',
+          'debug-port': 5857,
+          'save-live-edit': true
         },
       },
     },
@@ -464,8 +469,8 @@ module.exports = function (grunt) {
       }
     }
   });
-  
-  grunt.registerTask('waitDelay', ['open', 'watch'/*, 'connect:livereload'*/]);
+
+  grunt.registerTask('waitDelay', [ 'watch']);
 
   grunt.registerTask("reload", "reload Chrome on OS X", function() {
     require("child_process").exec("osascript " +
@@ -504,7 +509,7 @@ module.exports = function (grunt) {
     //'karma:app',
 
     'concurrent:nodemon'
-    
+
   ]);
 
   grunt.registerTask('test', [

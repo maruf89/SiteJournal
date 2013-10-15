@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var OAuth2Client, authenticate, db, googleapis, path, services, url;
+  var OAuth2Client, authenticate, db, googleapis, path, services, sslDomain, url;
 
   googleapis = require('googleapis');
 
@@ -12,11 +12,13 @@
 
   path = require('path');
 
+  sslDomain = 'https://www.mariusmiliunas.com';
+
   services = {
     google: {
       clientId: '793238808427.apps.googleusercontent.com',
       clientSecret: 'F37f5_1HLwwLEOrYTafL-hBX',
-      redirectUrl: 'https://localhost:9000/oauth2callback',
+      redirectUrl: "" + sslDomain + "/oauth2callback",
       oauth2Client: null,
       init: function() {
         services.google.oauth2Client = new OAuth2Client(services.google.clientId, services.google.clientSecret, services.google.redirectUrl);
@@ -32,9 +34,7 @@
           } else {
             console.log('Token Success!');
             console.log(tokens);
-            return db.save('api', {
-              google: tokens
-            }, function(keys) {
+            return db.hsave('api', 'google', tokens, function(keys) {
               console.log(keys);
               return res.render('jade/authenticated', {
                 service: req.session.oauthService

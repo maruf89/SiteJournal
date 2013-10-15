@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var app, coffee, express, fs, http, https, oauth, options, path, serverHTTPS;
+  var app, coffee, express, fs, http, https, oauth, options, path, serverHTTP, serverHTTPS;
 
   fs = require('fs');
 
@@ -15,8 +15,6 @@
   oauth = require('./server/MVMAuthenticate').MVMAuthenticate;
 
   path = require("path");
-
-  console.log(oauth);
 
   options = {
     key: fs.readFileSync("" + __dirname + "/../ssl/localhost.key"),
@@ -37,6 +35,7 @@
 
   app.configure(function() {
     this.set("port", 80);
+    this.set("sslPort", 443);
     this.set("views", __dirname + "/");
     this.set("view engine", "jade");
     if (app.get("env") === "development") {
@@ -149,7 +148,11 @@
     return next(new Error("keyboard cat!"));
   });
 
-  serverHTTPS = https.createServer(options, app).listen(app.locals.settings.port, 'mariusmiliunas.com', function() {
+  serverHTTP = http.createServer(app).listen(app.locals.settings.port, '173.234.60.108', function() {
+    return console.log("HTTP server started on port " + app.locals.settings.port);
+  });
+
+  serverHTTPS = https.createServer(options, app).listen(app.locals.settings.sslPort, '173.234.60.108', function() {
     return console.log("HTTPS server started on port " + app.locals.settings.port);
   });
 

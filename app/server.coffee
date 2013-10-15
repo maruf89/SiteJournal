@@ -20,7 +20,7 @@ express = require 'express'
 coffee = require "coffee-script"
 oauth = require('./server/MVMAuthenticate').MVMAuthenticate
 path = require "path"
-console.log oauth
+
 options =
   key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
   cert: fs.readFileSync "#{__dirname}/../ssl/certificate.crt"
@@ -30,11 +30,11 @@ app = express()
 #
 # * Set app settings depending on environment mode.
 # * Express automatically sets the environment to 'development'
-# 
+#
 if process.env.NODE_ENV is "production" or process.argv[2] is "production"
   console.log "Setting production env variable"
   app.set "env", "production"
-  
+
   # this 'dev' variable is available to Jade templates
   app.locals.dev = false
 else
@@ -42,11 +42,12 @@ else
 
 
 # * Config
-# 
+#
 
 app.locals.basedir = '/../'
 app.configure ->
   @set "port", 80
+  @set "sslPort", 443
   @set "views", __dirname + "/"
   @set "view engine", "jade"
   @use express.logger("dev")  if app.get("env") is "development"
@@ -110,19 +111,19 @@ else
 # $ curl http://localhost:3000/notfound -H "Accept: text/plain"
 app.use (req, res, next) ->
   res.status 404
-  
+
   # respond with html page
   if req.accepts("html")
     res.render "404",
       url: req.url
 
     return
-  
+
   # respond with json
   if req.accepts("json")
     res.send error: "Not found"
     return
-  
+
   # default to plain-text. send()
   res.type("txt").send "Not found"
 
@@ -139,19 +140,19 @@ app.use (req, res, next) ->
 # would remain being executed, however here
 # we simply respond with an error page.
 app.use (err, req, res, next) ->
-  
+
   # we may use properties of the error object
   # here and next(err) appropriately, or if
   # we possibly recovered from the error, simply next().
   res.status err.status or (err.status = 500)
   console.error "Server error catch-all says: ", err
-  
+
   # prevent users from seeing specific error messages in production
   if app.get("env") isnt "development"
     newErr = new Error("Something went wrong. Sorry!")
     newErr.status = err.status
     err = newErr
-  
+
   # respond with json
   if req.accepts("json")
     res.send
@@ -165,14 +166,14 @@ app.use (err, req, res, next) ->
       message: err.message
 
     return
-  
+
   # default to plain-text. send()
   res.type("txt").send "Error " + err.status
 
 
 #
 # * Routes
-# 
+#
 app.get "/", (req, res, next) ->
   # we use a direct database connection here
   # because the API would have sent JSON itself
@@ -192,16 +193,16 @@ app.get "/:catchall", (req, res, next) ->
 
 #
 # * Status Code pages
-# 
+#
 app.get "/404", (req, res, next) ->
-  
+
   # trigger a 404 since no other middleware
   # will match /404 after this one, and we're not
   # responding here
   next()
 
 app.get "/403", (req, res, next) ->
-  
+
   # trigger a 403 error
   err = new Error("not allowed!")
   err.status = 403
@@ -209,14 +210,14 @@ app.get "/403", (req, res, next) ->
 
 
 app.get "/500", (req, res, next) ->
-  
+
   # trigger a generic (500) error
   next new Error("keyboard cat!")
 
-# serverHTTP = http.createServer( app ).listen app.locals.settings.port, ->
-#   console.log "HTTP server started on port #{app.locals.settings.port}"
+serverHTTP = http.createServer( app ).listen app.locals.settings.port, '173.234.60.108', ->
+   console.log "HTTP server started on port #{app.locals.settings.port}"
 
-serverHTTPS = https.createServer( options, app ).listen app.locals.settings.port, 'mariusmiliunas.com', ->
+serverHTTPS = https.createServer( options, app ).listen app.locals.settings.sslPort, '173.234.60.108', ->
   console.log "HTTPS server started on port #{app.locals.settings.port}"
 
 # app.listen app.locals.settings.port

@@ -1,29 +1,22 @@
-Db = require('mongodb').Db
-Connection = require('mongodb').Connection
-Server = require('mongodb').Server
-BSON = require('mongodb').BSON
-ObjectID = require('mongodb').ObjectID
+redis = require('redis')
+_ = require('underscore')
 
-server_config = new Server 'localhost',
-                            27017,
-                                auto_reconnect: true
-                                native_parser: true
 class DB
     constructor: ->
-        @db = new Db 'MVMDesign', server_config, safe: false
-        @db.open ->
+        @client = redis.createClient()
 
-    save: ( collection, keys, callback ) ->
+    hsave: ( database, key, values, callback ) ->
+        that = @
+
         if not callback
             console.log 'Callback Required.'
             return false
-        @db.collection collection, ( err, keysColl ) ->
-            if err then callback err
-            else
-                if not keys.length? then keys = [ keys ]
 
-                keysColl.insert keys, ->
-                    console.log "Successfully inserted into #{collection}"
-                    callback null, keys
+        database = "hash #{database}:#{key}"
+
+        _.each values, ( value, key ) ->
+          that.client.hset database, value, key, redis.print
+
+        console.log "saved to #{database}"
 
 exports.Database = new DB()

@@ -1,47 +1,27 @@
 (function() {
-  var BSON, Connection, DB, Db, ObjectID, Server, server_config;
+  var DB, redis, _;
 
-  Db = require('mongodb').Db;
+  redis = require('redis');
 
-  Connection = require('mongodb').Connection;
-
-  Server = require('mongodb').Server;
-
-  BSON = require('mongodb').BSON;
-
-  ObjectID = require('mongodb').ObjectID;
-
-  server_config = new Server('localhost', 27017, {
-    auto_reconnect: true,
-    native_parser: true
-  });
+  _ = require('underscore');
 
   DB = (function() {
     function DB() {
-      this.db = new Db('MVMDesign', server_config, {
-        safe: false
-      });
-      this.db.open(function() {});
+      this.client = redis.createClient();
     }
 
-    DB.prototype.save = function(collection, keys, callback) {
+    DB.prototype.hsave = function(database, key, values, callback) {
+      var that;
+      that = this;
       if (!callback) {
         console.log('Callback Required.');
         return false;
       }
-      return this.db.collection(collection, function(err, keysColl) {
-        if (err) {
-          return callback(err);
-        } else {
-          if (keys.length == null) {
-            keys = [keys];
-          }
-          return keysColl.insert(keys, function() {
-            console.log("Successfully inserted into " + collection);
-            return callback(null, keys);
-          });
-        }
+      database = "hash " + database + ":" + key;
+      _.each(values, function(value, key) {
+        return that.client.hset(database, value, key, redis.print);
       });
+      return console.log("saved to " + database);
     };
 
     return DB;
