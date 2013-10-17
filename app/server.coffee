@@ -13,6 +13,8 @@
 # db = new Db 'api', server_config, {}
 # mongoStore = require 'connect-mongodb'
 
+domain = 'https://localhost:9000/'
+
 fs = require 'fs'
 http = require 'http'
 https = require 'https'
@@ -20,6 +22,7 @@ express = require 'express'
 coffee = require "coffee-script"
 oauth = require('./server/MVMAuthenticate').MVMAuthenticate
 path = require "path"
+oauth = new oauth domain
 
 options =
   key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
@@ -183,7 +186,11 @@ app.get "/ssl-gen", (req, res) ->
   do csrgen.sslGen
   res.render 'index'
 
-app.get "/authenticate/:service", oauth.init
+app.get "/authenticate", oauth.init
+
+app.get "/authenticate/success", oauth.success
+
+app.get "/authenticate/:service", oauth.service
 
 app.get "/oauth2callback", oauth.token
 

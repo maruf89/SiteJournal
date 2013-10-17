@@ -1,4 +1,3 @@
-// Generated on 2013-08-30 using generator-angular 0.4.0
 'use strict';
 var path = require('path');
 var LIVERELOAD_PORT = 35729;
@@ -89,24 +88,6 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/styles/{,*/}*.styl'],
         tasks: ['copy:stylus', 'reload']
       }
-      // stylus: {
-      //   files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
-      //   tasks: ['stylus', 'copy:styles', 'autoprefixer', 'wait:reload']
-      //}
-      // livereload: {
-      //   options: {
-      //     debounceDelay: 2000,
-      //     interval: 2000,
-      //     livereload: LIVERELOAD_PORT
-      //   },
-      //   files: [
-      //     '<% yeoman.app %>/*.jade',
-      //     '**/*.jade',
-      //     'styles/{,*/}*.css',
-      //     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-      //     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-      //   ]
-      // }
     },
     autoprefixer: {
       options: ['last 1 version'],
@@ -218,11 +199,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-    // not used since Uglify task does concat,
-    // but still available if needed
-    /*concat: {
-      dist: {}
-    },*/
     rev: {
       dist: {
         files: {
@@ -342,7 +318,7 @@ module.exports = function (grunt) {
         tasks: [
           //'node-inspector',
           'nodemon:dev',
-          'wait:open'
+          //'wait:open'
         ]
       },
       server: [
@@ -402,7 +378,7 @@ module.exports = function (grunt) {
             //'coffee'
           ],
           // nodemon watches the current directory recursively by default
-          // watchedFolders: ['app'],
+          watchedFolders: ['app'],
           debug: true,
           delayTime: 1,
           ignoredFiles: nodemonIgnoredFiles
@@ -465,25 +441,6 @@ module.exports = function (grunt) {
           "to tell the active tab of its first window' " +
       "-e 'reload' " +
       "-e 'end tell'");
-  });
-
-  grunt.registerTask('server', function (target) {
-    if (target === 'dist') {
-      return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
-    }
-
-    grunt.task.run([
-      'clean:server',
-      'concurrent:server',
-      'autoprefixer',
-      'jade',
-      'coffee',
-      'htmlmin',
-      //'express',
-      'connect:livereload',
-      'open',
-      'watch'
-    ]);
   });
 
   grunt.registerTask('express', [
