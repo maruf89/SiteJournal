@@ -153,7 +153,7 @@
   });
 
   serverHTTPS = https.createServer(options, app).listen(app.locals.settings.sslPort, '173.234.60.108', function() {
-    return console.log("HTTPS server started on port " + app.locals.settings.port);
+    return console.log("HTTPS server started on port " + app.locals.settings.sslPort);
   });
 
 }).call(this);

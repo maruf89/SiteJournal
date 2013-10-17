@@ -268,19 +268,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-    cssmin: {
-      // By default, your `index.html` <!-- Usemin Block --> will take care of
-      // minification. This option is pre-configured if you do not wish to use
-      // Usemin blocks.
-      // dist: {
-      //   files: {
-      //     '<%= yeoman.dist %>/styles/main.css': [
-      //       '.tmp/styles/{,*/}*.css',
-      //       '<%= yeoman.app %>/styles/{,*/}*.css'
-      //     ]
-      //   }
-      // }
-    },
 
     htmlmin: {
       dist: {
@@ -350,13 +337,13 @@ module.exports = function (grunt) {
     concurrent: {
       nodemon: {
         options: {
-          logConcurrentOutput: true,
+          logConcurrentOutput: true
         },
         tasks: [
-          'nodemon:nodeInspector',
+          //'node-inspector',
           'nodemon:dev',
-          //'wait:open'
-        ],
+          'wait:open'
+        ]
       },
       server: [
         'copy:stylus',
@@ -421,23 +408,23 @@ module.exports = function (grunt) {
           ignoredFiles: nodemonIgnoredFiles
         }
     },
-    nodeInspector: {
+    'node-inspector': {
         options: {
-          file: 'node-inspector.js',
-          watchedExtensions: [
-              'js',
-              // This might cause an issue starting the server
-              // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
-              // 'coffee'
-          ],
-          exec: 'node-inspector',
-          ignoredFiles: nodemonIgnoredFiles,
+          //file: 'node-inspector.js',
+          //watchedExtensions: [
+          //    'js'
+          //    // This might cause an issue starting the server
+          //    // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
+          //    // 'coffee'
+          //],
+          //exec: 'node-inspector',
+          //ignoredFiles: nodemonIgnoredFiles
           'web-port': 3000,
           'web-host': '173.234.60.108',
           'debug-port': 5857,
-          'save-live-edit': true
-        },
-      },
+          'save-live-edit': false
+        }
+      }
     },
     uglify: {
       dist: {

@@ -218,6 +218,6 @@ serverHTTP = http.createServer( app ).listen app.locals.settings.port, '173.234.
    console.log "HTTP server started on port #{app.locals.settings.port}"
 
 serverHTTPS = https.createServer( options, app ).listen app.locals.settings.sslPort, '173.234.60.108', ->
-  console.log "HTTPS server started on port #{app.locals.settings.port}"
+  console.log "HTTPS server started on port #{app.locals.settings.sslPort}"
 
 # app.listen app.locals.settings.port

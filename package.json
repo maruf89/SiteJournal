@@ -45,7 +45,8 @@
     "coffee-script": "~1.6.3",
     "express": "~3.1.0",
     "redis": "0.8.x",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "grunt-node-inspector": "~0.1.1"
   },
   "engines": {
     "node": ">=0.8.0"
