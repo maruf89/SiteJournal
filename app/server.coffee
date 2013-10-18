@@ -4,31 +4,25 @@
 # * Express Dependencies
 # http://howtonode.org/express-mongodb
 
-# Db = require('mongodb').Db
-# Server = require('mongodb').Server
-# server_config = new Server 'localhost',
-#                             27017,
-#                               auto_reconnect: true
-#                               native_parser: true
-# db = new Db 'api', server_config, {}
-# mongoStore = require 'connect-mongodb'
-
-domain = 'https://localhost:9000/'
+domain = 'https://www.mariusmiliunas.com/'
 
 fs = require 'fs'
 http = require 'http'
 https = require 'https'
 express = require 'express'
 coffee = require "coffee-script"
-oauth = require('./server/MVMAuthenticate').MVMAuthenticate
+Oauth = require('./server/MVMAuthenticate').MVMAuthenticate
 path = require "path"
-oauth = new oauth domain
+oauth = new Oauth domain
 
 options =
   key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
   cert: fs.readFileSync "#{__dirname}/../ssl/certificate.crt"
 
 app = express()
+redis = require('redis')
+RedisStore = require('connect-redis') express
+
 
 #
 # * Set app settings depending on environment mode.
@@ -57,6 +51,10 @@ app.configure ->
 
   @use express.cookieParser("keyboardcat") # 'some secret key to sign cookies'
   @use express.session
+    store: new RedisStore(
+        host: 'localhost'
+        port: 6379
+    ),
     secret: 'nte234jkTeinuhn234ee2'
   @use express.bodyParser()
   @use express.compress()

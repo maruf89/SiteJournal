@@ -29,13 +29,12 @@ services =
             api: null
         clientId: '793238808427.apps.googleusercontent.com'
         clientSecret: 'F37f5_1HLwwLEOrYTafL-hBX'
-        redirectUrl: "#{config.domain}oauth2callback"
         oauth2Client: null
 
         init: (req, res, next) ->
             this.oauth2Client = new OAuth2Client this.clientId,
                                                  this.clientSecret,
-                                                 this.redirectUrl
+                                                 "#{config.domain}oauth2callback"
 
             url = this.oauth2Client.generateAuthUrl
 
@@ -90,7 +89,7 @@ services =
                 accessToken: accessToken
                 accessTokenSecret: accessTokenSecret
 
-            db.save 'api', twitter: tokens, (keys) ->
+            db.hsave 'api', 'twitter', tokens, (keys) ->
                 console.log keys
                 res.render 'jade/oauth/authenticated',
                     service: req.session.oauthService
@@ -111,6 +110,9 @@ class authenticate
         config.domain = domain
 
     init: (req, res, next) ->
+        req.session.sessionWorks = 'session works'
+
+        console.log req.session
         res.render 'jade/oauth/authenticate',
             services: serviceList
 
@@ -125,6 +127,7 @@ class authenticate
         service.init.apply service, arguments
 
     token: (req, res, next) ->
+        console.log req.session
         console.log req.session.oauthService + ' token returned'
         service = services[ req.session.oauthService ]
 
@@ -134,5 +137,5 @@ class authenticate
         res.render 'jade/oauth/authenticated',
             service: req.session.oauthService
 
-exports.MVMAuthenticate = new authenticate()
+exports.MVMAuthenticate = authenticate
 

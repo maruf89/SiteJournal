@@ -48,7 +48,8 @@
     "underscore": "~1.5.2",
     "grunt-node-inspector": "~0.1.1",
     "twitter-oauth": "0.0.6",
-    "request": "~2.27.0"
+    "request": "~2.27.0",
+    "connect-redis": "~1.4.5"
   },
   "engines": {
     "node": ">=0.8.0"
