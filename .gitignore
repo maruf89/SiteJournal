@@ -7,3 +7,6 @@ app/bower_components
 trigger.file
 services.json
 ssl
+!karma-e2e.conf.js
+!karma.conf.js
+!Gruntfile.js
