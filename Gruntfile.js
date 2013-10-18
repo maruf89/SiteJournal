@@ -1,4 +1,3 @@
-// Generated on 2013-08-30 using generator-angular 0.4.0
 'use strict';
 var path = require('path');
 var LIVERELOAD_PORT = 35729;
@@ -89,24 +88,6 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/styles/{,*/}*.styl'],
         tasks: ['copy:stylus', 'reload']
       }
-      // stylus: {
-      //   files: ['<%= yeoman.app %>/styles/stylus/{,*/}*.styl'],
-      //   tasks: ['stylus', 'copy:styles', 'autoprefixer', 'wait:reload']
-      //}
-      // livereload: {
-      //   options: {
-      //     debounceDelay: 2000,
-      //     interval: 2000,
-      //     livereload: LIVERELOAD_PORT
-      //   },
-      //   files: [
-      //     '<% yeoman.app %>/*.jade',
-      //     '**/*.jade',
-      //     'styles/{,*/}*.css',
-      //     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-      //     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-      //   ]
-      // }
     },
     autoprefixer: {
       options: ['last 1 version'],
@@ -218,11 +199,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-    // not used since Uglify task does concat,
-    // but still available if needed
-    /*concat: {
-      dist: {}
-    },*/
     rev: {
       dist: {
         files: {
@@ -267,19 +243,6 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>/images'
         }]
       }
-    },
-    cssmin: {
-      // By default, your `index.html` <!-- Usemin Block --> will take care of
-      // minification. This option is pre-configured if you do not wish to use
-      // Usemin blocks.
-      // dist: {
-      //   files: {
-      //     '<%= yeoman.dist %>/styles/main.css': [
-      //       '.tmp/styles/{,*/}*.css',
-      //       '<%= yeoman.app %>/styles/{,*/}*.css'
-      //     ]
-      //   }
-      // }
     },
 
     htmlmin: {
@@ -350,16 +313,17 @@ module.exports = function (grunt) {
     concurrent: {
       nodemon: {
         options: {
-          logConcurrentOutput: true,
+          logConcurrentOutput: true
         },
         tasks: [
-          'nodemon:nodeInspector',
+          //'node-inspector',
           'nodemon:dev',
-          'wait:open'
-        ],
+          //'wait:open'
+        ]
       },
       server: [
         'copy:stylus',
+	'coffee:server',
         'copy:coffee'
       ],
       test: [
@@ -414,25 +378,29 @@ module.exports = function (grunt) {
             //'coffee'
           ],
           // nodemon watches the current directory recursively by default
-          // watchedFolders: ['app'],
+          watchedFolders: ['app'],
           debug: true,
           delayTime: 1,
           ignoredFiles: nodemonIgnoredFiles
         }
     },
-    nodeInspector: {
+    'node-inspector': {
         options: {
-          file: 'node-inspector.js',
-          watchedExtensions: [
-              'js',
-              // This might cause an issue starting the server
-              // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
-              // 'coffee'
-          ],
-          exec: 'node-inspector',
-          ignoredFiles: nodemonIgnoredFiles,
-        },
-      },
+          //file: 'node-inspector.js',
+          //watchedExtensions: [
+          //    'js'
+          //    // This might cause an issue starting the server
+          //    // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
+          //    // 'coffee'
+          //],
+          //exec: 'node-inspector',
+          //ignoredFiles: nodemonIgnoredFiles
+          'web-port': 3000,
+          'web-host': '173.234.60.108',
+          'debug-port': 5857,
+          'save-live-edit': false
+        }
+      }
     },
     uglify: {
       dist: {
@@ -464,8 +432,8 @@ module.exports = function (grunt) {
       }
     }
   });
-  
-  grunt.registerTask('waitDelay', ['open', 'watch'/*, 'connect:livereload'*/]);
+
+  grunt.registerTask('waitDelay', [ 'watch']);
 
   grunt.registerTask("reload", "reload Chrome on OS X", function() {
     require("child_process").exec("osascript " +
@@ -473,25 +441,6 @@ module.exports = function (grunt) {
           "to tell the active tab of its first window' " +
       "-e 'reload' " +
       "-e 'end tell'");
-  });
-
-  grunt.registerTask('server', function (target) {
-    if (target === 'dist') {
-      return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
-    }
-
-    grunt.task.run([
-      'clean:server',
-      'concurrent:server',
-      'autoprefixer',
-      'jade',
-      'coffee',
-      'htmlmin',
-      //'express',
-      'connect:livereload',
-      'open',
-      'watch'
-    ]);
   });
 
   grunt.registerTask('express', [
@@ -504,7 +453,7 @@ module.exports = function (grunt) {
     //'karma:app',
 
     'concurrent:nodemon'
-    
+
   ]);
 
   grunt.registerTask('test', [

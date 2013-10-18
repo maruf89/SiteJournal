@@ -1,0 +1,7 @@
+- var base = '/authenticate/'
+.services
+	h1 Services to Authenticate
+
+	ul
+		- each service, index in services
+			li: a(href="#{base + service.api}")= service.name
