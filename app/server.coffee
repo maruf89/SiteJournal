@@ -4,16 +4,13 @@
 # * Express Dependencies
 # http://howtonode.org/express-mongodb
 
-domain = 'https://www.mariusmiliunas.com/'
-
 fs = require 'fs'
 http = require 'http'
 https = require 'https'
 express = require 'express'
 coffee = require "coffee-script"
-Oauth = require('./server/MVMAuthenticate').MVMAuthenticate
+oauth = require('./server/MVMAuthenticate').MVMAuthenticate
 path = require "path"
-oauth = new Oauth domain
 
 options =
   key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"

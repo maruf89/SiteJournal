@@ -1,6 +1,18 @@
 {
-	"8tracks": {
-		"category": "music",
-		"api-key": "63eb25d5180ed975def1f62af625d1573e8826e6"
-	}
+        "8tracks": {
+                "category": ["music"],
+                "api-key": "63eb25d5180ed975def1f62af625d1573e8826e6"
+        },
+        "Google": {
+                "category": ["music","social"],
+                "clientId": "793238808427.apps.googleusercontent.com",
+                "clientSecret": "F37f5_1HLwwLEOrYTafL-hBX"
+        },
+        "Twitter": {
+                "category": ["social"],
+                "consumerKey": "NqgUDV2ETwpVlRHx0sqwnA",
+                "consumerSecret": "uyDs2s4tf6JzjdEcrge0ANKxL4KPWtU2LeRcBunT60",
+                "accessToken": "198591770-yCHAkPiiSHameV53NVmYHZBMt92hIxo4usm1s30p",
+                "accessTokenSecret": "CXi98cEwgXb9fZj06BeiWjJne6vDMwkUf4oRgAI25f0"
+        }
 }

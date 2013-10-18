@@ -6,11 +6,9 @@ request = require 'request'
 db = require('./DB').Database
 url = require 'url'
 path = require 'path'
-sslDomain = 'https://www.mariusmiliunas.com'
 
-config =
-    domain: null
-
+serviceData = require('../../services.json')
+siteRedirect = process.env.ABSOLUTE_SSL_URL
 serviceList = []
 
 
@@ -19,7 +17,7 @@ services =
         visible:
             name: '8tracks'
             api: null # will be added in the iteration below
-        apiKey: '63eb25d5180ed975def1f62af625d1573e8826e6'
+        apiKey: serviceData['8tracks']['api-key']
         init: ->
             curl = "curl --header 'X-Api-Key: #{services._8tracks.apiKey}' http://8tracks.com/mixes.xml"
 
@@ -27,14 +25,14 @@ services =
         visible:
             name: 'Google'
             api: null
-        clientId: '793238808427.apps.googleusercontent.com'
-        clientSecret: 'F37f5_1HLwwLEOrYTafL-hBX'
+        clientId: serviceData['Google']['clientId']
+        clientSecret: serviceData['Google']['clientSecret']
         oauth2Client: null
 
         init: (req, res, next) ->
             this.oauth2Client = new OAuth2Client this.clientId,
                                                  this.clientSecret,
-                                                 "#{config.domain}oauth2callback"
+                                                 "#{siteRedirect}oauth2callback"
 
             url = this.oauth2Client.generateAuthUrl
 
@@ -52,9 +50,7 @@ services =
                 if err then console.log err
                 else
                     console.log 'Token Success!'
-                    console.log tokens
                     db.hsave 'api', 'google', tokens, (keys) ->
-                        console.log keys
                         res.render 'jade/oauth/authenticated',
                             service: req.session.oauthService
 
@@ -62,22 +58,22 @@ services =
         visible:
             name: 'Twitter'
             api: null
-        consumerKey: 'NqgUDV2ETwpVlRHx0sqwnA'
-        consumerSecret: 'uyDs2s4tf6JzjdEcrge0ANKxL4KPWtU2LeRcBunT60'
-        accessToken: '198591770-yCHAkPiiSHameV53NVmYHZBMt92hIxo4usm1s30p'
-        accessTokenSecret: 'CXi98cEwgXb9fZj06BeiWjJne6vDMwkUf4oRgAI25f0'
+        consumerKey: serviceData['Twitter']['consumerKey']
+        consumerSecret: serviceData['Twitter']['consumerSecret']
+        accessToken: serviceData['Twitter']['accessToken']
+        accessTokenSecret: serviceData['Twitter']['accessToken']
         twitterAuth: null
 
         init: ->
             this.twitterAuth = require( 'twitter-oauth' )
                 consumerKey: this.consumerKey
                 consumerSecret: this.consumerSecret
-                domain: config.domain
+                domain: siteRedirect
                 loginCallback: "oauth2callback"
-                #completeCallback: "authenticate/success"
                 oauthCallbackCallback: this.success
 
             this.twitterAuth.oauthConnect.apply this, arguments
+            console.log this.twitterAuth
 
         handleToken: ->
             this.twitterAuth.oauthCallback.apply this, arguments
@@ -90,7 +86,6 @@ services =
                 accessTokenSecret: accessTokenSecret
 
             db.hsave 'api', 'twitter', tokens, (keys) ->
-                console.log keys
                 res.render 'jade/oauth/authenticated',
                     service: req.session.oauthService
 
@@ -105,17 +100,12 @@ console.log serviceList
 
 class authenticate
     _this: null
-    constructor: (domain) ->
+    constructor:  ->
         @_this = this
-        config.domain = domain
 
     init: (req, res, next) ->
-        req.session.sessionWorks = 'session works'
-
-        console.log req.session
         res.render 'jade/oauth/authenticate',
             services: serviceList
-
 
     service: (req, res, next) ->
         name = req.params.service
@@ -123,11 +113,9 @@ class authenticate
         service = services[ name ]
 
         console.log "#{name} service requested"
-
         service.init.apply service, arguments
 
     token: (req, res, next) ->
-        console.log req.session
         console.log req.session.oauthService + ' token returned'
         service = services[ req.session.oauthService ]
 
@@ -137,5 +125,5 @@ class authenticate
         res.render 'jade/oauth/authenticated',
             service: req.session.oauthService
 
-exports.MVMAuthenticate = authenticate
+exports.MVMAuthenticate = new authenticate()
 
