@@ -4,13 +4,42 @@
 # * Express Dependencies
 # http://howtonode.org/express-mongodb
 
+config =
+  base: process.env.ABSOLUTE_SSL_URL
+  oauthPath: 'oauth2callback'
+services = require('../services.json')
+
 fs = require 'fs'
 http = require 'http'
 https = require 'https'
 express = require 'express'
 coffee = require "coffee-script"
-oauth = require('./server/MVMAuthenticate').MVMAuthenticate
+mvd = new (require('./server/MVData'))(services, config)
+mvView = mvd.views
+db = require './server/DB'
 path = require "path"
+_ = require 'lodash'
+
+###*  Hold all authenticated services in an array  ###
+authenticatedServices = []
+
+###*
+ * Iterate through each service and check wether it contains
+ * the required fields in the database
+ ###
+_.each services, (_service, name) ->
+  name = name.toLowerCase()
+  data = {}
+  ###*  retrieve an array of the required keys   ###
+  required = mvd.service[name].requiredTokens()
+  db.hgetAll 'api', name, required, (err, res) ->
+    if err then console.log err
+    else
+      ###*  test that every statement is non falsey  ###
+      if (res.every (a) -> !!a)
+        authenticatedServices.push(name)
+        ###*  combine the keys and values and pass to the service  ###
+        mvd.service[name].addTokens(_.object(required, res))
 
 options =
   key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
@@ -76,6 +105,7 @@ app.configure ->
   )
 
 # app.use(express.favicon());
+
 
 
 
@@ -177,17 +207,29 @@ app.get "/", (req, res, next) ->
   # because the API would have sent JSON itself
   res.render 'index'
 
-app.get "/ssl-gen", (req, res) ->
-  do csrgen.sslGen
-  res.render 'index'
+#app.get "/ssl-gen", (req, res) ->
+#  do csrgen.sslGen
+#  res.render 'index'
 
-app.get "/authenticate", oauth.init
+app.get "/authenticate", mvView.servicesListView
 
-app.get "/authenticate/success", oauth.success
+app.get "/authenticate/success", mvView.successView
 
-app.get "/authenticate/:service", oauth.service
+app.get "/authenticate/:service", mvView.serviceView
 
-app.get "/oauth2callback", oauth.token
+app.get "/oauth2callback", (req, res, next) ->
+  callback = (err, data) ->
+    if err
+      res.render 'jade/error',
+        error: err
+    else
+      db.hsave 'api', data.service, data.data, ->
+        res.render 'jade/oauth/authenticated', service: data.service
+  mvView.tokenView callback, req, res, next
+
+app.get "/query/:service/", (req, res, next) ->
+  mvd.request req.params.service, {}, (err, res) ->
+    console.log res
 
 app.get "/:catchall", (req, res, next) ->
   res.render 'index'
