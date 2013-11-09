@@ -5,6 +5,7 @@ dist
 app/bower_components
 .DS_Store
 trigger.file
+services.backup
 services.json
 ssl
 !karma-e2e.conf.js
