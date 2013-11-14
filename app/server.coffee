@@ -8,7 +8,8 @@
 
 config =
   base: process.env.ABSOLUTE_SSL_URL
-  oauthPath: 'oauth2callback'
+  oauthPath: 'authenticate/oauth2callback'
+  app: process.env.APP_URI
 
 services      = require('../services.json')
 
@@ -17,7 +18,7 @@ http          = require 'http'
 https         = require 'https'
 express       = require 'express'
 coffee        = require "coffee-script"
-mvd           = require('./server/MVData')(services, config)
+mvd           = require('./server/MVData').init(services, config)
 db            = require './server/DB'
 path          = require "path"
 _             = require 'lodash'
@@ -33,7 +34,7 @@ _.each services, (_service, name) ->
   name = name.toLowerCase()
   data = {}
   ###*  retrieve an array of the required keys   ###
-  required = mvd.service[name].requiredTokens()
+  required = mvd.services[name].requiredTokens()
   db.hgetAll 'api', name, required, (err, res) ->
     if err then console.log err
     else
@@ -41,7 +42,7 @@ _.each services, (_service, name) ->
       if (res.every (a) -> !!a)
         authenticatedServices.push(name)
         ###*  combine the keys and values and pass to the service  ###
-        mvd.service[name].addTokens(_.object(required, res))
+        mvd.services[name].addTokens(_.object(required, res))
 
 options =
   key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
@@ -94,14 +95,21 @@ app.configure ->
   # to match & call routes _before_ continuing
   # on, at which point we assume it's a 404 because
   # no route has handled the request.
-  @.use app.router
+  @use app.router
+  @all(/.*/, (req, res, next) ->
+    host = req.header("host")
+    if host.match(/^www\..*/i)
+      do next
+    else
+      res.redirect(301, "http://www.#{host}")
+  )
 
-  @.use require("connect-asset")(
+  @use require("connect-asset")(
     assets: path.resolve __dirname
     public: path.resolve "#{app.locals.basedir}.tmp"
     buidls: true
   )
-  @.use require("stylus").middleware(
+  @use require("stylus").middleware(
     src: "#{@locals.basedir}.tmp/styles"
     compress: true
   )

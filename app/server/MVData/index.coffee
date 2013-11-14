@@ -1,1 +1,1 @@
-module.exports = new (require('./lib/MVData'))
+module.exports = new (require('./lib/MVData'))()

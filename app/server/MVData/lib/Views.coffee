@@ -19,6 +19,7 @@ module.exports = class Views
   serviceView: (req, res, next) =>
     name = req.params.service
     req.session.oauthService = name
+
     service = @services[ name ]
 
     console.log "#{name} service requested"

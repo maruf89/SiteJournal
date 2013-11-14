@@ -30,10 +30,7 @@ class DB
         @client[method].apply(@client, databaseArgs)
 
         console.log "saved to #{database}"
-        callback database, key, values
-
-
-        eclient.hget database, key, callback
+        callback database, section, values
 
     ###*
      * @public

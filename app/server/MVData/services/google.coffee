@@ -31,7 +31,6 @@ module.exports = class Google extends Service
     res.end()
 
   oauthHandleToken: (callback, req, res, next) ->
-    console.log arguments
     query = req.query
 
     @oauth2Client.getToken query.code, (err, tokens) ->

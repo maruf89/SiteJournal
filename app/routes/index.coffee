@@ -1,9 +1,12 @@
-### TO DO: build a functioning router that abstracts variables like `db` and `mvView` into a controller ###
+"use strict"
+
+### TO DO: build a functioning router that abstracts variables like `db` and `mvView` into a controller *###
 module.exports = (app) ->
 
   # Include 404 and error configurations
   require('./config')(app)
 
+  ###  Include all auth views  *###
   require('./authenticate')(app)
 
   #
@@ -17,9 +20,6 @@ module.exports = (app) ->
   #app.get "/ssl-gen", (req, res) ->
   #  do csrgen.sslGen
   #  res.render 'index'
-  app.get "/query/:service/", (req, res, next) ->
-    mvd.request req.params.service, {}, (err, res) ->
-      console.log res
 
   app.get "/:catchall", (req, res, next) ->
     res.render 'index'

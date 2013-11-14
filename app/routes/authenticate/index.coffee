@@ -1,20 +1,14 @@
-mvView = require("#{__dirname}/server/MVData").views
+"use strict"
+
+appUri = process.env.APP_URI
+mvView = require("#{appUri}/server/MVData").views
 
 module.exports = (app) ->
   app.get "/authenticate", mvView.servicesListView
 
-  app.get "/authenticate/success", mvView.successView
+  require('./success')(app, mvView)
 
-  app.get "/authenticate/:service", mvView.serviceView
+  require('./oauth2callback')(app, mvView)
 
-  app.get "/oauth2callback", (req, res, next) ->
-    callback = (err, data) ->
-      if err
-        res.render 'jade/error',
-          error: err
-      else
-        db.hsave 'api', data.service, data.data, ->
-          res.render 'jade/oauth/authenticated', service: data.service
-    mvView.tokenView callback, req, res, next
-
-
+  ### Services must be last because it has a :catchall  *###
+  require('./services')(app, mvView)
