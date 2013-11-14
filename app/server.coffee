@@ -2,23 +2,26 @@
 
 #
 # * Express Dependencies
-# http://howtonode.org/express-mongodb
+# - Redis
+# - Coffeescript
+# - lodash
 
 config =
   base: process.env.ABSOLUTE_SSL_URL
-  oauthPath: 'oauth2callback'
-services = require('../services.json')
+  oauthPath: 'authenticate/oauth2callback'
+  app: process.env.APP_URI
 
-fs = require 'fs'
-http = require 'http'
-https = require 'https'
-express = require 'express'
-coffee = require "coffee-script"
-mvd = new (require('./server/MVData'))(services, config)
-mvView = mvd.views
-db = require './server/DB'
-path = require "path"
-_ = require 'lodash'
+services      = require('../services.json')
+
+fs            = require 'fs'
+http          = require 'http'
+https         = require 'https'
+express       = require 'express'
+coffee        = require "coffee-script"
+mvd           = require('./server/MVData').init(services, config)
+db            = require './server/DB'
+path          = require "path"
+_             = require 'lodash'
 
 ###*  Hold all authenticated services in an array  ###
 authenticatedServices = []
@@ -31,7 +34,7 @@ _.each services, (_service, name) ->
   name = name.toLowerCase()
   data = {}
   ###*  retrieve an array of the required keys   ###
-  required = mvd.service[name].requiredTokens()
+  required = mvd.services[name].requiredTokens()
   db.hgetAll 'api', name, required, (err, res) ->
     if err then console.log err
     else
@@ -39,7 +42,7 @@ _.each services, (_service, name) ->
       if (res.every (a) -> !!a)
         authenticatedServices.push(name)
         ###*  combine the keys and values and pass to the service  ###
-        mvd.service[name].addTokens(_.object(required, res))
+        mvd.services[name].addTokens(_.object(required, res))
 
 options =
   key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
@@ -92,24 +95,24 @@ app.configure ->
   # to match & call routes _before_ continuing
   # on, at which point we assume it's a 404 because
   # no route has handled the request.
-  @.use app.router
+  @use app.router
+  @all(/.*/, (req, res, next) ->
+    host = req.header("host")
+    if host.match(/^www\..*/i)
+      do next
+    else
+      res.redirect(301, "http://www.#{host}")
+  )
 
-  @.use require("connect-asset")(
+  @use require("connect-asset")(
     assets: path.resolve __dirname
     public: path.resolve "#{app.locals.basedir}.tmp"
     buidls: true
   )
-  @.use require("stylus").middleware(
+  @use require("stylus").middleware(
     src: "#{@locals.basedir}.tmp/styles"
     compress: true
   )
-
-# app.use(express.favicon());
-
-
-
-
-
 
 
 # our custom "verbose errors" setting
@@ -130,133 +133,7 @@ if app.get("env") is "development"
 else
   app.use express.static("dist")
 
-# Since this is the last non-error-handling
-# middleware use()d, we assume 404, as nothing else
-# responded.
-
-# $ curl http://localhost:3000/notfound
-# $ curl http://localhost:3000/notfound -H "Accept: application/json"
-# $ curl http://localhost:3000/notfound -H "Accept: text/plain"
-app.use (req, res, next) ->
-  res.status 404
-
-  # respond with html page
-  if req.accepts("html")
-    res.render "404",
-      url: req.url
-
-    return
-
-  # respond with json
-  if req.accepts("json")
-    res.send error: "Not found"
-    return
-
-  # default to plain-text. send()
-  res.type("txt").send "Not found"
-
-
-# error-handling middleware, take the same form
-# as regular middleware, however they require an
-# arity of 4, aka the signature (err, req, res, next).
-# when connect has an error, it will invoke ONLY error-handling
-# middleware.
-
-# If we were to next() here any remaining non-error-handling
-# middleware would then be executed, or if we next(err) to
-# continue passing the error, only error-handling middleware
-# would remain being executed, however here
-# we simply respond with an error page.
-app.use (err, req, res, next) ->
-
-  # we may use properties of the error object
-  # here and next(err) appropriately, or if
-  # we possibly recovered from the error, simply next().
-  res.status err.status or (err.status = 500)
-  console.error "Server error catch-all says: ", err
-
-  # prevent users from seeing specific error messages in production
-  if app.get("env") isnt "development"
-    newErr = new Error("Something went wrong. Sorry!")
-    newErr.status = err.status
-    err = newErr
-
-  # respond with json
-  if req.accepts("json")
-    res.send
-      data: err
-      message: err.message
-
-    return
-  if req.accepts("html")
-    res.render "errors",
-      data: err
-      message: err.message
-
-    return
-
-  # default to plain-text. send()
-  res.type("txt").send "Error " + err.status
-
-
-#
-# * Routes
-#
-app.get "/", (req, res, next) ->
-  # we use a direct database connection here
-  # because the API would have sent JSON itself
-  res.render 'index'
-
-#app.get "/ssl-gen", (req, res) ->
-#  do csrgen.sslGen
-#  res.render 'index'
-
-app.get "/authenticate", mvView.servicesListView
-
-app.get "/authenticate/success", mvView.successView
-
-app.get "/authenticate/:service", mvView.serviceView
-
-app.get "/oauth2callback", (req, res, next) ->
-  callback = (err, data) ->
-    if err
-      res.render 'jade/error',
-        error: err
-    else
-      db.hsave 'api', data.service, data.data, ->
-        res.render 'jade/oauth/authenticated', service: data.service
-  mvView.tokenView callback, req, res, next
-
-app.get "/query/:service/", (req, res, next) ->
-  mvd.request req.params.service, {}, (err, res) ->
-    console.log res
-
-app.get "/:catchall", (req, res, next) ->
-  res.render 'index'
-
-
-#
-# * Status Code pages
-#
-app.get "/404", (req, res, next) ->
-
-  # trigger a 404 since no other middleware
-  # will match /404 after this one, and we're not
-  # responding here
-  next()
-
-app.get "/403", (req, res, next) ->
-
-  # trigger a 403 error
-  err = new Error("not allowed!")
-  err.status = 403
-  next err
-
-
-app.get "/500", (req, res, next) ->
-
-  # trigger a generic (500) error
-  next new Error("keyboard cat!")
+require('./routes')(app)
 
 serverHTTP = http.createServer( app ).listen app.locals.settings.port, '173.234.60.108', ->
    console.log "HTTP server started on port #{app.locals.settings.port}"

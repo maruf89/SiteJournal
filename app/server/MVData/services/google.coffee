@@ -31,7 +31,6 @@ module.exports = class Google extends Service
     res.end()
 
   oauthHandleToken: (callback, req, res, next) ->
-    console.log arguments
     query = req.query
 
     @oauth2Client.getToken query.code, (err, tokens) ->
@@ -49,4 +48,7 @@ module.exports = class Google extends Service
     oauth2Client.credentials.refresh_token = data['refresh_token']
 
   requiredTokens: ->
-    return ['access_token', 'refresh_token']
+    ['access_token', 'refresh_token']
+
+  request: ->
+    true
