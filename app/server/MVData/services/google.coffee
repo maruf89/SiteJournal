@@ -50,5 +50,18 @@ module.exports = class Google extends Service
   requiredTokens: ->
     ['access_token', 'refresh_token']
 
-  request: ->
-    true
+  request: (callback) ->
+    googleapis
+      .discover('youtube', 'v3')
+      .execute (err, client) ->
+        console.log client.youtube.activities.list(part:'snippet,contentDetails', mine: true).withAuthClient(oauth2Client)
+
+        client
+          .youtube
+          .activities
+          .list(
+            'part': 'snippet,contentDetails'
+            'mine': 'true'
+          )
+          .withAuthClient(oauth2Client)
+          .execute(callback)

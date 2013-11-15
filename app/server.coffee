@@ -11,6 +11,8 @@ config =
   oauthPath: 'authenticate/oauth2callback'
   app: process.env.APP_URI
 
+dataConfig    = require('../dataConfig.json')
+
 services      = require('../services.json')
 
 fs            = require 'fs'
@@ -20,33 +22,14 @@ express       = require 'express'
 coffee        = require "coffee-script"
 mvd           = require('./server/MVData').init(services, config)
 db            = require './server/DB'
-path          = require "path"
+path          = require 'path'
 _             = require 'lodash'
+dataCollector = require('./server/DataCollector').configure(dataConfig)
 
-###*  Hold all authenticated services in an array  ###
-authenticatedServices = []
-
-###*
- * Iterate through each service and check wether it contains
- * the required fields in the database
- ###
-_.each services, (_service, name) ->
-  name = name.toLowerCase()
-  data = {}
-  ###*  retrieve an array of the required keys   ###
-  required = mvd.services[name].requiredTokens()
-  db.hgetAll 'api', name, required, (err, res) ->
-    if err then console.log err
-    else
-      ###*  test that every statement is non falsey  ###
-      if (res.every (a) -> !!a)
-        authenticatedServices.push(name)
-        ###*  combine the keys and values and pass to the service  ###
-        mvd.services[name].addTokens(_.object(required, res))
 
 options =
-  key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
-  cert: fs.readFileSync "#{__dirname}/../ssl/certificate.crt"
+  key: fs.readFileSync "#{__dirname}/../../ssl/localhost.key"
+  cert: fs.readFileSync "#{__dirname}/../../ssl/certificate.crt"
 
 app = express()
 redis = require('redis')
