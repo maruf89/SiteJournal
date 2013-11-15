@@ -44,7 +44,7 @@ class DataCollector
       console.log "requestData(#{service})"
       mvd.service[service].request @storeData
 
-  storeData: (data) ->
+  storeData: (err, data) ->
     console.log data
 
 module.exports = new DataCollector()
