@@ -6,31 +6,37 @@
 # - Coffeescript
 # - lodash
 
+###*  object containing urls and general variables  ###
 config =
   base: process.env.ABSOLUTE_SSL_URL
   oauthPath: 'authenticate/oauth2callback'
   app: process.env.APP_URI
 
+###*  Data Collector config file  ###
 dataConfig    = require('../dataConfig.json')
 
+###*  List of services with their OAuth requirements to initiate  ###
 services      = require('../services.json')
 
+###*  Required modules  ###
 fs            = require 'fs'
 http          = require 'http'
 https         = require 'https'
 express       = require 'express'
 coffee        = require "coffee-script"
 mvd           = require('./server/MVData').init(services, config)
-db            = require './server/DB'
 path          = require 'path'
-_             = require 'lodash'
+
+###*  Module that uses mvd and does the actual data requesting  ###
 dataCollector = require('./server/DataCollector').configure(dataConfig)
 
 
+###*  SSL Certificates required to run https  ###
 options =
   key: fs.readFileSync "#{__dirname}/../../ssl/localhost.key"
   cert: fs.readFileSync "#{__dirname}/../../ssl/certificate.crt"
 
+###*  Service instantiation + redis session storage  ###
 app = express()
 redis = require('redis')
 RedisStore = require('connect-redis') express
@@ -50,9 +56,9 @@ else
   app.locals.dev = true
 
 
-# * Config
-#
-
+###*
+ * Express Configurations
+ ###
 app.locals.basedir = '/../'
 app.configure ->
   @set "port", 80
@@ -79,6 +85,8 @@ app.configure ->
   # on, at which point we assume it's a 404 because
   # no route has handled the request.
   @use app.router
+
+  ###*  redirects all http://{host} requests to http://www.{host}  ###
   @all(/.*/, (req, res, next) ->
     host = req.header("host")
     if host.match(/^www\..*/i)
@@ -97,31 +105,34 @@ app.configure ->
     compress: true
   )
 
-
-# our custom "verbose errors" setting
-# which we can use in the templates
-# via settings['verbose errors']
+###*
+ * our custom "verbose errors" setting
+ * which we can use in the templates
+ * via settings['verbose errors']
+ ###
 app.enable "verbose errors"
 
-# disable them in production
-# use $ NODE_ENV=production node server.js
+###*
+ * disable them in production
+ * use $ NODE_ENV=production node server.js
+ ###
 app.disable "verbose errors"  if app.get("env") is "production"
 
 
 
-# host dev files if in dev mode
+###*  host dev files if in dev mode  ###
 if app.get("env") is "development"
   app.use express.static(".tmp")
   app.use express.static("app")
 else
   app.use express.static("dist")
 
+###*  Site Router   ###
 require('./routes')(app)
 
+###*  Start up both HTTP and HTTPS  ###
 serverHTTP = http.createServer( app ).listen app.locals.settings.port, '173.234.60.108', ->
    console.log "HTTP server started on port #{app.locals.settings.port}"
 
 serverHTTPS = https.createServer( options, app ).listen app.locals.settings.sslPort, '173.234.60.108', ->
   console.log "HTTPS server started on port #{app.locals.settings.sslPort}"
-
-# app.listen app.locals.settings.port

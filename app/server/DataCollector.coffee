@@ -44,7 +44,24 @@ class DataCollector
       console.log "requestData(#{service})"
       mvd.service[service].request @storeData
 
+  ###*
+   * Data request callback that will store specifically formatted data to the db
+   *
+   * @fires DataCollector#storeData
+   * @public
+   * @param {error} err  an error object
+   * @param {object} data
+   ###
   storeData: (err, data) ->
+    if err
+      console.log err
+      return false
+
     console.log data
+    console.log data.items[0].snippet
+    console.log data.items[0].contentDetails
+
+  parseData: (data) ->
+
 
 module.exports = new DataCollector()

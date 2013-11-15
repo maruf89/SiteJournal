@@ -95,4 +95,9 @@ module.exports = class Google extends Service
             'mine': 'true'
           )
           .withAuthClient(@oauth2Client)
-          .execute(callback)
+          .execute(@parseData.bind @, callback)
+
+  parseData: (callback, err, data) ->
+    if err then callback(err)
+
+    callback(null, data)
