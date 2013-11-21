@@ -1,6 +1,11 @@
 {
-  "frequency": 300000,
-  "order": [
-    "google"
-  ]
+    "frequency": 300000,
+    "services": {
+        "google": {
+      	    "actions": [
+      	      "youtube",
+              "plus"
+            ]
+        }
+    }
 }

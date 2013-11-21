@@ -4,7 +4,7 @@ window.$q = ( selector, all = true ) ->
     query = if all then 'querySelector' else 'querySelectorAll'
     document[ query ] selector
 
-window.myApp = angular.module("mvmdApp", ['ngResource', 'ngSanitize'])
+window.myApp = angular.module("mvmdApp", ['ngResource', 'ngSanitize', 'btford.socket-io'])
 
 myApp.config( ($routeProvider, $locationProvider) ->
   $locationProvider.html5Mode true

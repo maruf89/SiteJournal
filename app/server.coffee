@@ -16,7 +16,7 @@ config =
 dataConfig    = require('../dataConfig.json')
 
 ###*  List of services with their OAuth requirements to initiate  ###
-services      = require('../services.json')
+services      = require('../../services.json')
 
 ###*  Required modules  ###
 fs            = require 'fs'
