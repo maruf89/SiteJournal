@@ -45,12 +45,20 @@ class Action
         ###
         @oldestTimestamp = 1/0
 
+        ###*
+         * The Google client returned after executing a discovery
+         * @type {Google Client}
+        ###
+        @client = null
+
     ###*
      * Adds request data to the action
      * 
      * @param  {Object} requestData  data of previous queries
     ###
     configureRequest: (@requestData) ->
+        @storeData.requestData = @requestData
+
         ###*  if the oldest activitiy's timestamp exists, set it as something more useable for future queries  ###
         if (@oldestTimestamp = @requestData.oldestActivity)
             @oldestTimestamp = (new Date(@oldestTimestamp)).getTime()
@@ -68,14 +76,13 @@ class Youtube extends Action
     ###*
      * Builds a request for this action with it's parameters
      * 
-     * @param  {GoogleClient} client            the passed in client object from googleapis
      * @param  {Object=}      additionalParams  optional additional parameters
      * @return {ClientRequest}
     ###
-    prepareAction: (client, additionalParams) ->
+    prepareAction: (additionalParams) ->
         params = _buildParams.call(@, additionalParams)
 
-        client
+        @client
             .youtube
             .activities
             .list(params)
@@ -92,7 +99,7 @@ class Plus extends Action
 
     prepareAction: (client, additionalParams) ->
         params = _buildParams.call(@, additionalParams)
-        console.log client
+
         client
             .plus
             .people
@@ -132,7 +139,7 @@ _buildParams = (additionalParams) ->
      * then search for only for the newest items
     ###
     if @requestData.end and @requestData.latestActivity
-        currentRequest = 'latest'
+        @currentRequest = 'latest'
         params.publishedAfter = @requestData.latestActivity
 
     ###*
@@ -163,19 +170,18 @@ _buildParams = (additionalParams) ->
 _parseData = (requestObj, err, data) ->
     if err then return @requestCallback(requestObj, err)
 
-    # TODO figure out why youtube is still requseting the entire history
-    console.log err
-    console.log data
-    return false
-    action = @[requestObj.action]
+    if data.pageInfo.totalResults is 0
+        return @requestCallback requestObj, null, true
 
+    action = @[requestObj.action]
+    console.log data
     ###*
      * If there's no currentRequest object, then we know we're searching through our entire history
      * and we're going backwards from the most recent.
      *
      * Second, we know that this is the first request, so the first returned item is the most recent.
      ###
-    if not currentRequest and data.pageInfo
+    if not action.currentRequest and data.pageInfo
         action.currentRequest = 'oldest'
         ###*  add 1 second to the latest activity so we don't return the same latest object  ###
         latestPublished = (new Date((new Date(data.items[0].snippet.publishedAt)).getTime() + 1000)).toISOString()
@@ -192,6 +198,7 @@ _parseData = (requestObj, err, data) ->
      * Here we append the data until it's all complete
     ###
     data.items.forEach (item) ->
+
         unless item.snippet.type is 'like' then return false
 
         action.storeData.items.insert (new Date(item.snippet.publishedAt)).getTime(),
@@ -200,7 +207,7 @@ _parseData = (requestObj, err, data) ->
             type: item.snippet.type
             id: item.contentDetails.like.resourceId.videoId
 
-    if data._nextPageToken
+    if data.nextPageToken
         ###*  if there's a next page token, store it in the db in case it's the last successful request  ###
         action.requestData.oldestStamp = data.nextPageToken
         @request requestObj, pageToken: data.nextPageToken
@@ -342,11 +349,10 @@ module.exports = class Google extends Service
      * Given a service with a callback, completes a data call. More options to come
      *
      * @public
-     * @fires Google#request
-     * @params {Object}  service           the object which contains the service, callback & possible other options to come
-     * @params {Object=} additionalParams  Additional parameters to extend the default params with
+     * @fires Google#initRequest
+     * @params {Object} requestObj  the object which contains the service, callback & possible other options to come
     ###
-    request: (requestObj, additionalParams) ->
+    initRequest: (requestObj) ->
         action =  @[requestObj.action]
 
         googleapis
@@ -356,12 +362,29 @@ module.exports = class Google extends Service
                     console.log err
                     return false
 
-                parseData = _parseData.bind @, requestObj
-                request = action.prepareAction(client, additionalParams)
+                action.client = client
 
-                request
-                    .withAuthClient(@oauth2Client)
-                    .execute(parseData)
+                @request(requestObj)
+
+                
+
+    ###*
+     * Once the client has been set, we can request freely
+     *
+     * @public
+     * @fires Google#request
+     * @param  {[type]} requestObj         ---
+     * @params {Object=} additionalParams  Additional parameters to extend the default params with
+    ###
+    request: (requestObj, additionalParams) ->
+        action =  @[requestObj.action]
+
+        parseData = _parseData.bind @, requestObj
+        request = action.prepareAction(additionalParams)
+
+        request
+            .withAuthClient(@oauth2Client)
+            .execute(parseData)
                 
 
 

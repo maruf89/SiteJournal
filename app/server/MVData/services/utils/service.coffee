@@ -52,14 +52,21 @@ module.exports = class Service
     ###*
      * The callback proxy for each service
      *
-     * @param  {Object} requestObj  the request Object passed in to the initial request
-     * @param  {Error=}   error    any errors if passed
+     * @param  {Object}  requestObj  the request Object passed in to the initial request
+     * @param  {Error=}  error       any errors if passed
+     * @param  {Boolean} empty       Whether the request returned an empty result 
     ###
-    requestCallback: (requestObj, error) ->
+    requestCallback: (requestObj, error, empty) ->
         if error
             @requestData.error = error
 
-        ###*  Finally call the callback with whatever's in @storeData  ###
-        requestObj.callback(error, @storeData)
+        if empty
+            console.log "No #{requestObj.action} results"
+            return false
 
-        @storeData.items.empty()
+        action = @[requestObj.action]
+
+        ###*  Finally call the callback with whatever's in @storeData  ###
+        requestObj.callback(error, action.storeData)
+
+        action.storeData.items.empty()

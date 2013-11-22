@@ -19,13 +19,13 @@ dataConfig    = require('../dataConfig.json')
 services      = require('../../services.json')
 
 ###*  Required modules  ###
-fs            = require 'fs'
-http          = require 'http'
-https         = require 'https'
-express       = require 'express'
-coffee        = require "coffee-script"
+fs            = require('fs')
+http          = require('http')
+https         = require('https')
+express       = require('express')
+coffee        = require('coffee-script')
 mvd           = require('./server/MVData').init(services, config)
-path          = require 'path'
+path          = require('path')
 
 ###*  Module that uses mvd and does the actual data requesting  ###
 dataCollector = require('./server/DataCollector').configure(dataConfig)

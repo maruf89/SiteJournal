@@ -4,6 +4,9 @@ _          = require('lodash')
 mvd        = require('./MVData')
 db         = require('./DB')
 
+###*
+ * Extends the object only with truthy values
+###
 extendDefault = _.partialRight(_.assign, (a, b) ->
   b or a
 )
@@ -78,7 +81,7 @@ class DataCollector
             action: action
             callback: @storeData
 
-        mvd.service[service].request(action)
+        mvd.service[service].initRequest(action)
 
     ###*
      * Data request callback that will store specifically formatted data to the db
@@ -92,6 +95,7 @@ class DataCollector
             console.log err
 
         console.log data
+        console.log data.items.values
 
         if not data.items.isEmpty
             ###*
