@@ -27,6 +27,7 @@ coffee        = require('coffee-script')
 mvd           = require('./server/MVData').init(services, config)
 path          = require('path')
 
+
 ###*  Module that uses mvd and does the actual data requesting  ###
 dataCollector = require('./server/DataCollector').configure(dataConfig)
 
@@ -37,9 +38,17 @@ options =
   cert: fs.readFileSync "#{__dirname}/../../ssl/certificate.crt"
 
 ###*  Service instantiation + redis session storage  ###
-app = express()
-redis = require('redis')
-RedisStore = require('connect-redis') express
+app           = express()
+redis         = require('redis')
+RedisStore    = require('connect-redis') express
+
+httpServer    = http.createServer(app)
+httpsServer   = https.createServer(options, app)
+
+#  bind Socket.io to our http server
+socket        = require('socket.io').listen(httpServer)
+
+socketRequest = require('./server/socketRequest')(socket);
 
 
 #
@@ -131,8 +140,8 @@ else
 require('./routes')(app)
 
 ###*  Start up both HTTP and HTTPS  ###
-serverHTTP = http.createServer( app ).listen app.locals.settings.port, '173.234.60.108', ->
+httpServer.listen app.locals.settings.port, '173.234.60.108', ->
    console.log "HTTP server started on port #{app.locals.settings.port}"
 
-serverHTTPS = https.createServer( options, app ).listen app.locals.settings.sslPort, '173.234.60.108', ->
+httpsServer.listen app.locals.settings.sslPort, '173.234.60.108', ->
   console.log "HTTPS server started on port #{app.locals.settings.sslPort}"

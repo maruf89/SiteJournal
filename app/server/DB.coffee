@@ -1,3 +1,5 @@
+"use strict"
+
 redis       = require 'redis'
 _           = require 'lodash'
 
@@ -118,6 +120,25 @@ class DB
 
         databaseArgs.push(callback)
         @client.zadd.apply(@client, databaseArgs)
+
+    ###*
+     * Retrieves items from a sorted set
+     *
+     * @public
+     * @fires DB#zget
+     * @param {String}   database  the database inside hash to use
+     * @param {String}   section   the database section to query
+     * @param {Integer}  from      the starting index
+     * @param {Integer}  to        the end index
+     * @param {Function} callback  whatever is returned by Redis as a result of attempting the method
+     * @param {Boolean=} reversed  Whether to query results from the back
+     ###
+    zget: (database, section, from, to, callback, reversed = false) ->
+        database = "zset #{database}:#{section}"
+        method = if reversed then 'zrange' else 'zrevrange'
+
+        console.log "@client.#{method}(#{database}, #{from}, #{to}, callback)"
+        @client[method](database, from, to, callback)
 
     testZadd: ->
         database = 'test'

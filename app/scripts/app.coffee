@@ -4,16 +4,15 @@ window.$q = ( selector, all = true ) ->
     query = if all then 'querySelector' else 'querySelectorAll'
     document[ query ] selector
 
-window.myApp = angular.module("mvmdApp", ['ngResource', 'ngSanitize', 'btford.socket-io'])
+window.myApp = angular.module("mvmdApp", ['ngRoute', 'ngResource', 'ngSanitize', 'btford.socket-io'])
 
-myApp.config( ($routeProvider, $locationProvider) ->
-  $locationProvider.html5Mode true
+myApp.config ($routeProvider, $locationProvider) ->
+    $locationProvider.html5Mode true
 
-  $routeProvider
-    .when "/",
-      templateUrl: "views/main.html"
-      controller: "MainCtrl"
-    .when '/youtube',
-      templateUrl: 'views/youtube.html',
-      controller: 'YoutubeCtrl'
-)
+    $routeProvider
+        .when "/",
+            templateUrl: "views/main.html"
+            controller: "MainCtrl"
+        .when '/youtube',
+            templateUrl: 'views/youtube.html',
+            controller: 'YoutubeCtrl'
