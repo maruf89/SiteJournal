@@ -1,9 +1,13 @@
 'use strict'
 
-angular.module('mvmdApp')
-  .controller 'MainCtrl', ( $scope ) ->
-    $scope.awesomeThingss = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]
+myApp = window.myApp
+
+myApp.controller 'MainCtrl', ($scope, socket) ->
+	socket.on 'welcome', (message) ->
+		console.log message
+
+	socket.emit 'service latest:all'
+
+	socket.on 'service latest:all', (err, latest) ->
+		latest = (JSON.parse(item) for item in latest if latest)
+		console.log(latest)

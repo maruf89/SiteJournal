@@ -6,51 +6,49 @@
 # - Coffeescript
 # - lodash
 
+###*  object containing urls and general variables  ###
 config =
   base: process.env.ABSOLUTE_SSL_URL
   oauthPath: 'authenticate/oauth2callback'
   app: process.env.APP_URI
 
-services      = require('../services.json')
+###*  Data Collector config file  ###
+dataConfig    = require('../dataConfig.json')
 
-fs            = require 'fs'
-http          = require 'http'
-https         = require 'https'
-express       = require 'express'
-coffee        = require "coffee-script"
+###*  List of services with their OAuth requirements to initiate  ###
+services      = require('../../services.json')
+
+###*  Required modules  ###
+fs            = require('fs')
+http          = require('http')
+https         = require('https')
+express       = require('express')
+coffee        = require('coffee-script')
 mvd           = require('./server/MVData').init(services, config)
-db            = require './server/DB'
-path          = require "path"
-_             = require 'lodash'
+path          = require('path')
 
-###*  Hold all authenticated services in an array  ###
-authenticatedServices = []
 
-###*
- * Iterate through each service and check wether it contains
- * the required fields in the database
- ###
-_.each services, (_service, name) ->
-  name = name.toLowerCase()
-  data = {}
-  ###*  retrieve an array of the required keys   ###
-  required = mvd.services[name].requiredTokens()
-  db.hgetAll 'api', name, required, (err, res) ->
-    if err then console.log err
-    else
-      ###*  test that every statement is non falsey  ###
-      if (res.every (a) -> !!a)
-        authenticatedServices.push(name)
-        ###*  combine the keys and values and pass to the service  ###
-        mvd.services[name].addTokens(_.object(required, res))
+###*  Module that uses mvd and does the actual data requesting  ###
+dataCollector = require('./server/DataCollector').configure(dataConfig)
 
+
+###*  SSL Certificates required to run https  ###
 options =
-  key: fs.readFileSync "#{__dirname}/../ssl/localhost.key"
-  cert: fs.readFileSync "#{__dirname}/../ssl/certificate.crt"
+  key: fs.readFileSync "#{__dirname}/../../ssl/localhost.key"
+  cert: fs.readFileSync "#{__dirname}/../../ssl/certificate.crt"
 
-app = express()
-redis = require('redis')
-RedisStore = require('connect-redis') express
+###*  Service instantiation + redis session storage  ###
+app           = express()
+redis         = require('redis')
+RedisStore    = require('connect-redis') express
+
+httpServer    = http.createServer(app)
+httpsServer   = https.createServer(options, app)
+
+#  bind Socket.io to our http server
+socket        = require('socket.io').listen(httpServer)
+
+socketRequest = require('./server/socketRequest')(socket);
 
 
 #
@@ -67,9 +65,9 @@ else
   app.locals.dev = true
 
 
-# * Config
-#
-
+###*
+ * Express Configurations
+ ###
 app.locals.basedir = '/../'
 app.configure ->
   @set "port", 80
@@ -96,6 +94,8 @@ app.configure ->
   # on, at which point we assume it's a 404 because
   # no route has handled the request.
   @use app.router
+
+  ###*  redirects all http://{host} requests to http://www.{host}  ###
   @all(/.*/, (req, res, next) ->
     host = req.header("host")
     if host.match(/^www\..*/i)
@@ -114,31 +114,34 @@ app.configure ->
     compress: true
   )
 
-
-# our custom "verbose errors" setting
-# which we can use in the templates
-# via settings['verbose errors']
+###*
+ * our custom "verbose errors" setting
+ * which we can use in the templates
+ * via settings['verbose errors']
+ ###
 app.enable "verbose errors"
 
-# disable them in production
-# use $ NODE_ENV=production node server.js
+###*
+ * disable them in production
+ * use $ NODE_ENV=production node server.js
+ ###
 app.disable "verbose errors"  if app.get("env") is "production"
 
 
 
-# host dev files if in dev mode
+###*  host dev files if in dev mode  ###
 if app.get("env") is "development"
   app.use express.static(".tmp")
   app.use express.static("app")
 else
   app.use express.static("dist")
 
+###*  Site Router   ###
 require('./routes')(app)
 
-serverHTTP = http.createServer( app ).listen app.locals.settings.port, '173.234.60.108', ->
+###*  Start up both HTTP and HTTPS  ###
+httpServer.listen app.locals.settings.port, '173.234.60.108', ->
    console.log "HTTP server started on port #{app.locals.settings.port}"
 
-serverHTTPS = https.createServer( options, app ).listen app.locals.settings.sslPort, '173.234.60.108', ->
+httpsServer.listen app.locals.settings.sslPort, '173.234.60.108', ->
   console.log "HTTPS server started on port #{app.locals.settings.sslPort}"
-
-# app.listen app.locals.settings.port

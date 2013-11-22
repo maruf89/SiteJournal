@@ -1,0 +1,11 @@
+{
+    "frequency": 300000,
+    "services": {
+        "google": {
+      	    "actions": [
+      	      "youtube",
+              "plus"
+            ]
+        }
+    }
+}
