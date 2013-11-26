@@ -184,7 +184,8 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>',
-          src: '{,*/}*.coffee',
+          //src: '{,*/}*.coffee',
+          src: 'server.coffee',
           dest: '<%= yeoman.app %>',
           ext: '.js'
         }]
@@ -323,7 +324,7 @@ module.exports = function (grunt) {
       },
       server: [
         'copy:stylus',
-	'coffee:server',
+	      'coffee:server',
         'copy:coffee'
       ],
       test: [

@@ -68,12 +68,13 @@ else
 ###*
  * Express Configurations
  ###
-app.locals.basedir = '/../'
+app.locals.basedir = './../'
 app.configure ->
   @set "port", 80
   @set "sslPort", 443
-  @set "views", __dirname + "/"
+  @set "views", __dirname
   @set "view engine", "jade"
+  @set "view options", layout: false
   @use express.logger("dev")  if app.get("env") is "development"
 
   @use express.cookieParser("keyboardcat") # 'some secret key to sign cookies'
@@ -113,7 +114,6 @@ app.configure ->
     src: "#{@locals.basedir}.tmp/styles"
     compress: true
   )
-
 ###*
  * our custom "verbose errors" setting
  * which we can use in the templates

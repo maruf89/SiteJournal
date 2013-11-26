@@ -1,11 +1,8 @@
-
-<div class="hero-unit">
-  <h1>'Joey's I mean!, 'Allo!
-    <p>You now have</p>
-    <ul>
-      <li ng-repeat="thing in awesomeThings">{{thing}}</li>
-    </ul>
-    <p>installed.</p>
-    <h3>Enjoy coding! - Yeoman</h3>
-  </h1>
+<div class="container">
+  <div class="header">
+    <h1>Latest Items</h1>
+  </div>
+  <article ng-repeat="item in items.list" ng-class="{{ item.type }}">
+    <div ng-include="'views/items/' + item.type + '-template.html'"</div>
+  </article>
 </div>

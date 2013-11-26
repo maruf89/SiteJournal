@@ -60,11 +60,16 @@ module.exports = class Service
         if error
             @requestData.error = error
 
-        if empty
+        action = @[requestObj.action]
+
+        ###*  It's possible thatthe last query returned no results but the previous ones did  ###
+        if empty and action.storeData.items.isEmpty
             console.log "No #{requestObj.action} results"
             return false
 
-        action = @[requestObj.action]
+        console.log "Fetch #{action.storeData.items.length} items for #{requestObj.action}"
+
+        action.requestData.end = true
 
         ###*  Finally call the callback with whatever's in @storeData  ###
         requestObj.callback(error, action.storeData)

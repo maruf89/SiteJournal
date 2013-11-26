@@ -27,7 +27,7 @@ module.exports = class Views
 
   tokenView: (callback, req) ->
     console.log req.session.oauthService + ' token returned'
-    service = @services[ req.session.oauthService ]
+    service = @services[req.session.oauthService]
 
     service.oauthHandleToken.apply service, arguments
 

@@ -2,12 +2,19 @@
 
 myApp = window.myApp
 
-myApp.controller 'MainCtrl', ($scope, socket) ->
-	socket.on 'welcome', (message) ->
-		console.log message
+sources =
+    youtube: '//www.youtube.com/embed/__id__'
 
-	socket.emit 'service latest:all'
+myApp.controller 'MainCtrl', ['$scope', '$sce', 'fetcher', ($scope, $sce, fetcher) ->
+    $scope.items = {}
 
-	socket.on 'service latest:all', (err, latest) ->
-		latest = (JSON.parse(item) for item in latest if latest)
-		console.log(latest)
+    $scope.trustSrc = (src) ->
+        $sce.trustAsResourceUrl(src)
+
+    $scope.buildSrc = (item) ->
+        $scope.trustSrc(sources[item.type].replace('__id__', item.id))
+
+    fetcher.latest (latest) ->
+        console.log latest
+        $scope.items.list = latest
+]

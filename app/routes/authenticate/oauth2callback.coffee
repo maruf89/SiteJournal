@@ -10,7 +10,7 @@ module.exports = (app, mvView) ->
         res.render 'jade/error',
           error: err
       else
-        db.hsave 'api', data.service, data.data, ->
+        db.set 'api', data.service, data.data, ->
           res.render 'jade/oauth/authenticated', service: data.service
 
     mvView.tokenView callback, req, res, next
