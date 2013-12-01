@@ -168,7 +168,7 @@ module.exports = function (grunt) {
     },
     coffee: {
       options: {
-        sourceMap: true,
+        sourceMap: false,
         sourceRoot: ''
       },
       dist: {
@@ -317,9 +317,9 @@ module.exports = function (grunt) {
           logConcurrentOutput: true
         },
         tasks: [
-          //'node-inspector',
           'nodemon:dev',
-          //'wait:open'
+          'node-inspector'
+          //'shell'
         ]
       },
       server: [
@@ -361,46 +361,34 @@ module.exports = function (grunt) {
       }
     },
     shell: {
-      trigger: {
-        command: 'echo a > trigger.file'
+      nodeInspector: {
+        command: function() {
+          return 'node-inpsoctor&';
+        }
       }
     },
     nodemon: {
       dev: {
         options: {
           file: 'app/server.js',
-          args: ['development'],
+          args: ['--debug', 'development'],
           watchedExtensions: [
             'js',
             'jade',
             'styl'
-            // This might cause an issue starting the server
-            // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
-            //'coffee'
           ],
-          // nodemon watches the current directory recursively by default
           watchedFolders: ['app'],
-          debug: true,
           delayTime: 1,
           ignoredFiles: nodemonIgnoredFiles
         }
+      }
     },
     'node-inspector': {
-        options: {
-          //file: 'node-inspector.js',
-          //watchedExtensions: [
-          //    'js'
-          //    // This might cause an issue starting the server
-          //    // See: https://github.com/appleYaks/grunt-express-workflow/issues/2
-          //    // 'coffee'
-          //],
-          //exec: 'node-inspector',
-          //ignoredFiles: nodemonIgnoredFiles
-          'web-port': 3000,
-          'web-host': '173.234.60.108',
-          'debug-port': 5857,
-          'save-live-edit': false
-        }
+      custom: {
+        'web-port': 8080,
+        'web-host': '127.0.0.1',
+        'debug-port': 5858,
+        'save-live-edit': false
       }
     },
     uglify: {
@@ -420,6 +408,26 @@ module.exports = function (grunt) {
         options: {
           after: function() {
             grunt.task.run( 'waitDelay' );
+          }
+        }
+      },
+      nodeInspector: {
+        options: {
+          delay: 3000,
+          after: function() {
+            //grunt.task.run('shell:nodeInspector')
+            grunt.util.spawn({
+              cmd: 'node-inspector',
+              args: ['&']
+            },
+            function (error, result, code) {
+              if (error) {
+                grunt.log.write (result);
+                grunt.fail.fatal(error);
+              }
+              done();
+            });
+            grunt.log.writeln ('inspector started');
           }
         }
       },

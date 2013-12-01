@@ -22,7 +22,7 @@ offset = 0
 myApp.controller 'MainCtrl', ['$scope', '$sce', 'fetcher', ($scope, $sce, fetcher) ->
     $scope.items = 
         list: []
-        more: false
+        more: true
 
     $scope.trustSrc = (src) ->
         $sce.trustAsResourceUrl(src)
@@ -42,5 +42,5 @@ myApp.controller 'MainCtrl', ['$scope', '$sce', 'fetcher', ($scope, $sce, fetche
     $scope.loadMore = ->
         fetcher.latest(fetcherCallback, 20, offset)
 
-    $scope.loadMore(fetcherCallback)
+    #$scope.loadMore(fetcherCallback)
 ]

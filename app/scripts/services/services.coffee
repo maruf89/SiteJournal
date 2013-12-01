@@ -18,10 +18,11 @@ myApp.factory 'socket', ['$rootScope', ($rootScope) ->
 
 myApp.factory 'fetcher', ['socket', (socket) ->
     latest: (callback, num = 20, offset = 0) ->
-        socket.on 'service latest:all', (err, latest) ->
+        socket.on 'receive service latest:all', (err, latest) ->
+            console.log "@callback -"
             callback(JSON.parse(item) for item in latest if latest)
 
-        socket.emit 'service latest:all',
+        socket.emit 'send service latest:all',
             num: --num
             offset: offset
 ]
