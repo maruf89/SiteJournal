@@ -1,4 +1,5 @@
 myApp = window.myApp
+num = 1
 
 myApp.factory 'socket', ['$rootScope', ($rootScope) ->
     socket = io.connect('http://www.mariusmiliunas.com')
@@ -7,6 +8,7 @@ myApp.factory 'socket', ['$rootScope', ($rootScope) ->
         socket.on eventName, ->
             args = arguments
             $rootScope.$apply ->
+                console.log "Calling #{num++}"
                 callback.apply(socket, args)
 
     emit: (eventName, data, callback) ->
@@ -17,10 +19,13 @@ myApp.factory 'socket', ['$rootScope', ($rootScope) ->
 ]
 
 myApp.factory 'fetcher', ['socket', (socket) ->
-    latest: (callback, num = 20, offset = 0) ->
-        socket.on 'receive service latest:all', (err, latest) ->
-            console.log "@callback -"
-            callback(JSON.parse(item) for item in latest if latest)
+    callback = null
+
+    socket.on 'receive service latest:all', (err, latest) ->
+        callback(JSON.parse(item) for item in latest if callback and latest)
+
+    latest: (cb, num = 20, offset = 0) ->
+        callback = cb
 
         socket.emit 'send service latest:all',
             num: --num
