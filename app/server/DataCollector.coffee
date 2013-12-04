@@ -4,6 +4,9 @@ _          = require('lodash')
 mvd        = require('./MVData')
 db         = require('./DB')
 
+#  Add an action like 'youtube' or 'plus' and this will halt requests to that action
+pause      = []
+
 ###*
  * Extends the object only with truthy values
 ###
@@ -30,9 +33,9 @@ class DataCollector
      *
      * @public
      * @fires DataCollector#configure
+     * @param {Object} config  dataConfig file with the services and frequency
      ###
-    configure: (@config, services) ->
-        serviceLength = mvd.serviceList.length
+    configure: (@config) ->
 
         mvd.serviceList.forEach (name) =>
             name = name.toLowerCase()
@@ -40,24 +43,35 @@ class DataCollector
             ###*  retrieve an array of the required keys  ###
             required = mvd.service[name].requiredTokens()
 
-            db.hgetAll 'api', name, required, (err, res) =>
-
+            db.get 'api', name, (err, res) =>
                 if err
                     console.log err, name
                 else
-                    ###*  test that every statement is non falsey  ###
-                    if (res.every (a) -> !!a)
-                        ###*
-                         * If the service is successfuly reauthenticated
-                         * then push it to the list and go to next step of querying
-                        ###
-                        if mvd.service[name].addTokens(_.object(required, res))
-                            @authenticatedServices.push(name)
-                            @requestConfig(name)
-                        else
-                            console.log "Service #{name} failed to authenticate."
+                    return if not res
+
+                    res = JSON.parse(res)
+
+                    ###*  Next verify that the returned object has the required fields  ###
+                    auth = {}
+                    req = []
+
+                    required.forEach (key) ->
+                        if res[key] then auth[key] = res[key]
+                        else req.push key
+                    
+                    if req.length
+                        console.log "#{name} doesn't have all oauth requirements, missing: ", req
+                        return false
+
+                    ###*
+                     * If the service is successfuly reauthenticated
+                     * then push it to the list and go to next step of querying
+                    ###
+                    if mvd.service[name].addTokens(auth)
+                        @authenticatedServices.push(name)
+                        @requestConfig(name)
                     else
-                        console.log "Service #{name} didn't return the required data to authenticate."
+                        console.log "Service #{name} failed to authenticate."
 
     requestConfig: (serviceName) ->
         service = @config.services[serviceName]
@@ -65,6 +79,8 @@ class DataCollector
         if not service then return false
 
         service.actions.forEach (action) =>
+            if pause.indexOf(action) isnt -1 then return
+
             callback = @addRequestData.bind(@, serviceName, action)
             db.get('requestData', action, callback)
 

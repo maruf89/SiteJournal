@@ -64,22 +64,19 @@ class DB
      * @param {object} values  the data object to save
      * @param {function=} (optional) callback  a completion callback
      ###
-    hsave: ( database, section, values, callback ) ->
+    hsave: (database, section, values, callback = redis.print) ->
         database = "hash #{database}:#{section}"
         databaseArgs = [database]
         method = 'hmset'
 
-        _.each values, ( key, value ) ->
+        _.each values, (value, key) ->
           databaseArgs.push(key, value)
 
         ###  if only 1 key/value being set, use hset  ###
-        if databaseArgs.length is 3 then method = 'hset'
+        method = if databaseArgs.length is 3 then 'hset' else 'hmset'
 
-        databaseArgs.push(redis.print)
+        databaseArgs.push(callback)
         @client[method].apply(@client, databaseArgs)
-
-        console.log "saved to #{database}"
-        callback database, section, values
 
     ###*
      * Equivalent of Redis' HMGET/HGETALL

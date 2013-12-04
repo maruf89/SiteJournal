@@ -1,11 +1,26 @@
+StoreData     = require './storeData'
+_             = require 'lodash'
+
 module.exports = class Service
-    constructor: ->
-        do @buildRequestData
+    
+    constructor: (apiData, @config) ->
+        ###*
+         * Will store the keys of all the google services
+         * @type {Array}
+        ###
+        @actions = []
+
+        @oauth2Client = null
 
         @storeData =
             type: null
             items: []
             requestData: @requestData
+
+        ###*
+         * Iterate over each passed in service and create references for each
+        ###
+        _.each apiData.actions, @initAction.bind(@)
 
     name: 'undefined service'
 
@@ -49,6 +64,18 @@ module.exports = class Service
     parseData: ->
         console.log "Missing parseData method for #{@name}"
 
+    initAction: (actionInfo, name) ->
+        @actions.push(name)
+        @[name] = new @servicesKey[name](actionInfo)
+
+        ###*
+         * Set storeData for each service.
+         * Will be the final returned object for this services' data
+         * after querying google for it and after parsing
+         * @type {StoreData}
+        ###
+        @[name].storeData = new StoreData(name, @buildRequestData.call(@[name]))
+
     ###*
      * The callback proxy for each service
      *
@@ -60,11 +87,16 @@ module.exports = class Service
         if error
             @requestData.error = error
 
-        if empty
+        action = @[requestObj.action]
+
+        ###*  It's possible thatthe last query returned no results but the previous ones did  ###
+        if empty and action.storeData.items.isEmpty
             console.log "No #{requestObj.action} results"
             return false
 
-        action = @[requestObj.action]
+        console.log "Fetch #{action.storeData.items.length} items for #{requestObj.action}"
+
+        action.requestData.end = true
 
         ###*  Finally call the callback with whatever's in @storeData  ###
         requestObj.callback(error, action.storeData)

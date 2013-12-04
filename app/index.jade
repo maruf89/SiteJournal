@@ -1,33 +1,36 @@
 !!! 5
 html.no-js
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    title MVM Design
-    meta(name='description', content='Website of Marius Miliunas')
-    meta(name='viewport', content='width=device-width')
-    // Place favicon.ico and apple-touch-icon.png in the root directory 
-    // build:css(.tmp) styles/main.css 
-    link(rel='stylesheet', href='styles/main.css')
-    // endbuild 
-  body(ng-app='mvmdApp')
-    // Add your site or application content here 
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        title MVM Design
+        meta(name='description', content='Website of Marius Miliunas')
+        meta(name='viewport', content='width=device-width')
+        // Place favicon.ico and apple-touch-icon.png in the root directory 
+        // build:css(.tmp) styles/main.css 
+        link(rel='stylesheet', href='styles/main.css')
+        // endbuild 
+    body(ng-app='mvmdApp')
+        // Add your site or application content here 
 
-    .container(ng-view='')
-    
-    script(src='bower_components/angular/angular.js')
-    // build:js scripts/modules.js 
-    script(src='bower_components/angular-route/angular-route.js')
-    script(src='bower_components/angular-resource/angular-resource.js')
-    script(src='bower_components/angular-cookies/angular-cookies.js')
-    script(src='bower_components/angular-sanitize/angular-sanitize.js')
-    script(src='bower_components/angular-socket-io/socket.js')
-    script(src='/socket.io/socket.io.js')
-    // endbuild 
-    // build:js({.tmp,app}) scripts/scripts.js 
-    script(src='scripts/app.js')
-    script(src='scripts/controllers/main.js')
-    script(src='scripts/controllers/youtube.js')
-    script(src='scripts/directives/resize.js')
-    script(src='scripts/services/services.js')
-    // endbuild
+        .container(ng-view='')
+        
+        div(data-scripts)
+            script(src='bower_components/angular/angular.js')
+            // build:js scripts/modules.js 
+            script(src='bower_components/angular-route/angular-route.js')
+            script(src='bower_components/angular-resource/angular-resource.js')
+            script(src='bower_components/angular-cookies/angular-cookies.js')
+            script(src='bower_components/angular-sanitize/angular-sanitize.js')
+            script(src='bower_components/angular-socket-io/socket.js')
+            script(src='/socket.io/socket.io.js')
+            // endbuild 
+            // build:js({.tmp,app}) scripts/scripts.js 
+            script(src='scripts/app.js')
+            script(src='scripts/controllers/main.js')
+            script(src='scripts/controllers/navigation.js')
+            script(src='scripts/controllers/youtube.js')
+            script(src='scripts/directives/resize.js')
+            script(src='scripts/directives/navigation.js')
+            script(src='scripts/services/services.js')
+            // endbuild

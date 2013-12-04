@@ -20,18 +20,18 @@ module.exports = class Views
     name = req.params.service
     req.session.oauthService = name
 
-    service = @services[ name ]
+    service = @services[name]
 
     console.log "#{name} service requested"
     service.oauthInit.apply service, arguments
 
   tokenView: (callback, req) ->
     console.log req.session.oauthService + ' token returned'
-    service = @services[ req.session.oauthService ]
+    service = @services[req.session.oauthService]
 
     service.oauthHandleToken.apply service, arguments
 
-  successView: ->
+  successView: (req, res) ->
     res.render 'jade/oauth/authenticated',
       service: req.session.oauthService
 

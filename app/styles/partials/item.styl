@@ -1,0 +1,43 @@
+.item
+    width 100%
+    max-width 30em
+    min-width 20em
+    min-height 15em
+    display inline-block
+    vertical-align top
+
+    .tag
+        position absolute
+        font bold .85em/2.25em $root-font
+        color _dark-gray
+        padding 0 .5em
+        top 0
+        left 0
+
+.item.youtube
+    img
+        cursor pointer
+
+.item.plus
+    p
+        color _white
+        background rgba(0, 0, 0, .8)
+        position absolute
+        padding .35em
+        bottom 0
+        left 0
+        width 100%
+        transform transalte(0, 100%)
+        transition translate 1s ease-in
+
+    & p
+        transform transalte(0, 0)
+
+    a
+        color _green
+
+.item.tweets
+    
+    .inner
+        padding-top 2.5em
+        

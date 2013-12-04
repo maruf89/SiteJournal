@@ -68,12 +68,14 @@ else
 ###*
  * Express Configurations
  ###
-app.locals.basedir = '/../'
+app.locals.basedir = './../'
 app.configure ->
-  @set "port", 80
-  @set "sslPort", 443
-  @set "views", __dirname + "/"
+  @set "port", 9000
+  @set "sslPort", 9443
+  @set "IPAddress", "173.234.60.108"
+  @set "views", __dirname
   @set "view engine", "jade"
+  @set "view options", layout: false
   @use express.logger("dev")  if app.get("env") is "development"
 
   @use express.cookieParser("keyboardcat") # 'some secret key to sign cookies'
@@ -113,7 +115,6 @@ app.configure ->
     src: "#{@locals.basedir}.tmp/styles"
     compress: true
   )
-
 ###*
  * our custom "verbose errors" setting
  * which we can use in the templates
@@ -140,8 +141,8 @@ else
 require('./routes')(app)
 
 ###*  Start up both HTTP and HTTPS  ###
-httpServer.listen app.locals.settings.port, '173.234.60.108', ->
-   console.log "HTTP server started on port #{app.locals.settings.port}"
+httpServer.listen app.locals.settings.port, app.locals.settings.IPAddress, ->
+   console.log "HTTP server started on #{app.locals.settings.IPAddress}:#{app.locals.settings.port}"
 
-httpsServer.listen app.locals.settings.sslPort, '173.234.60.108', ->
-  console.log "HTTPS server started on port #{app.locals.settings.sslPort}"
+httpsServer.listen app.locals.settings.sslPort, app.locals.settings.IPAddress, ->
+  console.log "HTTPS server started on port #{app.locals.settings.IPAddress}:#{app.locals.settings.sslPort}"

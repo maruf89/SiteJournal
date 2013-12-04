@@ -6,6 +6,11 @@
       	      "youtube",
               "plus"
             ]
+        },
+        "twitter": {
+            "actions": [
+                "tweets"
+            ]
         }
     }
 }

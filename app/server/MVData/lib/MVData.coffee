@@ -3,10 +3,9 @@
 _ = require('lodash')
 
 module.exports = exports = class MVData
-  constructor: (@serviceData, @config) ->
+  constructor: () ->
     @service = {}
     @serviceList = []
-    console.log 'MVData instantiated.'
 
   init: (@serviceData, @config) ->
     _.each serviceData, (data, _service) =>
