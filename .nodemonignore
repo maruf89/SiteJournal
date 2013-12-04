@@ -6,6 +6,8 @@ karma.conf.js
 /.git/
 /node_modules/
 /dist/
+*.styl
+*.coffee
 /app/server.coffee
 /test/
 /coverage/

@@ -16,6 +16,7 @@ sources =
 bgColors =
     'youtube': '#C33333'
     'plus'   : '#53a93f'
+    'tweets' : '#04aeec'
 
 offset = 0
 
@@ -42,5 +43,5 @@ myApp.controller 'MainCtrl', ['$scope', '$sce', 'fetcher', ($scope, $sce, fetche
     $scope.loadMore = ->
         fetcher.latest(fetcherCallback, 20, offset)
 
-    #$scope.loadMore(fetcherCallback)
+    $scope.loadMore(fetcherCallback)
 ]

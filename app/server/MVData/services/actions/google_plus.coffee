@@ -1,7 +1,7 @@
-_           = require('lodash')
-Action      = require('./google_action')
+_                 = require('lodash')
+GoogleAction      = require('./google_action')
 
-module.exports = class Plus extends Action
+module.exports = class Plus extends GoogleAction
     service: 'plus'
 
     scope: 'https://www.googleapis.com/auth/plus.me'
@@ -19,7 +19,7 @@ module.exports = class Plus extends Action
     method: 'list'
 
     ###*
-     * See notes in google_actions.coffee
+     * See notes in action.coffee
      *
      * * IMPORTANT: Called as Google object NOT as Plus Action
     ###

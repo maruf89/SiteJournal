@@ -1,7 +1,8 @@
-_       = require('lodash')
+_           = require('lodash')
+Action      = require('./action')
 
 ###*
- * @namespace Action
+ * @namespace GoogleAction
  * Generate parameters for the request based on previous request data. Determines
  * whether to query only for the latest data, or to get the entire history.
  *
@@ -39,63 +40,22 @@ _buildParams = (additionalParams) ->
     return params
 
 ###*
- * @namespace Action
+ * @namespace GoogleAction
+ * Base class for Google Actions
  * Each Service under the immediate Google API umbrella such as Youtube and g+
  * are considered Actions because they're inside. They store their own
  * unique data inputs, but share the methods for storing data
 ###
-module.exports = class Action
+module.exports = class GoogleAction extends Action
     constructor: (info) ->
-        ###*
-         * Set each passed in property as it's own
-        ###
-        _.each info, (@val, @key) =>
-
-        ###*
-         * To tell whether we are querying only the most recent items, or the entire history
-         * Will one of:
-         *     'latest'
-         *     'oldest'
-         * @type {String}
-         * @default null
-        ###
-        @currentRequest = null
-
-        ###*
-         * The container for all Action specific data that will
-         * containe all prospective data sent from google and be returned
-         * to the callback
-         * @type {Object}
-        ###
-        @storeData = null
-
-        ###*
-         * Timestamp of the oldest returned requested item. Set to infinity if it doesn't get overwritten later.
-         * @type {Number}
-         * @default Inf
-        ###
-        @oldestTimestamp = 1/0
+        # call parent constructor
+        super info
 
         ###*
          * The Google client returned after executing a discovery
          * @type {Google Client}
         ###
         @client = null
-
-    service: 'undefined'
-
-    ###*
-     * Adds request data to the action
-     *
-     * @param  {Object} requestData  data of previous queries
-    ###
-    configureRequest: (@requestData) ->
-        @storeData.requestData = @requestData
-
-        ###*  if the oldest activitiy's timestamp exists, set it as something more useable for future queries  ###
-        if (@oldestTimestamp = @requestData.oldestActivity)
-            @oldestTimestamp = (new Date(@oldestTimestamp)).getTime()
-
 
     ###*
      * Builds a request for this action with it's parameters
@@ -107,20 +67,3 @@ module.exports = class Action
         params = _buildParams.call(@, additionalParams)
 
         @client[@service][@action][@method](params)
-
-    ###*
-     * @namespace Action/Google
-     * Based on the response from google, will either run an error processing method
-     * or continue parsing the action data to be returned
-     *
-     * IMPORTANT: Called as Google object NOT as Action
-     *
-     * @callback
-     * @public
-     * @fires Action#parseData
-     * @param {Object} requestObj  the initial request object with callback and service info
-     * @param {Object/null} err
-     * @param {Object} data  response data pertaining to the action request
-    ###
-    parseData: ->
-        console.log "Missing parseData method for #{@service}"

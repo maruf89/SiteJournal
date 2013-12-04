@@ -3,7 +3,7 @@
 _ = require('lodash')
 
 module.exports = exports = class MVData
-  constructor: (@serviceData, @config) ->
+  constructor: () ->
     @service = {}
     @serviceList = []
 

@@ -1,7 +1,7 @@
-_           = require('lodash')
-Action      = require('./google_action')
+_                 = require('lodash')
+GoogleAction      = require('./google_action')
 
-module.exports = class Youtube extends Action
+module.exports = class Youtube extends GoogleAction
     service: 'youtube'
 
     scope: 'https://gdata.youtube.com'
@@ -18,7 +18,7 @@ module.exports = class Youtube extends Action
     method: 'list'
 
     ###*
-     * See notes in google_actions.coffee
+     * See notes in action.coffee
      *
      * * IMPORTANT: Called as Google object NOT as Youtube Action
     ###
@@ -27,18 +27,26 @@ module.exports = class Youtube extends Action
         if err then return @requestCallback(requestObj, err)
 
         if data.pageInfo.totalResults is 0
-            return @requestCallback requestObj, null, true
+            return @requestCallback(requestObj, null, true)
 
         action = @[requestObj.action]
+
         ###*
          * If there's no currentRequest object, then we know we're searching through our entire history
          * and we're going backwards from the most recent.
          *
          * Second, we know that this is the first request, so the first returned item is the most recent.
+         *
+         * Else if - we reached the end and we're querying newer article
+         * then the first item is the new latest
          ###
         if not action.currentRequest and data.pageInfo
             action.currentRequest = 'oldest'
 
+            latestPublished = data.items[0].snippet.publishedAt
+            action.requestData.latestActivity = latestPublished
+
+        else if action.requestData.end
             latestPublished = data.items[0].snippet.publishedAt
             action.requestData.latestActivity = latestPublished
 
@@ -65,7 +73,7 @@ module.exports = class Youtube extends Action
         if data.nextPageToken
             ###*  if there's a next page token, store it in the db in case it's the last successful request  ###
             action.requestData.oldestStamp = data.nextPageToken
-            @request requestObj, pageToken: data.nextPageToken
+            @request(requestObj, pageToken: data.nextPageToken)
 
         else
             ###*  Otherwise show that it's the end and return the callback  ###

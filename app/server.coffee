@@ -71,7 +71,7 @@ else
 app.locals.basedir = './../'
 app.configure ->
   @set "port", 9000
-  @set "sslPort", 443
+  @set "sslPort", 9443
   @set "IPAddress", "173.234.60.108"
   @set "views", __dirname
   @set "view engine", "jade"
@@ -144,5 +144,5 @@ require('./routes')(app)
 httpServer.listen app.locals.settings.port, app.locals.settings.IPAddress, ->
    console.log "HTTP server started on #{app.locals.settings.IPAddress}:#{app.locals.settings.port}"
 
-#httpsServer.listen app.locals.settings.sslPort, app.locals.settings.IPAddress, ->
-#  console.log "HTTPS server started on port #{app.locals.settings.sslPort}"
+httpsServer.listen app.locals.settings.sslPort, app.locals.settings.IPAddress, ->
+  console.log "HTTPS server started on port #{app.locals.settings.IPAddress}:#{app.locals.settings.sslPort}"

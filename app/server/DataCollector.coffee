@@ -33,9 +33,9 @@ class DataCollector
      *
      * @public
      * @fires DataCollector#configure
+     * @param {Object} config  dataConfig file with the services and frequency
      ###
-    configure: (@config, services) ->
-        serviceLength = mvd.serviceList.length
+    configure: (@config) ->
 
         mvd.serviceList.forEach (name) =>
             name = name.toLowerCase()
@@ -47,6 +47,8 @@ class DataCollector
                 if err
                     console.log err, name
                 else
+                    return if not res
+
                     res = JSON.parse(res)
 
                     ###*  Next verify that the returned object has the required fields  ###
