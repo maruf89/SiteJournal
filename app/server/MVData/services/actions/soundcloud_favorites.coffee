@@ -1,26 +1,20 @@
-_                 = require('lodash')
-GoogleAction      = require('./google_action')
+_           = require('lodash')
+Action      = require('./action')
+utils       = require('../utils/utils')
 
-###*
- * Youtube class for getting all liked video content
- * 
- * @namespace Youtube
-###
-module.exports = class Youtube extends GoogleAction
-    service: 'youtube'
+module.exports = class Favorites extends Action
+    ###*
+     * This actions name
+     * @type {String}
+    ###
+    service: 'favorites'
 
-    scope: 'https://gdata.youtube.com'
-
-    discover: ['youtube', 'v3']
-
+    ###*
+     * This actions default query parameters
+     * @type {Object}
+    ###
     defaultParams:
-        'part': 'snippet,contentDetails'
-        'mine': true
-        'fields': 'items(contentDetails,snippet),nextPageToken,pageInfo,tokenPagination'
-
-    action: 'activities'
-
-    method: 'list'
+        'some': 'param'
 
     ###
      * See notes in action.coffee
@@ -48,7 +42,7 @@ module.exports = class Youtube extends GoogleAction
          *
          * Else if - we reached the end and we're querying newer article
          * then the first item is the new latest
-         ###
+        ###
         if not action.currentRequest and data.pageInfo
             action.currentRequest = 'oldest'
 

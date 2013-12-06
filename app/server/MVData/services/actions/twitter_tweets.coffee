@@ -58,10 +58,14 @@ module.exports = class Tweets extends Action
         params: _buildParams.call(@, additionalParams)
         method: @method
 
-    ###*
+    ###
      * See notes in action.coffee
      *
-     * * IMPORTANT: Called as Twitter object NOT as Tweets Action
+     * * IMPORTANT Called as Service object NOT as Action
+     * 
+     * @param  {Object} requestObj  the request object with service data + callback info
+     * @param  {Error}  err         query error
+     * @param  {Object} data        query response
     ###
     parseData: (requestObj, err, response) ->
 

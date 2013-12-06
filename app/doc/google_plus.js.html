@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MVData/services/actions/google_plus.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: MVData/services/actions/google_plus.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>var GoogleAction, Plus, _, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+_ = require('lodash');
+
+GoogleAction = require('./google_action');
+
+module.exports = Plus = (function(_super) {
+  __extends(Plus, _super);
+
+  function Plus() {
+    _ref = Plus.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Plus.prototype.service = 'plus';
+
+  Plus.prototype.scope = 'https://www.googleapis.com/auth/plus.me';
+
+  Plus.prototype.discover = ['plus', 'v1'];
+
+  Plus.prototype.defaultParams = {
+    'userId': 'me',
+    'collection': 'public',
+    'maxResults': 5,
+    'fields': 'items(object(attachments(content,fullImage/url,objectType,url),content,id,objectType),published,title,updated),nextPageToken,updated'
+  };
+
+  Plus.prototype.action = 'activities';
+
+  Plus.prototype.method = 'list';
+
+  /*
+   * See notes in action.coffee
+   *
+   * * IMPORTANT Called as Service object NOT as Action
+   * 
+   * @param  {Object} requestObj  the request object with service data + callback info
+   * @param  {Error}  err         query error
+   * @param  {Object} data        query response
+  */
+
+
+  Plus.prototype.parseData = function(requestObj, err, data) {
+    var action, breakEarly, lastActivity, lastActivityTimestamp;
+    if (err) {
+      return this.requestCallback(requestObj, err);
+    }
+    if (data.items.length === 0) {
+      return this.requestCallback(requestObj, null, true);
+    }
+    action = this[requestObj.action];
+    /**
+     * If there's no currentRequest object, then we know we're searching through our entire history
+     * and we're going backwards from the most recent.
+     *
+     * Second, we know that this is the first request, so the first returned item is the most recent.
+    */
+
+    if (data.updated) {
+      if (!action.currentRequest) {
+        action.currentRequest = 'oldest';
+        action.requestData.latestActivity = data.updated;
+      } else {
+        /**
+         * Since there's no way to query all posts after a certain date in plus, we have to check manually
+        */
+
+        if (action.requestData.latestActivity === data.updated) {
+          return this.requestCallback(requestObj, null, true);
+        }
+      }
+    }
+    /**  check if the last returned item is older than our oldest stored item, if so store it's datestamp*/
+
+    lastActivity = data.items[data.items.length - 1].published;
+    lastActivityTimestamp = (new Date(lastActivity)).getTime();
+    if (lastActivityTimestamp &lt; action.oldestTimestamp) {
+      action.requestData.oldestActivity = lastActivity;
+      action.oldestTimestamp = lastActivityTimestamp;
+    }
+    breakEarly = false;
+    /**
+     * Here we append the data until it's all complete
+    */
+
+    data.items.forEach(function(item) {
+      /**  check if we already have this item, if so break early*/
+
+      var insertObj;
+      if (breakEarly) {
+        return false;
+      }
+      if (action.requestData.latestActivity === item.published) {
+        breakEarly = true;
+      }
+      insertObj = {
+        objectType: item.object.objectType
+      };
+      if (item.title) {
+        insertObj.title = item.title;
+      }
+      if (item.object.content) {
+        insertObj.content = item.object.content;
+      }
+      if (item.object.url) {
+        insertObj.url = item.object.url;
+      }
+      if (item.object.attachments) {
+        insertObj.attachments = item.object.attachments;
+      }
+      return action.storeData.items.insert((new Date(item.published)).getTime(), insertObj);
+    });
+    if (data.nextPageToken) {
+      /**  if there's a next page token, store it in the db in case it's the last successful request*/
+
+      action.requestData.oldestStamp = data.nextPageToken;
+      return this.request(requestObj, {
+        pageToken: data.nextPageToken
+      });
+    } else {
+      /**  Otherwise show that it's the end and return the callback*/
+
+      return this.requestCallback(requestObj);
+    }
+  };
+
+  return Plus;
+
+})(GoogleAction);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="DB.html">DB</a></li></ul><h3>Namespaces</h3><ul><li><a href="Action.html">Action</a></li><li><a href="DataCollector.html">DataCollector</a></li><li><a href="GoogleAction.html">GoogleAction</a></li><li><a href="history..html">Tweets
+Generate parameters for the request based on previous request data. Determines
+whether to query only for the latest data, or to get the entire history.</a></li><li><a href="tweets.html">Tweets
+The action that gets and handles all tweets</a></li><li><a href="Twitter.html">Twitter</a></li><li><a href="Youtube.html">Youtube</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_oauthClientInit">_oauthClientInit</a></li><li><a href="global.html#accessToken">accessToken</a></li><li><a href="global.html#currentRequest">currentRequest</a></li><li><a href="global.html#decrement">decrement</a></li><li><a href="global.html#extendDefault">extendDefault</a></li><li><a href="global.html#increment">increment</a></li><li><a href="global.html#oauth2Client">oauth2Client</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 16:03:06 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

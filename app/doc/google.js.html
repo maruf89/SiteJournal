@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MVData/services/google.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: MVData/services/google.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>"use strict";
+var Google, OAuth2Client, Service, googleapis, request, _, _oauthClientInit,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Service = require('./utils/service');
+
+request = require('request');
+
+googleapis = require('googleapis');
+
+_ = require('lodash');
+
+OAuth2Client = googleapis.OAuth2Client;
+
+/**
+ * Instantiate the Google OAuth client
+ *
+ * @private
+ * @param  {Object=} credentials  authenticated credentials
+*/
+
+
+_oauthClientInit = function(credentials) {
+  /**  return if already exists*/
+
+  if (this.oauth2Client) {
+    return;
+  }
+  this.oauth2Client = new OAuth2Client(this.clientId, this.clientSecret, this.config.base + this.config.oauthPath);
+  /**  create a credentials object if not passed in and set it*/
+
+  return this.oauth2Client.credentials = credentials || (credentials = {
+    access_token: null,
+    refresh_token: null
+  });
+};
+
+module.exports = Google = (function(_super) {
+  __extends(Google, _super);
+
+  function Google(apiData, config) {
+    this.clientId = apiData['clientId'];
+    this.clientSecret = apiData['clientSecret'];
+    Google.__super__.constructor.call(this, apiData, config);
+  }
+
+  /**
+   * The name of the service
+   * @type {String}
+  */
+
+
+  Google.prototype.name = 'Google';
+
+  /**
+   * Correllates to the service data passed in from services.json
+   * @type {Object}
+  */
+
+
+  Google.prototype.servicesKey = {
+    'youtube': require('./actions/google_youtube'),
+    'plus': require('./actions/google_plus')
+  };
+
+  /**
+   * The view for initiating a google OAuth call. Will redirect to Googles' auth URL
+   *
+   * @public
+   * @fires Google#oauthInit
+   * @param  {Request}   req
+   * @param  {Response}  res
+   * @param  {Function}  next
+  */
+
+
+  Google.prototype.oauthInit = function(req, res, next) {
+    var scope, url,
+      _this = this;
+    _oauthClientInit.call(this);
+    scope = this.actions.map(function(service) {
+      return _this[service].scope;
+    }).join(' ');
+    url = this.oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      scope: scope
+    });
+    res.writeHead(301, {
+      Location: url
+    });
+    return res.end();
+  };
+
+  /**
+   * The view that handles the token returned from authorizing googles app.
+   * It will process that token, and make another request to google to fetch
+   * the actual access token.
+   *
+   * @public
+   * @fires Google#oauthHandleToken
+   * @param  {Function}  callback
+   * @param  {Request}   req
+   * @param  {Response}  res
+   * @param  {Function}  next     [description]
+  */
+
+
+  Google.prototype.oauthHandleToken = function(callback, req, res, next) {
+    var query;
+    query = req.query;
+    return this.oauth2Client.getToken(query.code, function(err, tokens) {
+      if (err) {
+        console.log(err);
+        return callback(err);
+      } else {
+        return callback(null, {
+          service: 'google',
+          data: tokens
+        });
+      }
+    });
+  };
+
+  /**
+   * Add access + refresh tokens to a google oauth client
+   *
+   * @public
+   * @fires Google#addTokens
+   * @params {Object} data An object containing `access_token` and `refresh_token` for Google
+  */
+
+
+  Google.prototype.addTokens = function(data) {
+    /**  return true so that the caller knows it reauthenticated successfully*/
+
+    return _oauthClientInit.call(this, data);
+  };
+
+  /**
+   * Updates the services requestData with this one (most likely one from a DB)
+   *
+   * @public
+   * @fires Google#configureRequest
+   * @param  {String} action      the Google action to update
+   * @param  {Object} requestData the actual requestData
+  */
+
+
+  Google.prototype.configureRequest = function(action, requestData) {
+    if (requestData != null) {
+      return this[action].configureRequest(JSON.parse(requestData));
+    }
+  };
+
+  /**
+   * Returns the fields for the required this.addTokens properties
+   *
+   * @public
+   * @fires Google#requiredTokens
+   * @return {array}  the fields
+  */
+
+
+  Google.prototype.requiredTokens = function() {
+    return ['access_token', 'refresh_token'];
+  };
+
+  /**
+   * Given a service with a callback, completes a data call. More options to come
+   *
+   * @public
+   * @fires Google#initRequest
+   * @params {Object} requestObj  the object which contains the service, callback & possible other options to come
+  */
+
+
+  Google.prototype.initRequest = function(requestObj) {
+    var action,
+      _this = this;
+    action = this[requestObj.action];
+    return googleapis.discover.apply(googleapis, action.discover).execute(function(err, client) {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      action.client = client;
+      return _this.request(requestObj);
+    });
+  };
+
+  /**
+   * Once the client has been set, we can request freely
+   *
+   * @public
+   * @fires Google#request
+   * @param  {Object} requestObj         ---
+   * @params {Object=} additionalParams  Additional parameters to extend the default params with
+  */
+
+
+  Google.prototype.request = function(requestObj, additionalParams) {
+    var action, parseData;
+    action = this[requestObj.action];
+    parseData = action.parseData.bind(this, requestObj);
+    request = action.prepareAction(additionalParams);
+    return request.withAuthClient(this.oauth2Client).execute(parseData);
+  };
+
+  return Google;
+
+})(Service);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="DB.html">DB</a></li></ul><h3>Namespaces</h3><ul><li><a href="Action.html">Action</a></li><li><a href="DataCollector.html">DataCollector</a></li><li><a href="GoogleAction.html">GoogleAction</a></li><li><a href="history..html">Tweets
+Generate parameters for the request based on previous request data. Determines
+whether to query only for the latest data, or to get the entire history.</a></li><li><a href="tweets.html">Tweets
+The action that gets and handles all tweets</a></li><li><a href="Twitter.html">Twitter</a></li><li><a href="Youtube.html">Youtube</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_oauthClientInit">_oauthClientInit</a></li><li><a href="global.html#accessToken">accessToken</a></li><li><a href="global.html#currentRequest">currentRequest</a></li><li><a href="global.html#decrement">decrement</a></li><li><a href="global.html#extendDefault">extendDefault</a></li><li><a href="global.html#increment">increment</a></li><li><a href="global.html#oauth2Client">oauth2Client</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 16:03:06 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

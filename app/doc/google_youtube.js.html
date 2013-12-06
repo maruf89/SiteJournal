@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MVData/services/actions/google_youtube.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: MVData/services/actions/google_youtube.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>var GoogleAction, Youtube, _, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+_ = require('lodash');
+
+GoogleAction = require('./google_action');
+
+/**
+ * Youtube class for getting all liked video content
+ * 
+ * @namespace Youtube
+*/
+
+
+module.exports = Youtube = (function(_super) {
+  __extends(Youtube, _super);
+
+  function Youtube() {
+    _ref = Youtube.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Youtube.prototype.service = 'youtube';
+
+  Youtube.prototype.scope = 'https://gdata.youtube.com';
+
+  Youtube.prototype.discover = ['youtube', 'v3'];
+
+  Youtube.prototype.defaultParams = {
+    'part': 'snippet,contentDetails',
+    'mine': true,
+    'fields': 'items(contentDetails,snippet),nextPageToken,pageInfo,tokenPagination'
+  };
+
+  Youtube.prototype.action = 'activities';
+
+  Youtube.prototype.method = 'list';
+
+  /*
+   * See notes in action.coffee
+   *
+   * * IMPORTANT Called as Service object NOT as Action
+   * 
+   * @param  {Object} requestObj  the request object with service data + callback info
+   * @param  {Error}  err         query error
+   * @param  {Object} data        query response
+  */
+
+
+  Youtube.prototype.parseData = function(requestObj, err, data) {
+    var action, lastActivity, lastActivityTimestamp, latestPublished;
+    if (err) {
+      return this.requestCallback(requestObj, err);
+    }
+    if (data.pageInfo.totalResults === 0) {
+      return this.requestCallback(requestObj, null, true);
+    }
+    action = this[requestObj.action];
+    /**
+     * If there's no currentRequest object, then we know we're searching through our entire history
+     * and we're going backwards from the most recent.
+     *
+     * Second, we know that this is the first request, so the first returned item is the most recent.
+     *
+     * Else if - we reached the end and we're querying newer article
+     * then the first item is the new latest
+    */
+
+    if (!action.currentRequest && data.pageInfo) {
+      action.currentRequest = 'oldest';
+      latestPublished = data.items[0].snippet.publishedAt;
+      action.requestData.latestActivity = latestPublished;
+    } else if (action.requestData.end) {
+      latestPublished = data.items[0].snippet.publishedAt;
+      action.requestData.latestActivity = latestPublished;
+    }
+    /**  check if the last returned item is older than our oldest stored item, if so store it's datestamp*/
+
+    lastActivity = data.items[data.items.length - 1].snippet.publishedAt;
+    lastActivityTimestamp = (new Date(lastActivity)).getTime();
+    if (lastActivityTimestamp &lt; action.oldestTimestamp) {
+      action.requestData.oldestActivity = lastActivity;
+      action.oldestTimestamp = lastActivityTimestamp;
+    }
+    /**
+     * Here we append the data until it's all complete
+    */
+
+    data.items.forEach(function(item) {
+      if (item.snippet.type !== 'like') {
+        return false;
+      }
+      return action.storeData.items.insert((new Date(item.snippet.publishedAt)).getTime(), {
+        title: item.snippet.title,
+        cover: item.snippet.thumbnails.high.url,
+        type: item.snippet.type,
+        id: item.contentDetails.like.resourceId.videoId
+      });
+    });
+    if (data.nextPageToken) {
+      /**  if there's a next page token, store it in the db in case it's the last successful request*/
+
+      action.requestData.oldestStamp = data.nextPageToken;
+      return this.request(requestObj, {
+        pageToken: data.nextPageToken
+      });
+    } else {
+      /**  Otherwise show that it's the end and return the callback*/
+
+      return this.requestCallback(requestObj);
+    }
+  };
+
+  return Youtube;
+
+})(GoogleAction);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="DB.html">DB</a></li></ul><h3>Namespaces</h3><ul><li><a href="Action.html">Action</a></li><li><a href="DataCollector.html">DataCollector</a></li><li><a href="GoogleAction.html">GoogleAction</a></li><li><a href="history..html">Tweets
+Generate parameters for the request based on previous request data. Determines
+whether to query only for the latest data, or to get the entire history.</a></li><li><a href="tweets.html">Tweets
+The action that gets and handles all tweets</a></li><li><a href="Twitter.html">Twitter</a></li><li><a href="Youtube.html">Youtube</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_oauthClientInit">_oauthClientInit</a></li><li><a href="global.html#accessToken">accessToken</a></li><li><a href="global.html#currentRequest">currentRequest</a></li><li><a href="global.html#decrement">decrement</a></li><li><a href="global.html#extendDefault">extendDefault</a></li><li><a href="global.html#increment">increment</a></li><li><a href="global.html#oauth2Client">oauth2Client</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 16:03:06 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

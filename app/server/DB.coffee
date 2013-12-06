@@ -12,7 +12,7 @@ _           = require 'lodash'
  * @param {string/array} keys  a key, or an array of keys
  * @param {object/array} values  a value object, or an array of values
  ###
-buildArguments = (databaseArgs, keys, values) ->
+_buildArguments = (databaseArgs, keys, values) ->
   if Array.isArray(keys) and Array.isArray(values)
     keys.forEach (key, index) ->
       databaseArgs.push(key, JSON.stringify values[index]) if values[index]?
@@ -25,8 +25,12 @@ buildArguments = (databaseArgs, keys, values) ->
  * A Redis database
  *
  * @namespace DB
+ * @class
  ###
 class DB
+    ###*
+     * @constructor
+    ###
     constructor: ->
         @client = redis.createClient()
 
@@ -58,7 +62,7 @@ class DB
      * Converts an object into a hash
      *
      * @public
-     @ @fires DB#hsave
+     * @fires DB#hsave
      * @param {string} database  the database inside hash to use
      * @param {string} section  the database section to query
      * @param {object} values  the data object to save
@@ -113,7 +117,7 @@ class DB
         database = "zset #{database}:#{section}"
         databaseArgs = [database]
 
-        buildArguments(databaseArgs, keys, values)
+        _buildArguments(databaseArgs, keys, values)
 
         databaseArgs.push(callback)
         @client.zadd.apply(@client, databaseArgs)

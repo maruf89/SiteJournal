@@ -7,6 +7,10 @@ utils         = require('./utils/utils')
 TwitterAPI    = require('twitter-oauth')
 _             = require('lodash')
 
+###*
+ * @namespace Twitter
+###
+
 _extendClient = ->
     @timeline = (params, oauthToken, oauthTokenSecret, callback) ->
         processData = (err, data, limit) ->
@@ -27,7 +31,7 @@ _extendClient = ->
         @fetch("https://api.twitter.com/1.1/statuses/user_timeline.json?#{_params}", oauthToken, oauthTokenSecret, processData)
 
 ###*
- * Instantiate the Google OAuth client
+ * Instantiate the Twitter OAuth client
  *
  * @private
  * @param  {Object=} credentials  authenticated credentials
@@ -70,6 +74,7 @@ _oauthSuccess = (req, res, next, name, accessToken, accessTokenSecret) ->
             data:
                 accessToken: accessToken
                 accessTokenSecret: accessTokenSecret
+
 
 module.exports = class Twitter extends Service
 
@@ -129,7 +134,7 @@ module.exports = class Twitter extends Service
      *
      * @public
      * @fires Twitter#addTokens
-     * @params {Object} data An object containing `accessToken` and `accessTokenSecret` for Google
+     * @params {Object} data An object containing `accessToken` and `accessTokenSecret` for Twitter
     ###
     addTokens: (data) ->
         ###*  return true so that the caller knows it reauthenticated successfully  ###
@@ -140,7 +145,7 @@ module.exports = class Twitter extends Service
      *
      * @public
      * @fires Twitter#configureRequest
-     * @param  {String} service     the Google service to update
+     * @param  {String} service     the Twitter service to update
      * @param  {Object} requestData the actual requestData
     ###
     configureRequest: (service, requestData) ->
@@ -161,7 +166,7 @@ module.exports = class Twitter extends Service
      * Given a service with a callback, completes a data call. More options to come
      *
      * @public
-     * @fires Google#initRequest
+     * @fires Twitter#initRequest
      * @params {Object} requestObj  the object which contains the service, callback & possible other options to come
      * @params {Object=} additionalParams  Additional parameters to extend the default params with
     ###

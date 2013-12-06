@@ -2,7 +2,11 @@ _           = require('lodash')
 
 ###*
  * @namespace Action
+###
+
+###*
  * The base class for all actions
+ * @type {Action}
 ###
 module.exports = class Action
     constructor: (info) ->
@@ -24,7 +28,7 @@ module.exports = class Action
 
         ###*
          * The container for all Action specific data that will
-         * containe all prospective data sent from google and be returned
+         * containe all prospective data sent from the action and be returned
          * to the callback
          * @type {Object}
         ###
@@ -60,8 +64,7 @@ module.exports = class Action
             @oldestTimestamp = (new Date(@oldestTimestamp)).getTime()
 
     ###*
-     * @namespace Action
-     * Based on the response from google, will either run an error processing method
+     * Based on the response from the action, will either run an error processing method
      * or continue parsing the action data to be returned
      *
      * IMPORTANT: Called as Service object NOT as Action
@@ -70,7 +73,7 @@ module.exports = class Action
      * @public
      * @fires Action#parseData
      * @param {Object} requestObj  the initial request object with callback and service info
-     * @param {Object/null} err
+     * @param {Object} err
      * @param {Object} data  response data pertaining to the action request
     ###
     parseData: ->

@@ -1,6 +1,11 @@
-<div class="tag" ng-style="background(item.type)">+</div>
-<div class="type" ng-class="item.attachments[0].objectType">
-    <h3 ng-show="item.title">{{ item.title }}</h3>
+<div class="tag" 
+     ng-style="background(item.type)">
+        +
+</div>
+<div class="type"
+     ng-class="item.attachments[0].objectType">
+    <h3 ng-show="item.title"
+        ng-bind="item.title"></h3>
     <div class="showcase">
         <img ng-src="{{ item.attachments[0].fullImage.url }}">
     </div>

@@ -11,6 +11,11 @@
             "actions": [
                 "tweets"
             ]
+        },
+        "soundcloud": {
+            "actions": [
+                "favorites"
+            ]
         }
     }
 }

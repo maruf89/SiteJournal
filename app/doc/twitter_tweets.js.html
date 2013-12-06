@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MVData/services/actions/twitter_tweets.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: MVData/services/actions/twitter_tweets.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>var Action, Tweets, utils, _, _buildParams, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+_ = require('lodash');
+
+Action = require('./action');
+
+utils = require('../utils/utils');
+
+/**
+ * @namespace Tweets
+ * Generate parameters for the request based on previous request data. Determines
+ * whether to query only for the latest data, or to get the entire history.
+ *
+ * @private
+ * @params {Object=} additionalParams   optional additional parameters
+ * @return {Object}                     returns request parameters
+*/
+
+
+_buildParams = function(additionalParams) {
+  var params;
+  params = _.clone(this.defaultParams);
+  if (additionalParams != null) {
+    _.extend(params, additionalParams);
+  }
+  /**
+   * If we reached the end, and we have the latestActivity timestamp
+   * then search for only for the newest items by adding an additional second
+   * because otherwise it will return the latest item which we already have
+  */
+
+  if (this.requestData.end && this.requestData.latestActivity) {
+    this.currentRequest = 'latest';
+    params.since_id = this.requestData.latestActivity;
+  }
+  /**
+   * If last request returned an error and we have the stamp from where we left off
+   * then continue querying from there
+  */
+
+  if (this.requestData.error && this.requestData.oldestActivity) {
+    params.max_id = utils.decrement(this.requestData.oldestActivity);
+  }
+  /**
+   * Set now as the latest query timestamp
+  */
+
+  this.requestData.lastQuery = (new Date()).getTime();
+  return params;
+};
+
+/**
+ * @namespace Tweets
+ * The action that gets and handles all tweets
+*/
+
+
+module.exports = Tweets = (function(_super) {
+  __extends(Tweets, _super);
+
+  function Tweets() {
+    _ref = Tweets.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Tweets.prototype.service = 'tweets';
+
+  Tweets.prototype.method = 'timeline';
+
+  Tweets.prototype.defaultParams = {
+    screen_name: 'MariusVMiliunas',
+    count: 25,
+    include_rts: true
+  };
+
+  Tweets.prototype.prepareAction = function(additionalParams) {
+    return {
+      params: _buildParams.call(this, additionalParams),
+      method: this.method
+    };
+  };
+
+  /*
+   * See notes in action.coffee
+   *
+   * * IMPORTANT Called as Service object NOT as Action
+   * 
+   * @param  {Object} requestObj  the request object with service data + callback info
+   * @param  {Error}  err         query error
+   * @param  {Object} data        query response
+  */
+
+
+  Tweets.prototype.parseData = function(requestObj, err, response) {
+    var action, data, lastActivity;
+    if (err) {
+      if (err.limitReached) {
+        console.log('Rate limit reached');
+      } else {
+        console.log('Twitter Request Error: ', err);
+      }
+      return this.requestCallback(requestObj, err);
+    }
+    data = response.data;
+    if (!_.isArray(data)) {
+      console.log('Unknown Twitter data response type: ', data);
+      return this.requestCallback(requestObj, err);
+    }
+    action = this[requestObj.action];
+    if (data.length === 0 || data[0].id_str === action.requestData.oldestActivity) {
+      return this.requestCallback(requestObj, null, true);
+    }
+    /**
+     * If there's no currentRequest object, then we know we're searching through our entire history
+     * and we're going backwards from the most recent.
+     *
+     * Second, we know that this is the first request, so the first returned item is the most recent.
+    */
+
+    if (!action.currentRequest) {
+      action.currentRequest = 'oldest';
+      action.requestData.latestActivity = data[0].id_str;
+    }
+    /**
+     * check if the last returned item is older than our oldest stored item, if so store it's id
+    */
+
+    lastActivity = data[data.length - 1].id_str;
+    if (lastActivity &lt; action.oldestStamp) {
+      action.requestData.oldestActivity = action.oldestTimestamp = lastActivity;
+    }
+    data.forEach(function(item) {
+      var store;
+      store = {
+        text: item.text,
+        id: item.id_str,
+        entities: item.entities
+      };
+      if (item.geo != null) {
+        store.geo = item.geo;
+      }
+      return action.storeData.items.insert((new Date(item.created_at)).getTime(), store);
+    });
+    /**
+     * Lastly continue querying going backwards
+     * remove 1 from lastActivity so it doesn't return the same tweets
+    */
+
+    return this.initRequest(requestObj, {
+      max_id: utils.decrement(lastActivity)
+    });
+  };
+
+  return Tweets;
+
+})(Action);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="DB.html">DB</a></li></ul><h3>Namespaces</h3><ul><li><a href="Action.html">Action</a></li><li><a href="DataCollector.html">DataCollector</a></li><li><a href="GoogleAction.html">GoogleAction</a></li><li><a href="history..html">Tweets
+Generate parameters for the request based on previous request data. Determines
+whether to query only for the latest data, or to get the entire history.</a></li><li><a href="tweets.html">Tweets
+The action that gets and handles all tweets</a></li><li><a href="Twitter.html">Twitter</a></li><li><a href="Youtube.html">Youtube</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_oauthClientInit">_oauthClientInit</a></li><li><a href="global.html#accessToken">accessToken</a></li><li><a href="global.html#currentRequest">currentRequest</a></li><li><a href="global.html#decrement">decrement</a></li><li><a href="global.html#extendDefault">extendDefault</a></li><li><a href="global.html#increment">increment</a></li><li><a href="global.html#oauth2Client">oauth2Client</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 16:03:06 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -18,10 +18,14 @@ module.exports = class Plus extends GoogleAction
 
     method: 'list'
 
-    ###*
+    ###
      * See notes in action.coffee
      *
-     * * IMPORTANT: Called as Google object NOT as Plus Action
+     * * IMPORTANT Called as Service object NOT as Action
+     * 
+     * @param  {Object} requestObj  the request object with service data + callback info
+     * @param  {Error}  err         query error
+     * @param  {Object} data        query response
     ###
     parseData: (requestObj, err, data) ->
 

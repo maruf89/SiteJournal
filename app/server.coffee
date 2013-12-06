@@ -137,6 +137,9 @@ if app.get("env") is "development"
 else
   app.use express.static("dist")
 
+app.use(express.directory(__dirname + '/doc'))
+app.use(express.static(__dirname + '/doc'))
+
 ###*  Site Router   ###
 require('./routes')(app)
 
