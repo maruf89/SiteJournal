@@ -4,6 +4,7 @@
 Service       = require('./utils/service')
 StoreData     = require('./utils/storeData')
 utils         = require('./utils/utils')
+qs            = require('querystring')
 TwitterAPI    = require('twitter-oauth')
 _             = require('lodash')
 
@@ -19,7 +20,7 @@ _extendClient = ->
                 data: data
 
         if _.isObject(params)
-            _params = utils.serialize(params)
+            _params = qs.stringify(params)
 
         else if _.isString(params)
             _params = params
@@ -97,7 +98,7 @@ module.exports = class Twitter extends Service
      * @type {Object}
     ###
     servicesKey:
-        'tweets': require('./actions/twitter_tweets')
+        'twitter_tweet': require('./actions/twitter_tweets')
 
     ###*
      * The view for initiating a twitter OAuth call.

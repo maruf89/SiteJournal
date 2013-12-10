@@ -1,7 +1,7 @@
 "use strict"
 
 Service         = require('./utils/service')
-SoundCloudAPI   = require('soundclouder')
+SoundCloudAPI   = require('soundcloud-node')
 _               = require('lodash')
 
 ###*
@@ -15,12 +15,13 @@ _oauthClientInit = (credentials) ->
     ###*  return if already exists  ###
     if @oauth2Client then return
 
-    @oauth2Client = new SoundCloudAPI @clientId,
-                                      @clientSecret,
-                                      @config.base + @config.oauthPath
+    args = [@clientId, @clientSecret, @config.base + @config.oauthPath]
 
-    ###*  create a credentials object if not passed in and set it  ###
-    @oauth2Client.setToken(credentials.access_token) if credentials?
+    args.push(credentials) if credentials?
+
+    @oauth2Client = SoundCloudAPI.apply(@, args)
+
+    return true
 
 ###*
  * @namespace Soundcloud
@@ -49,7 +50,7 @@ module.exports = class Soundcloud extends Service
      * @type {Object}
     ###
     servicesKey:
-        'favorites': require('./actions/soundcloud_favorites')
+        'soundcloud_favorite': require('./actions/soundcloud_favorites')
 
     ###*
      * The view for initiating a soundcloud OAuth call. Will redirect to Soundclouds' auth URL
@@ -64,7 +65,6 @@ module.exports = class Soundcloud extends Service
         _oauthClientInit.call(@)
 
         url = @oauth2Client.getConnectUrl()
-        console.log url
 
         res.writeHead 301, Location: url
         res.end()
@@ -82,15 +82,23 @@ module.exports = class Soundcloud extends Service
      * @param  {Function}  next     [description]
     ###
     oauthHandleToken: (callback, req, res, next) ->
-        debugger
         query = req.query
 
-        @oauth2Client.getToken query.code, (err, tokens) ->
+        @oauth2Client.getToken query.code, (err, tokens) =>
+
             if err
-                console.log err
-                callback err
-            else
-                callback null, {service: 'soundcloud', data: tokens}
+                return callback err
+
+            @oauth2Client.getMe (err, userData) ->
+
+                if err
+                    return callback {message: 'Failed to retrieve user data for soundcloud'}, {service: 'soundcloud', data: tokens}
+
+                callback null,
+                    service: 'soundcloud'
+                    data:
+                        access_token: tokens.access_token
+                        user_id: userData.id
 
     ###*
      * Add access + refresh tokens to a soundcloud oauth client
@@ -122,7 +130,7 @@ module.exports = class Soundcloud extends Service
      * @return {array}  the fields
     ###
     requiredTokens: ->
-        ['access_token', 'refresh_token']
+        ['access_token', 'user_id']
 
 
     ###*
@@ -139,7 +147,7 @@ module.exports = class Soundcloud extends Service
         parseData = action.parseData.bind @, requestObj
         request = action.prepareAction(additionalParams)
 
-        @oauth2Client[request.method](request.params, @accessToken, @accessTokenSecret, parseData)
+        @oauth2Client[request.method](request.path, request.params, parseData)
 
 
 

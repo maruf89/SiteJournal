@@ -1,5 +1,4 @@
-exports.serialize = (obj) ->
-    (("#{key}=#{obj[key]}") for key of obj).join('&')
+"use strict"
 
 ###*
  * Decrements a long number as a string

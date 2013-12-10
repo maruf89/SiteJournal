@@ -9,15 +9,6 @@ myApp = window.myApp
 sources =
     youtube: '//www.youtube.com/embed/__id__'
 
-###*
- * Used to return corresponding main service colors
- * @type {Object}
-###
-bgColors =
-    'youtube': '#C33333'
-    'plus'   : '#53a93f'
-    'tweets' : '#04aeec'
-
 offset = 0
 
 myApp.controller 'MainCtrl', ['$scope', '$sce', 'fetcher', ($scope, $sce, fetcher) ->

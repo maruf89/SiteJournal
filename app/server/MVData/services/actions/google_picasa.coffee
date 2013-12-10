@@ -1,3 +1,5 @@
+"use strict"
+
 # https://github.com/ammmir/node-gdata
 # https://developers.google.com/picasa-web/docs/2.0/developers_guide_protocol#Auth
 # http://stackoverflow.com/questions/15183212/google-plus-album-urls
@@ -20,6 +22,6 @@ module.exports = class Picasa extends GoogleAction
     action: ''
 
     method: ''
-    
+
     parseData: (requestObj, err, data) ->
         console.log data

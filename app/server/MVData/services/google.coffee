@@ -44,8 +44,8 @@ module.exports = class Google extends Service
      * @type {Object}
     ###
     servicesKey:
-        'youtube': require('./actions/google_youtube')
-        'plus': require('./actions/google_plus')
+        'youtube_like': require('./actions/google_youtube')
+        'plus_post': require('./actions/google_plus')
 
     ###*
      * The view for initiating a google OAuth call. Will redirect to Googles' auth URL
@@ -156,6 +156,7 @@ module.exports = class Google extends Service
      * @params {Object=} additionalParams  Additional parameters to extend the default params with
     ###
     request: (requestObj, additionalParams) ->
+        debugger
         action =  @[requestObj.action]
 
         parseData = action.parseData.bind @, requestObj

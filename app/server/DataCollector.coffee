@@ -36,6 +36,7 @@ class DataCollector
      * @param {Object} config  dataConfig file with the services and frequency
      ###
     configure: (@config) ->
+        @frequency = config.frequency
 
         mvd.serviceList.forEach (name) =>
             name = name.toLowerCase()
@@ -90,14 +91,20 @@ class DataCollector
 
         mvd.service[service].configureRequest(action, data)
 
-        @initRequest(service, action)
+        @buildRequest(service, action)
 
-    initRequest: (service, action) ->
-        action =
+    buildRequest: (service, action) ->
+        actionObj =
             action: action
+            parentService: service
             callback: @storeData
 
-        mvd.service[service].initRequest(action)
+        @request(actionObj)
+
+    request: (actionObj) ->
+        mvd.service[actionObj.parentService].initRequest(actionObj)
+
+        setTimeout(@request.bind(@, actionObj), @frequency)
 
     ###*
      * Data request callback that will store specifically formatted data to the db
@@ -133,5 +140,6 @@ class DataCollector
 
                 ###*  Extend the existing object with only truthy values  ###
                 db.set('requestData', data.type, extendDefault(val, data.requestData))
+
 
 module.exports = new DataCollector()

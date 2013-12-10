@@ -1,10 +1,12 @@
+"use strict"
+
 _           = require('lodash')
 Action      = require('./action')
 
 ###*
  * Generate parameters for the request based on previous request data. Determines
  * whether to query only for the latest data, or to get the entire history.
- * 
+ *
  * @namespace GoogleAction
  * @private
  * @params {Object=} additionalParams   optional additional parameters
@@ -44,7 +46,7 @@ _buildParams = (additionalParams) ->
  * Each Service under the immediate Google API umbrella such as Youtube and g+
  * are considered Actions because they're inside. They store their own
  * unique data inputs, but share the methods for storing data
- * 
+ *
  * @namespace GoogleAction
 ###
 module.exports = class GoogleAction extends Action
