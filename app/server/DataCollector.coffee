@@ -1,18 +1,20 @@
 "use strict"
 
-_          = require('lodash')
-mvd        = require('./MVData')
-db         = require('./DB')
+_            = require('lodash')
+mvd          = require('./MVData')
+db           = require('./DB')
 
 #  Add an action like 'youtube' or 'plus' and this will halt requests to that action
-pause      = []
+pause        = ['soundcloud_favorite']
+
+database     = 'item'
+requestData  = 'requestData'
 
 ###*
  * Extends the object only with truthy values
+ * Otherwise will not override a set truthy value with something like null or undefined
 ###
-extendDefault = _.partialRight(_.assign, (a, b) ->
-  b or a
-)
+_extendDefault = _.partialRight(_.assign, (a, b) -> b or a)
 
 ###*
  * The module that queries services for data
@@ -45,6 +47,7 @@ class DataCollector
             required = mvd.service[name].requiredTokens()
 
             db.get 'api', name, (err, res) =>
+
                 if err
                     console.log err, name
                 else
@@ -57,6 +60,7 @@ class DataCollector
                     req = []
 
                     required.forEach (key) ->
+
                         if res[key] then auth[key] = res[key]
                         else req.push key
                     
@@ -74,6 +78,8 @@ class DataCollector
                     else
                         console.log "Service #{name} failed to authenticate."
 
+        return @
+
     requestConfig: (serviceName) ->
         service = @config.services[serviceName]
 
@@ -83,9 +89,10 @@ class DataCollector
             if pause.indexOf(action) isnt -1 then return
 
             callback = @addRequestData.bind(@, serviceName, action)
-            db.get('requestData', action, callback)
+            db.get(requestData, action, callback)
 
     addRequestData: (service, action, err, data) ->
+
         if err
             throw err
 
@@ -114,10 +121,10 @@ class DataCollector
      * @param {object} data
      ###
     storeData: (err, data) ->
+
         if err
             console.log err
 
-        console.log data
         console.log data.items.values
 
         if not data.items.isEmpty
@@ -126,20 +133,32 @@ class DataCollector
              * Each object has a reference to it's service, so that will be the glue to
              * it's own sorted data list defined below.
              ###
-            db.zadd('item', 'all', data.items.keys, data.items.values)
+            db.zadd(database, 'all', data.items.keys, data.items.values)
 
             ###*  build out the keys/keys sorted data list for each service (value must be unique)  ###
-            db.zadd('item', data.type, data.items.keys, data.items.keys)
+            db.zadd(database, data.type, data.items.keys, data.items.keys)
 
         if data.requestData
             ###*  Simply update the old one with new truthy data  ###
-            db.get 'requestData', data.type, (error, val) ->
+            db.get requestData, data.type, (error, val) ->
                 return false if error
 
                 val = if val and _.isString(val) then JSON.parse(val) else {}
 
                 ###*  Extend the existing object with only truthy values  ###
-                db.set('requestData', data.type, extendDefault(val, data.requestData))
+                db.set(requestData, data.type, _extendDefault(val, data.requestData))
 
+    cleanse: (action) ->
+        removalCB = @processRemoval.bind(@, action)
+        db.zget(database, action, 0, -1, removalCB)
+
+    processRemoval: (action, err, keys) ->
+        return false if not _.isArray(keys)
+
+        db.zremKeys database, 'all', keys, ->
+            db.del(requestData, action)
+
+            db.zremRangeByRank database, action, 0, -1, ->
+                console.log "All item data for #{action} has been successfully removed."
 
 module.exports = new DataCollector()

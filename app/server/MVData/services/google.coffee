@@ -156,7 +156,6 @@ module.exports = class Google extends Service
      * @params {Object=} additionalParams  Additional parameters to extend the default params with
     ###
     request: (requestObj, additionalParams) ->
-        debugger
         action =  @[requestObj.action]
 
         parseData = action.parseData.bind @, requestObj

@@ -31,7 +31,6 @@ path          = require('path')
 ###*  Module that uses mvd and does the actual data requesting  ###
 dataCollector = require('./server/DataCollector').configure(dataConfig)
 
-
 ###*  SSL Certificates required to run https  ###
 options =
   key: fs.readFileSync "#{__dirname}/../../ssl/localhost.key"
@@ -145,7 +144,7 @@ require('./routes')(app)
 
 ###*  Start up both HTTP and HTTPS  ###
 httpServer.listen app.locals.settings.port, app.locals.settings.IPAddress, ->
-   console.log "HTTP server started on #{app.locals.settings.IPAddress}:#{app.locals.settings.port}"
+  console.log "HTTP server started on #{app.locals.settings.IPAddress}:#{app.locals.settings.port}"
 
 httpsServer.listen app.locals.settings.sslPort, app.locals.settings.IPAddress, ->
   console.log "HTTPS server started on port #{app.locals.settings.IPAddress}:#{app.locals.settings.sslPort}"

@@ -78,7 +78,7 @@ module.exports = class Favorites extends Action
      * @param  {Object} data        query response
     ###
     parseData: (requestObj, err, data) ->
-
+        
         if err
             if err.limitReached
                 console.log 'Rate limit reached'
@@ -96,21 +96,26 @@ module.exports = class Favorites extends Action
         dataLength = data.length
 
         # if no data passed back, or we already have the oldest item return saying it's done
-        if dataLength is 0 or data[0].id is action.requestData.oldestActivity
+        if dataLength is 0 or data[0].id is action.requestData.latestActivity
             return @requestCallback(requestObj, null, true)
 
-        ###*
-         * If there's no currentRequest object, then we know we're searching through our entire history
-         * and we're going backwards from the most recent.
-         *
-         * Second, we know that this is the first request, so store it's id
-         ###
         if not action.currentRequest
+            ###*
+             * If there's no currentRequest object, then we know we're searching through our entire history
+             * and we're going backwards from the most recent.
+             *
+             * Second, we know that this is the first request, so store it's id
+             ###
             action.currentRequest = 'oldest'
 
             action.requestData.latestActivity = data[0].id
 
         else if action.requestData.end
+            ###*
+             * Else if we're getting the latest and it passed the check below `dataLength` definition
+             * then the first item must be new, so save it
+            ###
+            action.requestData.previousLatest = action.requestData.latestActivity
             action.requestData.latestActivity = data[0].id
 
         for index in [0...dataLength]
@@ -127,7 +132,7 @@ module.exports = class Favorites extends Action
                  * Since these are not ordered by when we liked them, we have to compare each one
                  * to our latest id, and break if we already have it
                 ###
-                if item.id is action.requestData.latestActivity then break
+                if item.id is action.requestData.previousActivity then break
 
                 # Generate a current timestamp of our items (keep the correct order and give newer items higher stamps)
                 key = (new Date()).getTime() + (index - dataLength) - dataLength
