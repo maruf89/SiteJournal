@@ -16,6 +16,25 @@ requestData  = 'requestData'
 ###
 _extendDefault = _.partialRight(_.assign, (a, b) -> b or a)
 
+
+###*
+ * Processes the keys to be removed from the database:'all' for a specific service action
+ * 
+ * @callback
+ * @private
+ * @param  {String} action  The service action
+ * @param  {Error}  err     error
+ * @param  {Array}  keys    Array of keys return from the database
+###
+_processRemoval: (action, err, keys) ->
+    return false if not _.isArray(keys)
+
+    db.zremKeys database, 'all', keys, ->
+        db.del(requestData, action)
+
+        db.zremRangeByRank database, action, 0, -1, ->
+            console.log "All item data for #{action} has been successfully removed."
+
 ###*
  * The module that queries services for data
  *
@@ -148,17 +167,31 @@ class DataCollector
                 ###*  Extend the existing object with only truthy values  ###
                 db.set(requestData, data.type, _extendDefault(val, data.requestData))
 
+    ###*
+     * Removes all item data for every service:action from the database
+     *
+     * @public
+     * @fires  DataCollector#cleanseAll
+    ###
+    cleanseAll: ->
+        _.each @config.services, (d, service) ->
+            service.actions.forEach (action) ->
+                db.del(requestData, action)
+                
+                db.zremRangeByRank(database, action, 0, -1)
+
+        db.zremRangeByRank(database, 'all', 0, -1)
+        console.log "Cleansed all service data"
+
+    ###*
+     * Removes all item data for a single service action from the database
+     * 
+     * @public
+     * @fires  DataCollector#cleanse
+     * @param  {String} action  the service action to cleanse
+    ###
     cleanse: (action) ->
-        removalCB = @processRemoval.bind(@, action)
+        removalCB = _processRemoval.bind(@, action)
         db.zget(database, action, 0, -1, removalCB)
-
-    processRemoval: (action, err, keys) ->
-        return false if not _.isArray(keys)
-
-        db.zremKeys database, 'all', keys, ->
-            db.del(requestData, action)
-
-            db.zremRangeByRank database, action, 0, -1, ->
-                console.log "All item data for #{action} has been successfully removed."
 
 module.exports = new DataCollector()
