@@ -3,8 +3,8 @@
     "services": {
         "google": {
       	    "actions": [
-      	      "youtube_like",
-              "plus_post"
+      	        "youtube_like",
+                "plus_post"
             ]
         },
         "twitter": {
@@ -15,6 +15,11 @@
         "soundcloud": {
             "actions": [
                 "soundcloud_favorite"
+            ]
+        },
+        "facebook": {
+            "actions": [
+                "facebook_public"
             ]
         }
     }
