@@ -3,6 +3,13 @@
 redis       = require('redis')
 _           = require('lodash')
 
+_databaseKey = (type, database, section) ->
+    string = "#{type} #{database}"
+
+    if section then string += ":#{section}"
+
+    return string
+
 ###*
  * Modifies the passed in databaseArgs object with it's new values
  *
@@ -48,7 +55,11 @@ class DB
     set: (database, key, value, callback = redis.print) ->
         dbKey = "key #{database}:#{key}"
 
-        if not _.isString(value) and not _.isNumber(value) then value = JSON.stringify(value)
+        if not value or _.isFunction(value)
+            return callback('Error: value must be set and not a function', null)
+
+        if not _.isString(value) and not _.isNumber(value)
+            value = JSON.stringify(value)
 
         @client.set(dbKey, value, callback)
 
@@ -94,24 +105,77 @@ class DB
      *
      * @public
      * @fires  DB#hsave
-     * @param  {string} database  the database inside hash to use
-     * @param  {string} section  the database section to query
-     * @param  {object} values  the data object to save
-     * @param  {function=} (optional) callback  a completion callback
+     * @param  {string}    database  the database inside hash to use
+     * @param  {string}    section   the database section to query
+     * @param  {object}    values    the data object to save
+     * @param  {function=} callback
      ###
-    hsave: (database, section, values, callback = redis.print) ->
-        dbKey = "hash #{database}:#{section}"
+    hsave: (database, section, key, value, callback = redis.print) ->
+        dbKey = _databaseKey('hash', database, section)
         databaseArgs = [dbKey]
-        method = 'hmset'
 
-        _.each values, (value, key) ->
-            databaseArgs.push(key, value)
+        if _.isString(key)
+            if _.isFunction(value)
+                return callback('Error: value required and cannot be a function', null)
+            if value isnt 0 and _.isEmpty(value)
+                return callback('Error: value is required', null)
+
+            val = if _.isObject(value) then JSON.stringify(value) else value
+
+            databaseArgs.push(key, val)
+
+        else
+            callback = if _.isFunction(value) then value else redis.print
+
+            if not _.isObject(key)
+                return callback('Error: key must be an object if arguments 3 & 4 are not objects', null)
+
+            _.each key, (value, key) ->
+                # omit functions
+                return true if _.isFunction(key)
+
+                if _.isObject(key) then key = JSON.stringify(key)
+
+                databaseArgs.push(key, value)
+
+        if databaseArgs.length is 1
+            return callback('Error: key/value must be defined', null)
 
         ###  if only 1 key/value being set, use hset  ###
         method = if databaseArgs.length is 3 then 'hset' else 'hmset'
 
         databaseArgs.push(callback)
         @client[method].apply(@client, databaseArgs)
+
+    ###*
+     * Equivalent of Redis' HDEL/DEL
+     *
+     * deletes either a hash property, or the entire hash
+     *
+     * @public
+     * @fires  DB#hdel
+     * @param  {string}    database  the database inside hash to use
+     * @param  {string}    section   the database section to query
+     * @param  {property=} values    if no property included, the entire hash will be deleted
+     * @param  {function}  callback
+     ###
+    hdel: (database, section, property, callback = redis.print) ->
+        dbKey = _databaseKey('hash', database, section)
+        method = 'hdel'
+        databaseArgs = [dbKey]
+
+        # if no property included
+        if not property or _.isFunction(property)
+            callback = property or redis.print
+            method = 'del'
+
+        else
+            databaseArgs.push(property)
+
+        databaseArgs.push(callback)
+
+        @client[method].apply(@client, databaseArgs)
+
 
     ###*
      * Equivalent of Redis' HMGET/HGETALL
@@ -236,4 +300,4 @@ class DB
 
         @zadd database, section, keys, values, callback
 
-module.exports = new DB()
+module.exports = x = new DB()
