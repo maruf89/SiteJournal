@@ -13,10 +13,7 @@ module.exports = exports = class MVData
       @serviceList.push(_service)
       @service[_service] = new (require("../services/#{_service}"))(data, config)
 
-    @views = new (require('./Views'))( @service, @config )
+    @views = new (require('./Views'))(@servicesList, @service)
 
-  authenticateService: (service, data) ->
-    @service[service].addTokens(data)
-
-  request: (service, args, callback) ->
-    @service[service].request(args, callback)
+  authenticated: (service) ->
+    @service[service].authenticated = true

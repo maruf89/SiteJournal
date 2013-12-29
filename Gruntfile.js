@@ -355,7 +355,7 @@ module.exports = function (grunt) {
     },
     jsdoc : {
       dist : {
-        src: '<%= yeoman.temporary %>/{,**/}*.js', 
+        src: '<%= yeoman.temporary %>/{,**/}*.js',
         options: {
           destination: '<%= yeoman.app %>/doc',
         }
@@ -393,7 +393,7 @@ module.exports = function (grunt) {
       dev: {
         options: {
           file: 'app/server.js',
-          args: ['--debug', 'development'],
+          args: ['--debug-brk', 'development'],
           watchedExtensions: [
             'js',
             'jade',

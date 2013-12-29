@@ -14,6 +14,14 @@ utils       = require('../utils/utils')
  * @return {Object}                     returns request parameters
 ###
 _buildParams = (additionalParams) ->
+    debugger
+    fql = []
+
+    _.each defaultParams.fql, (value, key) ->
+        fql.push("#{key.toUpperCase()} #{value}")
+
+    fql = fql.join(' ')
+
     params = _.clone(@defaultParams)
 
     _.extend(params, additionalParams) if additionalParams?
@@ -49,14 +57,17 @@ module.exports = class PublicPosts extends Action
 
     service: 'facebook'
 
-    display: 'facebook_tweet'
+    display: 'facebook_public'
 
-    method: 'timeline'
+    method: 'graph'
 
     defaultParams:
-        screen_name: 'MariusVMiliunas'
-        count: 25
-        include_rts: true
+        fql:
+            select: 'post_id, description, attachment, action_links, created_time, permalink, share_count'
+            from: 'stream'
+            where: "source_id = me() AND type = 80 AND privacy.value = 'EVERYONE' AND created_time = now()"
+            limit: 100
+        mostRecent: false
 
     prepareAction: (additionalParams) ->
         params: _buildParams.call(@, additionalParams)

@@ -11,6 +11,7 @@ config =
   base: process.env.ABSOLUTE_SSL_URL
   oauthPath: 'authenticate/oauth2callback'
   app: process.env.APP_URI
+  cookieDomain: process.env.COOKIE_DOMAIN
 
 ###*  Data Collector config file  ###
 dataConfig    = require('../dataConfig.json')
@@ -69,7 +70,7 @@ else
  ###
 app.locals.basedir = './../'
 app.configure ->
-  @set "port", 9000
+  @set "port", 9001
   @set "sslPort", 9443
   @set "IPAddress", "173.234.60.108"
   @set "views", __dirname

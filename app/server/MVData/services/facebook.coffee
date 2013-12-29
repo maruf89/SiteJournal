@@ -1,8 +1,11 @@
 "use strict"
 
+# Need new Facebook api
+# https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow/
+
 Service       = require('./utils/service')
 qs            = require('querystring')
-FacebookAPI   = require('facebook-sdk')
+FacebookAPI   = require('./utils/facebook-node')
 _             = require('lodash')
 
 
@@ -17,13 +20,11 @@ _oauthClientInit = (credentials) ->
     if @oauth2Client then return
 
     @oauth2Client = new FacebookAPI
-        appId:     @appId
-        secret:    @appSecret
-
-    ###*  store the credentials if they exist  ###
-    if credentials
-        @accessToken = credentials.accessToken
-        @accessTokenSecret = credentials.accessTokenSecret
+        appId           : @appId
+        secret          : @appSecret
+        redirect_uri    : @config.base + @config.oauthPath
+        domain          : @config.cookieDomain
+        credentials     : credentials
 
 ###*
  * The final callback with the oAuth Tokens
@@ -48,14 +49,18 @@ _oauthSuccess = (req, res, next, name, accessToken, accessTokenSecret) ->
 
 
 module.exports = class Facebook extends Service
-
+    ###*
+     * @constructor
+     * @param  {Object} apiData  Object with the necessary API keys
+     * @param  {Object} config   Site specific configuration keys
+    ###
     constructor: (apiData, config) ->
-        super apiData, config
-
-        @appId             = apiData['appId']
-        @appSecret         = apiData['appSecret']
+        @appId             = apiData.appId
+        @appSecret         = apiData.appSecret
         @accessToken       = null
         @accessTokenSecret = null
+
+        super apiData, config
 
     ###*
      * The name of the service
@@ -68,7 +73,7 @@ module.exports = class Facebook extends Service
      * @type {Object}
     ###
     servicesKey:
-        'facebook_tweet': require('./actions/facebook_public')
+        'facebook_public': require('./actions/facebook_public')
 
     ###*
      * The view for initiating a facebook OAuth call.
@@ -82,7 +87,11 @@ module.exports = class Facebook extends Service
     oauthInit: (req, res, next) ->
         _oauthClientInit.call(@)
 
-        @oauth2Client.oauthConnect.apply this, arguments
+        url = @oauth2Client.getLogin
+            scope: 'read_stream, user_status'
+
+        res.writeHead 301, Location: url
+        res.end()
 
     ###*
      * The view that handles the token returned from authorizing facebooks app.
@@ -97,8 +106,14 @@ module.exports = class Facebook extends Service
      * @param  {Function}  next     [description]
     ###
     oauthHandleToken: (callback, req, res, next) ->
-        @oauthHandleTokenCallback = callback
-        @oauth2Client.oauthCallback.apply this, [].slice.call(arguments, 1)
+        code = req.query.code
+
+        @oauth2Client.getToken code, (err, response) ->
+            callback err if err
+
+            callback null,
+                service: 'facebook'
+                data: response
 
     ###*
      * Add access + refresh tokens to a facebook oauth client
@@ -130,7 +145,7 @@ module.exports = class Facebook extends Service
      * @return {array}  the fields
     ###
     requiredTokens: ->
-        ['accessToken', 'accessTokenSecret']
+        ['access_token']
 
 
     ###*
@@ -140,6 +155,8 @@ module.exports = class Facebook extends Service
      * @fires Facebook#initRequest
      * @params {Object} requestObj  the object which contains the service, callback & possible other options to come
      * @params {Object=} additionalParams  Additional parameters to extend the default params with
+     *
+     * https://graph.facebook.com/fql?q=SELECT+post_id,description,privacy,actor_id,action_links,app_data,created_time,attribution,message+FROM+stream+WHERE+filter_key+=+%27others%27+AND+%20source_id+=+100000982720544&access_token=CAAIBU5on5r8BABRfe8cuBdH9ZCG3IXFP41ZCiCo6aEhnCV7NqBb9aKstaVHrCMkhlhqDdZB3aT1Tj2nV9sVUZCXIlYruIptcHlISOzHZCUtqOxkH9as1KgiatmjZBGWDGA7ZAKHn4ZACxJrEZAyFYt0iZCZBOvu3WSyaDagZB1gUZCDEiXuZAFAYKi3Uyi
     ###
     initRequest: (requestObj, additionalParams) ->
         action =  @[requestObj.action]

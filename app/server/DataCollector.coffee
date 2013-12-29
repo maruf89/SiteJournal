@@ -29,9 +29,12 @@ _extendDefault = _.partialRight(_.assign, (a, b) -> b or a)
 _processRemoval: (action, err, keys) ->
     return false if not _.isArray(keys)
 
+    # Remove each individual key from the 'all' database for the action
     db.zremKeys database, 'all', keys, ->
+        # Remove it's query requestData
         db.del(requestData, action)
 
+        # Drop the action table
         db.zremRangeByRank database, action, 0, -1, ->
             console.log "All item data for #{action} has been successfully removed."
 
@@ -66,7 +69,6 @@ class DataCollector
             required = mvd.service[name].requiredTokens()
 
             db.get 'api', name, (err, res) =>
-
                 if err
                     console.log err, name
                 else
@@ -96,6 +98,11 @@ class DataCollector
                         @requestConfig(name)
                     else
                         console.log "Service #{name} failed to authenticate."
+        #
+        # Here should go a setTimeout frequency check
+        # that checks over MVD's authenticated services
+        # that checks for any new services that may have been authenticated since
+        # 
 
         return @
 
@@ -111,7 +118,6 @@ class DataCollector
             db.get(requestData, action, callback)
 
     addRequestData: (service, action, err, data) ->
-
         if err
             throw err
 
@@ -140,7 +146,6 @@ class DataCollector
      * @param {object} data
      ###
     storeData: (err, data) ->
-
         if err
             console.log err
 

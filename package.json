@@ -52,7 +52,9 @@
     "lodash": "~2.4.1",
     "grunt-jsdoc": "~0.4.2",
     "soundcloud-node": "~0.0.3",
-    "facebook-sdk": "~0.3.2"
+    "es6-promise": "~0.1.0",
+    "mocha": "~1.16.2",
+    "chai": "~1.8.1"
   },
   "engines": {
     "node": ">=0.8.0"

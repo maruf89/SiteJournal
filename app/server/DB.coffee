@@ -71,14 +71,22 @@ class DB
      *
      * @public
      * @fires  DB#del
-     * @param  {string}    database  the database inside hash to use
-     * @param  {string}    key  the the key to use
-     * @param  {Function=} callback
+     * @param  {string}          database  the database inside hash to use
+     * @param  {string/array}    key  the the key to use
+     * @param  {Function=}       callback
     ###
     del: (database, key, callback = ->) ->
-        dbKey = "key #{database}:#{key}"
+        args = []
 
-        @client.del(dbKey, callback)
+        if _.isArray(key)
+            args = key.map (keyVal) ->
+                return "key #{database}:#{keyVal}"
+        else
+            args = ["key #{database}:#{key}"]
+
+        args.push(callback)
+
+        @client.del.apply(@client, args)
 
     ###*
      * Equivalent of Redis' H{M}SET
