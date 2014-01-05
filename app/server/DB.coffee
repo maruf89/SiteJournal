@@ -182,15 +182,27 @@ class DB
      *
      * @public
      * @fires  DB#hgetAll
-     * @param  {string} database  the database inside hash to use
-     * @param  {string} section  the database section to query
-     * @param  {array=} values  an optional array of keys
+     * @param  {string}   database  the database inside hash to use
+     * @param  {string}   section   the database section to query
+     * @param  {array=}   values    an optional array of keys
      * @param  {function} callback  to be used as response callback
+     *                              callback returns an `array` of values if values was an array
+     *                              Otherwise and object with prop:value
      ###
     hgetAll: (database, section, values, callback) ->
         dbKey = "hash #{database}:#{section}"
-        method = if _.isArray(values) then 'hmget' else 'hgetall'
-        args = (values or []).slice(0) # if not already
+        args = []
+
+        if _.isFunction(values)
+            callback = values
+            method = 'hgetall'
+
+        else if _.isArray(values)
+            method = 'hmget'
+            args = values.slice(0)
+
+        if not _.isFunction(callback)
+            throw new TypeError('Callback required for DB#hgetAll', 'DB.coffee')
 
         args.unshift(dbKey)
         args.push(callback)
@@ -287,17 +299,5 @@ class DB
         dbKey = "zset #{database}:#{section}"
 
         @client.zremrangebyrank(dbKey, from, to, callback)
-
-    testZadd: ->
-        database = 'test'
-        section = database
-        keys = []
-        values = Array(6).join(0).split('').map (a,i) ->
-            keys.push(i)
-            name:'person - ' + i
-
-        callback = (err) -> console.log arguments
-
-        @zadd database, section, keys, values, callback
 
 module.exports = x = new DB()
