@@ -11,9 +11,10 @@ module.exports = exports = class MVData
     _.each serviceData, (data, _service) =>
       _service = _service.toLowerCase()
       @serviceList.push(_service)
+
       @service[_service] = new (require("../services/#{_service}"))(data, config)
 
-    @views = new (require('./Views'))(@servicesList, @service)
+    @views = new (require('./Views'))(@serviceList, @service)
 
   authenticated: (service) ->
     @service[service].authenticated = true

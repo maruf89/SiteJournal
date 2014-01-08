@@ -70,9 +70,9 @@ else
  ###
 app.locals.basedir = './../'
 app.configure ->
-  @set "port", 9001
+  @set "port", 9000
   @set "sslPort", 9443
-  @set "IPAddress", "173.234.60.108"
+  @set "IPAddress", "mariusmiliunas.com"
   @set "views", __dirname
   @set "view engine", "jade"
   @set "view options", layout: false

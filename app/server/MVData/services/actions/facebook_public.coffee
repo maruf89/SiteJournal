@@ -4,24 +4,20 @@ _           = require('lodash')
 Action      = require('./action')
 utils       = require('../utils/utils')
 
+
+
+
 ###*
  * @namespace PublicPosts
  * Generate parameters for the request based on previous request data. Determines
  * whether to query only for the latest data, or to get the entire history.
+https://graph.facebook.com/fql?q=SELECT+post_id,%20description,%20attachment,%20action_links,%20created_time,%20permalink,%20share_count+FROM+stream+WHERE+filter_key+=+%27others%27+AND+%20source_id+=+100000982720544+AND+privacy.value+=+%27EVERYONE%27+AND+created_time+%3C+1349666462+LIMIT+100&access_token=CAAIBU5on5r8BABRfe8cuBdH9ZCG3IXFP41ZCiCo6aEhnCV7NqBb9aKstaVHrCMkhlhqDdZB3aT1Tj2nV9sVUZCXIlYruIptcHlISOzHZCUtqOxkH9as1KgiatmjZBGWDGA7ZAKHn4ZACxJrEZAyFYt0iZCZBOvu3WSyaDagZB1gUZCDEiXuZAFAYKi3Uyi
  *
  * @private
  * @params {Object=} additionalParams   optional additional parameters
  * @return {Object}                     returns request parameters
 ###
 _buildParams = (additionalParams) ->
-    debugger
-    fql = []
-
-    _.each defaultParams.fql, (value, key) ->
-        fql.push("#{key.toUpperCase()} #{value}")
-
-    fql = fql.join(' ')
-
     params = _.clone(@defaultParams)
 
     _.extend(params, additionalParams) if additionalParams?
@@ -33,21 +29,21 @@ _buildParams = (additionalParams) ->
     ###
     if @requestData.end and @requestData.latestActivity
         @currentRequest = 'latest'
-        params.since_id = @requestData.latestActivity
+        params.fql.created_at = " > #{@requestData.latestActivity}"
 
     ###*
      * If last request returned an error and we have the stamp from where we left off
      * then continue querying from there
     ###
-    if @requestData.error and @requestData.oldestActivity
-        params.max_id = utils.decrement(@requestData.oldestActivity)
+    # if @requestData.error and @requestData.oldestActivity
+    #     params.max_id = utils.decrement(@requestData.oldestActivity)
 
     ###*
      * Set now as the latest query timestamp
     ###
     @requestData.lastQuery = (new Date()).getTime()
 
-    return params
+    return params.fql
 
 ###*
  * @namespace PublicPosts
@@ -59,18 +55,27 @@ module.exports = class PublicPosts extends Action
 
     display: 'facebook_public'
 
-    method: 'graph'
+    apiMethod: 'graph'
+
+    method: 'fql'
 
     defaultParams:
         fql:
             select: 'post_id, description, attachment, action_links, created_time, permalink, share_count'
             from: 'stream'
-            where: "source_id = me() AND type = 80 AND privacy.value = 'EVERYONE' AND created_time = now()"
+            where:
+                source_id      : '= me()'
+                filter_key     : "= 'others'"
+                # type           : '= 80'
+                'privacy.value': "= 'EVERYONE'"
+                created_time   : '< now()'
             limit: 100
         mostRecent: false
 
+
     prepareAction: (additionalParams) ->
         params: _buildParams.call(@, additionalParams)
+        apiMethod: @apiMethod
         method: @method
 
     ###
@@ -83,7 +88,6 @@ module.exports = class PublicPosts extends Action
      * @param  {Object} data        query response
     ###
     parseData: (requestObj, err, response) ->
-
         if err
             if err.limitReached
                 console.log 'Rate limit reached'

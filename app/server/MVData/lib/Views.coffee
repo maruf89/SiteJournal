@@ -13,9 +13,9 @@ _           = require 'lodash'
 module.exports = class MVDataViews
   ###*
    * @param  {Array}  @servicesList  Accepts an array of services
-   * @param  {Object} @service       service => data - representation of the same services
+   * @param  {Object} @services      service => data - representation of the same services
   ###
-  constructor: (@servicesList, @service) ->
+  constructor: (@servicesList, @services) ->
 
   ###*
    * Renders the Services view for services to authenticate
@@ -39,7 +39,6 @@ module.exports = class MVDataViews
   serviceView: (req, res, next) =>
     name = req.params.service
     req.session.oauthService = name
-
     service = @services[name]
 
     console.log "#{name} service requested"
@@ -69,4 +68,4 @@ module.exports = class MVDataViews
       service: req.session.oauthService
 
   serviceAuthenticated: (service) ->
-    @service[service].authenticated = true
+    @services[service].authenticated = true

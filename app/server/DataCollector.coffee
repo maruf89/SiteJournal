@@ -5,7 +5,7 @@ mvd          = require('./MVData')
 db           = require('./DB')
 
 #  Add an action like 'youtube' or 'plus' and this will halt requests to that action
-pause        = ['soundcloud_favorite']
+pause        = []
 
 database     = 'item'
 requestData  = 'requestData'
@@ -118,8 +118,7 @@ class DataCollector
             db.get(requestData, action, callback)
 
     addRequestData: (service, action, err, data) ->
-        if err
-            throw err
+        throw err if err
 
         mvd.service[service].configureRequest(action, data)
 

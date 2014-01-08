@@ -19,12 +19,15 @@ _oauthClientInit = (credentials) ->
     ###*  return if already exists  ###
     if @oauth2Client then return
 
-    @oauth2Client = new FacebookAPI
+    params =
         appId           : @appId
         secret          : @appSecret
         redirect_uri    : @config.base + @config.oauthPath
         domain          : @config.cookieDomain
-        credentials     : credentials
+
+    params.credentials = credentials if credentials?
+
+    @oauth2Client = new FacebookAPI(params)
 
 ###*
  * The final callback with the oAuth Tokens
@@ -39,7 +42,6 @@ _oauthClientInit = (credentials) ->
  * @param  {String}             accessTokenSecret
 ###
 _oauthSuccess = (req, res, next, name, accessToken, accessTokenSecret) ->
-
     if @oauthHandleTokenCallback?
         @oauthHandleTokenCallback null,
             service: 'facebook'
@@ -147,7 +149,6 @@ module.exports = class Facebook extends Service
     requiredTokens: ->
         ['access_token']
 
-
     ###*
      * Given a service with a callback, completes a data call. More options to come
      *
@@ -164,4 +165,4 @@ module.exports = class Facebook extends Service
         parseData = action.parseData.bind @, requestObj
         request = action.prepareAction(additionalParams)
 
-        @oauth2Client[request.method](request.params, @accessToken, @accessTokenSecret, parseData)
+        @oauth2Client[request.apiMethod](request.method, request.params, parseData)
