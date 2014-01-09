@@ -118,7 +118,7 @@ module.exports = class Tweets extends Action
         lastActivity = data[dataLength - 1].id_str
 
         if lastActivity < action.oldestStamp
-            action.requestData.oldestActivity = action.oldestTimestamp = lastActivity
+            action.requestData.oldestActivity = action.oldestStamp = lastActivity
 
         data.forEach (item) ->
             store =

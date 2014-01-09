@@ -162,7 +162,10 @@ module.exports = class Facebook extends Service
     initRequest: (requestObj, additionalParams) ->
         action =  @[requestObj.action]
 
-        parseData = action.parseData.bind @, requestObj
         request = action.prepareAction(additionalParams)
+
+        # Attach the request to the object so there's a reference when parsing
+        requestObj.request = request
+        parseData = action.parseData.bind @, requestObj
 
         @oauth2Client[request.apiMethod](request.method, request.params, parseData)
