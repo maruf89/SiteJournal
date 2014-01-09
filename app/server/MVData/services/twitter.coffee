@@ -65,17 +65,19 @@ _oauthClientInit = (credentials) ->
  * @param  {String}             accessTokenSecret
 ###
 _oauthSuccess = (req, res, next, name, accessToken, accessTokenSecret) ->
+    data =
+        accessToken: accessToken
+        accessTokenSecret: accessTokenSecret
 
+    @authenticated(data)
+    
     if @oauthHandleTokenCallback?
         @oauthHandleTokenCallback null,
             service: 'twitter'
-            data:
-                accessToken: accessToken
-                accessTokenSecret: accessTokenSecret
+            data: data
 
 
 module.exports = class Twitter extends Service
-
     constructor: (apiData, config) ->
         @consumerKey       = apiData['consumerKey']
         @consumerSecret    = apiData['consumerSecret']
@@ -125,6 +127,7 @@ module.exports = class Twitter extends Service
     ###
     oauthHandleToken: (callback, req, res, next) ->
         @oauthHandleTokenCallback = callback
+
         @oauth2Client.oauthCallback.apply this, [].slice.call(arguments, 1)
 
     ###*
@@ -137,6 +140,13 @@ module.exports = class Twitter extends Service
     addTokens: (data) ->
         ###*  return true so that the caller knows it reauthenticated successfully  ###
         return _oauthClientInit.call(@, data)
+
+    authenticated: (data) ->
+        if @oauth2Client
+            @accessToken = data.accessToken
+            @accessTokenSecret = data.accessTokenSecret
+        else
+            _oauthClientInit.call(@, data)
 
     ###*
      * Updates the services requestData with this one (most likely one from a DB)

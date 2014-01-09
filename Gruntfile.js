@@ -393,7 +393,7 @@ module.exports = function (grunt) {
       dev: {
         options: {
           file: 'app/server.js',
-          args: ['--debug-brk', 'development'],
+          args: ['--debug', 'development'],
           watchedExtensions: [
             'js',
             'jade',

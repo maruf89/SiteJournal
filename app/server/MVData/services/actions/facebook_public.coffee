@@ -31,7 +31,7 @@ _buildParams = (additionalParams) ->
     if @requestData.end
         if @requestData.latestActivity
             @currentRequest = 'latest'
-            params.fql.created_time = " > #{@requestData.latestActivity}"
+            params.fql.where.created_time = " > #{@requestData.latestActivity}"
 
     else
         params.fql.where.created_time = " < #{@oldestTimestamp}"
@@ -45,8 +45,8 @@ _buildParams = (additionalParams) ->
      * If last request returned an error and we have the stamp from where we left off
      * then continue querying from there
     ###
-    # if @requestData.error and @requestData.oldestActivity
-    #     params.max_id = utils.decrement(@requestData.oldestActivity)
+    if @requestData.error and @requestData.oldestActivity
+        params.fql.where.created_time = " < #{@requestData.oldestActivity}"
 
     ###*
      * Set now as the latest query timestamp
@@ -219,13 +219,3 @@ module.exports = class PublicPosts extends Action
          * remove 1 from lastActivity so it doesn't return the same tweets
         ###
         @initRequest(requestObj, requestObj.request)
-
-
-
-
-
-
-
-
-
-

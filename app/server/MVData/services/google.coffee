@@ -91,6 +91,7 @@ module.exports = class Google extends Service
                 console.log err
                 callback err
             else
+                @authenticated(tokens)
                 callback null, {service: 'google', data: tokens}
 
     ###*
@@ -103,6 +104,18 @@ module.exports = class Google extends Service
     addTokens: (data) ->
         ###*  return true so that the caller knows it reauthenticated successfully  ###
         return _oauthClientInit.call(@, data)
+
+    ###*
+     * Add access tokens after oauth2Client has been initiated
+     * 
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+    ###
+    authenticated: (data) ->
+        if @oauth2Client
+            @oauth2Client.credentials = data
+        else
+            _oauthClientInit.call(@, data)
 
     ###*
      * Updates the services requestData with this one (most likely one from a DB)

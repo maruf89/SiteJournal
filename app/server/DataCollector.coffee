@@ -71,6 +71,7 @@ class DataCollector
             db.get 'api', name, (err, res) =>
                 if err
                     console.log err, name
+
                 else
                     return if not res
 
@@ -81,13 +82,14 @@ class DataCollector
                     req = []
 
                     required.forEach (key) ->
-
                         if res[key] then auth[key] = res[key]
                         else req.push key
                     
                     if req.length
                         console.log "#{name} doesn't have all oauth requirements, missing: ", req
-                        return false
+
+                        ###*  Remove the faulty key  ###
+                        return db.del('api', name)
 
                     ###*
                      * If the service is successfuly reauthenticated
@@ -96,15 +98,17 @@ class DataCollector
                     if mvd.service[name].addTokens(auth)
                         @authenticatedServices.push(name)
                         @requestConfig(name)
+
+                        mvd.authenticated(name)
                     else
                         console.log "Service #{name} failed to authenticate."
-        #
-        # Here should go a setTimeout frequency check
-        # that checks over MVD's authenticated services
-        # that checks for any new services that may have been authenticated since
-        # 
+
+        mvd.onAuthenticate(@onAuthenticate.bind(@))
 
         return @
+
+    onAuthenticate: (service) ->
+        @requestConfig(service)
 
     requestConfig: (serviceName) ->
         service = @config.services[serviceName]
