@@ -1,9 +1,9 @@
 "use strict"
 
-Service       = require './utils/service'
-request       = require 'request'
-googleapis    = require 'googleapis'
-_             = require 'lodash'
+Service       = require('./utils/service')
+#request       = require('request')
+googleapis    = require('googleapis')
+_             = require('lodash')
 OAuth2Client  = googleapis.OAuth2Client
 
 ###*
@@ -44,8 +44,8 @@ module.exports = class Google extends Service
      * @type {Object}
     ###
     servicesKey:
-        'youtube': require('./actions/google_youtube')
-        'plus': require('./actions/google_plus')
+        'youtube_like': require('./actions/google_youtube')
+        'plus_post': require('./actions/google_plus')
 
     ###*
      * The view for initiating a google OAuth call. Will redirect to Googles' auth URL
@@ -91,6 +91,7 @@ module.exports = class Google extends Service
                 console.log err
                 callback err
             else
+                @authenticated(tokens)
                 callback null, {service: 'google', data: tokens}
 
     ###*
@@ -103,6 +104,18 @@ module.exports = class Google extends Service
     addTokens: (data) ->
         ###*  return true so that the caller knows it reauthenticated successfully  ###
         return _oauthClientInit.call(@, data)
+
+    ###*
+     * Add access tokens after oauth2Client has been initiated
+     * 
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+    ###
+    authenticated: (data) ->
+        if @oauth2Client
+            @oauth2Client.credentials = data
+        else
+            _oauthClientInit.call(@, data)
 
     ###*
      * Updates the services requestData with this one (most likely one from a DB)
@@ -152,7 +165,7 @@ module.exports = class Google extends Service
      *
      * @public
      * @fires Google#request
-     * @param  {[type]} requestObj         ---
+     * @param  {Object} requestObj         ---
      * @params {Object=} additionalParams  Additional parameters to extend the default params with
     ###
     request: (requestObj, additionalParams) ->

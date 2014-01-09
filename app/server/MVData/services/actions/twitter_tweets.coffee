@@ -1,3 +1,5 @@
+"use strict"
+
 _           = require('lodash')
 Action      = require('./action')
 utils       = require('../utils/utils')
@@ -45,7 +47,9 @@ _buildParams = (additionalParams) ->
 ###
 module.exports = class Tweets extends Action
 
-    service: 'tweets'
+    service: 'twitter'
+
+    display: 'twitter_tweet'
 
     method: 'timeline'
 
@@ -58,10 +62,14 @@ module.exports = class Tweets extends Action
         params: _buildParams.call(@, additionalParams)
         method: @method
 
-    ###*
+    ###
      * See notes in action.coffee
      *
-     * * IMPORTANT: Called as Twitter object NOT as Tweets Action
+     * * IMPORTANT Called as Service object NOT as Action
+     *
+     * @param  {Object} requestObj  the request object with service data + callback info
+     * @param  {Error}  err         query error
+     * @param  {Object} data        query response
     ###
     parseData: (requestObj, err, response) ->
 
@@ -74,6 +82,7 @@ module.exports = class Tweets extends Action
             return @requestCallback(requestObj, err)
 
         data = response.data
+        dataLength = data.length
 
         if not _.isArray(data)
             console.log 'Unknown Twitter data response type: ', data
@@ -83,27 +92,33 @@ module.exports = class Tweets extends Action
         action = @[requestObj.action]
 
         # if no data passed back, or we already have the oldest item return saying it's done
-        if data.length is 0 or data[0].id_str is action.requestData.oldestActivity
+        if dataLength is 0 or data[0].id_str is action.requestData.oldestActivity
             return @requestCallback(requestObj, null, true)
-        
+
         ###*
          * If there's no currentRequest object, then we know we're searching through our entire history
          * and we're going backwards from the most recent.
          *
          * Second, we know that this is the first request, so the first returned item is the most recent.
+         *
+         * Else if - we reached the end and we're querying newer article
+         * then the first item is the new latest
          ###
         if not action.currentRequest
             action.currentRequest = 'oldest'
 
             action.requestData.latestActivity = data[0].id_str
 
+        else if action.requestData.end
+            action.requestData.latestActivity = data[0].id_str
+
         ###*
          * check if the last returned item is older than our oldest stored item, if so store it's id
         ###
-        lastActivity = data[data.length - 1].id_str
+        lastActivity = data[dataLength - 1].id_str
 
         if lastActivity < action.oldestStamp
-            action.requestData.oldestActivity = action.oldestTimestamp = lastActivity
+            action.requestData.oldestActivity = action.oldestStamp = lastActivity
 
         data.forEach (item) ->
             store =
@@ -114,6 +129,10 @@ module.exports = class Tweets extends Action
             store.geo = item.geo if item.geo?
 
             action.storeData.items.insert (new Date(item.created_at)).getTime(), store
+
+        # if we have less items than the max limit, we know it's the end
+        if data.length < action.defaultParams.count
+            return @requestCallback(requestObj)
 
         ###*
          * Lastly continue querying going backwards

@@ -2,21 +2,41 @@
 
 _ = require('lodash')
 
+# Will store all callbacks to run whenever a service is authenticated
+authCallbacks = []
+
+# Will store which services are authenticated
+authenticatedServices = []
+
+class Service
+    getAuthenticated: ->
+        return authenticatedServices
+
+    authenticatedCallback: (service) ->
+        authCallbacks.forEach (fn) ->
+            fn(service)
+
+###*
+* TODO: add deauthorize
+###
+
 module.exports = exports = class MVData
-  constructor: () ->
-    @service = {}
-    @serviceList = []
+    constructor: () ->
+        @service = new Service()
+        @serviceList = []
 
-  init: (@serviceData, @config) ->
-    _.each serviceData, (data, _service) =>
-      _service = _service.toLowerCase()
-      @serviceList.push(_service)
-      @service[_service] = new (require("../services/#{_service}"))(data, config)
+    init: (@serviceData, @config) ->
+        _.each serviceData, (data, _service) =>
+            _service = _service.toLowerCase()
+            @serviceList.push(_service)
 
-    @views = new (require('./Views'))( @service, @config )
+            @service[_service] = new (require("../services/#{_service}"))(data, config)
 
-  authenticateService: (service, data) ->
-    @service[service].addTokens(data)
+        @views = new (require('./Views'))(@serviceList, @service)
 
-  request: (service, args, callback) ->
-    @service[service].request(args, callback)
+    authenticated: (service) ->
+        authenticatedServices.push(service)
+        @service[service].authenticated = true
+    
+    onAuthenticate: (fn) ->
+        authCallbacks.push(fn)

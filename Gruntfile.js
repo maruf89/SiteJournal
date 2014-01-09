@@ -19,7 +19,10 @@ module.exports = function (grunt) {
   // configurable paths
   var yeomanConfig = {
     app: 'app',
-    dist: 'dist'
+    dist: 'dist',
+    backend: 'app/server',
+    frontend: 'app/scripts',
+    temporary: 'temporary'
   };
 
   var nodemonIgnoredFiles = [
@@ -155,7 +158,8 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      doc: '<%= yeoman.temporary %>'
     },
     jshint: {
       options: {
@@ -169,7 +173,8 @@ module.exports = function (grunt) {
     coffee: {
       options: {
         sourceMap: false,
-        sourceRoot: ''
+        sourceRoot: '',
+        bare: true
       },
       dist: {
         files: [{
@@ -196,6 +201,15 @@ module.exports = function (grunt) {
           cwd: 'test/spec',
           src: '{,*/}*.coffee',
           dest: '.tmp/spec',
+          ext: '.js'
+        }]
+      },
+      doc: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          src: ['server/{,**/}*.coffee', 'scripts/{,**/}*.js'],
+          dest: '<%= yeoman.temporary %>',
           ext: '.js'
         }]
       }
@@ -339,6 +353,14 @@ module.exports = function (grunt) {
         'htmlmin'
       ]
     },
+    jsdoc : {
+      dist : {
+        src: '<%= yeoman.temporary %>/{,**/}*.js',
+        options: {
+          destination: '<%= yeoman.app %>/doc',
+        }
+      }
+    },
     karma: {
       unit: {
         configFile: 'karma.conf.js',
@@ -462,7 +484,12 @@ module.exports = function (grunt) {
     //'karma:app',
 
     'concurrent:nodemon'
+  ]);
 
+  grunt.registerTask('doc', [
+    'coffee:doc',
+    'jsdoc',
+    'clean:doc'
   ]);
 
   grunt.registerTask('test', [

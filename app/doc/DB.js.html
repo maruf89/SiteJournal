@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: DB.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: DB.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>"use strict";
+var DB, redis, _, _buildArguments;
+
+redis = require('redis');
+
+_ = require('lodash');
+
+/**
+ * Modifies the passed in databaseArgs object with it's new values
+ *
+ * @namespace DB
+ * @private
+ * @param {array} databaseArgs  the object that will be modified with the keys
+ * @param {string/array} keys  a key, or an array of keys
+ * @param {object/array} values  a value object, or an array of values
+*/
+
+
+_buildArguments = function(databaseArgs, keys, values) {
+  if (Array.isArray(keys) && Array.isArray(values)) {
+    return keys.forEach(function(key, index) {
+      if (values[index] != null) {
+        return databaseArgs.push(key, JSON.stringify(values[index]));
+      }
+    });
+  } else {
+    return databaseArgs.push(keys, JSON.stringify(values));
+  }
+};
+
+/**
+ * A Redis database
+ *
+ * @namespace DB
+ * @class
+*/
+
+
+DB = (function() {
+  /**
+   * @constructor
+  */
+
+  function DB() {
+    this.client = redis.createClient();
+  }
+
+  /**
+   * Equivalent of Redis' SET
+   *
+   * @public
+   * @fires DB#set
+   * @param {string} database  the database inside hash to use
+   * @param {string} key  the the key to use
+   * @param {string/object} value  the value to save
+   * @param {function=} (optional) callback  a completion callback
+   #
+  */
+
+
+  DB.prototype.set = function(database, key, value, callback) {
+    if (callback == null) {
+      callback = redis.print;
+    }
+    database = "key " + database + ":" + key;
+    if (!_.isString(value) && !_.isNumber(value)) {
+      value = JSON.stringify(value);
+    }
+    return this.client.set(database, value, callback);
+  };
+
+  DB.prototype.get = function(database, key, callback) {
+    database = "key " + database + ":" + key;
+    return this.client.get(database, callback);
+  };
+
+  /**
+   * Equivalent of Redis' H{M}SET
+   * Converts an object into a hash
+   *
+   * @public
+   * @fires DB#hsave
+   * @param {string} database  the database inside hash to use
+   * @param {string} section  the database section to query
+   * @param {object} values  the data object to save
+   * @param {function=} (optional) callback  a completion callback
+  */
+
+
+  DB.prototype.hsave = function(database, section, values, callback) {
+    var databaseArgs, method;
+    if (callback == null) {
+      callback = redis.print;
+    }
+    database = "hash " + database + ":" + section;
+    databaseArgs = [database];
+    method = 'hmset';
+    _.each(values, function(value, key) {
+      return databaseArgs.push(key, value);
+    });
+    /*  if only 1 key/value being set, use hset*/
+
+    method = databaseArgs.length === 3 ? 'hset' : 'hmset';
+    databaseArgs.push(callback);
+    return this.client[method].apply(this.client, databaseArgs);
+  };
+
+  /**
+   * Equivalent of Redis' HMGET/HGETALL
+   *
+   * @public
+   * @fires DB#hgetAll
+   * @param {string} database  the database inside hash to use
+   * @param {string} section  the database section to query
+   * @param {array=} values  an optional array of keys
+   * @param {function} callback  to be used as response callback
+  */
+
+
+  DB.prototype.hgetAll = function(database, section, values, callback) {
+    var args, method;
+    database = "hash " + database + ":" + section;
+    method = _.isArray(values) ? 'hmget' : 'hgetall';
+    args = (values || []).slice(0);
+    args.unshift(database);
+    args.push(callback);
+    return this.client[method].apply(this.client, args);
+  };
+
+  /**
+   * Store sorted sets using Redis' ZADD
+   * `values` will be JSON.stringify'ed
+   *
+   * @public
+   * @fires DB#zadd
+   * @param {string} database  the database inside hash to use
+   * @param {string} section  the database section to query
+   * @param {int/array} keys  either a single int, or an array of integer to serve as keys in the sorted list
+   * @param {object/array} values  either a single object, or an array of objects as values. Will be stringified
+   * @param {function=} callback  whatever is returned by Redis as a result of attempting the method
+  */
+
+
+  DB.prototype.zadd = function(database, section, keys, values, callback) {
+    var databaseArgs;
+    if (callback == null) {
+      callback = redis.print;
+    }
+    database = "zset " + database + ":" + section;
+    databaseArgs = [database];
+    _buildArguments(databaseArgs, keys, values);
+    databaseArgs.push(callback);
+    return this.client.zadd.apply(this.client, databaseArgs);
+  };
+
+  /**
+   * Retrieves items from a sorted set
+   *
+   * @public
+   * @fires DB#zget
+   * @param {String}   database  the database inside hash to use
+   * @param {String}   section   the database section to query
+   * @param {Integer}  from      the starting index
+   * @param {Integer}  to        the end index
+   * @param {Function} callback  whatever is returned by Redis as a result of attempting the method
+   * @param {Boolean=} reversed  Whether to query results from the back
+  */
+
+
+  DB.prototype.zget = function(database, section, from, to, callback, reversed) {
+    var method;
+    if (reversed == null) {
+      reversed = false;
+    }
+    database = "zset " + database + ":" + section;
+    method = reversed ? 'zrange' : 'zrevrange';
+    console.log("@client." + method + "(" + database + ", " + from + ", " + to + ", callback)");
+    return this.client[method](database, from, to, callback);
+  };
+
+  DB.prototype.testZadd = function() {
+    var callback, database, keys, section, values;
+    database = 'test';
+    section = database;
+    keys = [];
+    values = Array(6).join(0).split('').map(function(a, i) {
+      keys.push(i);
+      return {
+        name: 'person - ' + i
+      };
+    });
+    callback = function(err) {
+      return console.log(arguments);
+    };
+    return this.zadd(database, section, keys, values, callback);
+  };
+
+  return DB;
+
+})();
+
+module.exports = new DB();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="DB.html">DB</a></li></ul><h3>Namespaces</h3><ul><li><a href="Action.html">Action</a></li><li><a href="DataCollector.html">DataCollector</a></li><li><a href="GoogleAction.html">GoogleAction</a></li><li><a href="history..html">Tweets
+Generate parameters for the request based on previous request data. Determines
+whether to query only for the latest data, or to get the entire history.</a></li><li><a href="tweets.html">Tweets
+The action that gets and handles all tweets</a></li><li><a href="Twitter.html">Twitter</a></li><li><a href="Youtube.html">Youtube</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_oauthClientInit">_oauthClientInit</a></li><li><a href="global.html#accessToken">accessToken</a></li><li><a href="global.html#currentRequest">currentRequest</a></li><li><a href="global.html#decrement">decrement</a></li><li><a href="global.html#extendDefault">extendDefault</a></li><li><a href="global.html#increment">increment</a></li><li><a href="global.html#oauth2Client">oauth2Client</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 16:03:06 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

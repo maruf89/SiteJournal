@@ -3,13 +3,23 @@
     "services": {
         "google": {
       	    "actions": [
-      	      "youtube",
-              "plus"
+      	        "youtube_like",
+                "plus_post"
             ]
         },
         "twitter": {
             "actions": [
-                "tweets"
+                "twitter_tweet"
+            ]
+        },
+        "soundcloud": {
+            "actions": [
+                "soundcloud_favorite"
+            ]
+        },
+        "facebook": {
+            "actions": [
+                "facebook_public"
             ]
         }
     }

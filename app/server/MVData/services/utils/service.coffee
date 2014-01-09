@@ -1,8 +1,10 @@
+"use strict"
+
 StoreData     = require './storeData'
 _             = require 'lodash'
 
 module.exports = class Service
-    
+
     constructor: (apiData, @config) ->
         ###*
          * Will store the keys of all the google services
@@ -74,14 +76,14 @@ module.exports = class Service
          * after querying google for it and after parsing
          * @type {StoreData}
         ###
-        @[name].storeData = new StoreData(name, @buildRequestData.call(@[name]))
+        @[name].storeData = new StoreData(@[name].display, @buildRequestData.call(@[name]))
 
     ###*
      * The callback proxy for each service
      *
      * @param  {Object}  requestObj  the request Object passed in to the initial request
      * @param  {Error=}  error       any errors if passed
-     * @param  {Boolean} empty       Whether the request returned an empty result 
+     * @param  {Boolean} empty       Whether the request returned an empty result
     ###
     requestCallback: (requestObj, error, empty) ->
         if error

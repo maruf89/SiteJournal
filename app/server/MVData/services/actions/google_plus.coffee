@@ -1,8 +1,12 @@
+"use strict"
+
 _                 = require('lodash')
 GoogleAction      = require('./google_action')
 
 module.exports = class Plus extends GoogleAction
     service: 'plus'
+
+    display: 'plus_post'
 
     scope: 'https://www.googleapis.com/auth/plus.me'
 
@@ -18,10 +22,14 @@ module.exports = class Plus extends GoogleAction
 
     method: 'list'
 
-    ###*
+    ###
      * See notes in action.coffee
      *
-     * * IMPORTANT: Called as Google object NOT as Plus Action
+     * * IMPORTANT Called as Service object NOT as Action
+     *
+     * @param  {Object} requestObj  the request object with service data + callback info
+     * @param  {Error}  err         query error
+     * @param  {Object} data        query response
     ###
     parseData: (requestObj, err, data) ->
 
@@ -43,6 +51,12 @@ module.exports = class Plus extends GoogleAction
                 action.currentRequest = 'oldest'
                 action.requestData.latestActivity = data.updated
             else
+                ###*
+                 * If we're querying for the newest and we got an item, save its time stamp for future requests
+                ###
+                if action.requestData.end
+                    action.requestData.latestActivity = data.updated
+
                 ###*
                  * Since there's no way to query all posts after a certain date in plus, we have to check manually
                 ###
@@ -67,7 +81,7 @@ module.exports = class Plus extends GoogleAction
 
             if action.requestData.latestActivity is item.published then breakEarly = true
 
-            insertObj = 
+            insertObj =
                 objectType: item.object.objectType
 
             insertObj.title       = item.title              if item.title
@@ -76,7 +90,7 @@ module.exports = class Plus extends GoogleAction
             insertObj.url         = item.object.url         if item.object.url
             insertObj.attachments = item.object.attachments if item.object.attachments
 
-            action.storeData.items.insert (new Date(item.published)).getTime(), insertObj  
+            action.storeData.items.insert (new Date(item.published)).getTime(), insertObj
 
         if data.nextPageToken
             ###*  if there's a next page token, store it in the db in case it's the last successful request  ###

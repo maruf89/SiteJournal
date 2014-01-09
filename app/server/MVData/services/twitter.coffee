@@ -1,11 +1,13 @@
 "use strict"
 
-#               require('twitter-oauth')
 Service       = require('./utils/service')
-StoreData     = require('./utils/storeData')
-utils         = require('./utils/utils')
+qs            = require('querystring')
 TwitterAPI    = require('twitter-oauth')
 _             = require('lodash')
+
+###*
+ * @namespace Twitter
+###
 
 _extendClient = ->
     @timeline = (params, oauthToken, oauthTokenSecret, callback) ->
@@ -15,7 +17,7 @@ _extendClient = ->
                 data: data
 
         if _.isObject(params)
-            _params = utils.serialize(params)
+            _params = qs.stringify(params)
 
         else if _.isString(params)
             _params = params
@@ -27,7 +29,7 @@ _extendClient = ->
         @fetch("https://api.twitter.com/1.1/statuses/user_timeline.json?#{_params}", oauthToken, oauthTokenSecret, processData)
 
 ###*
- * Instantiate the Google OAuth client
+ * Instantiate the Twitter OAuth client
  *
  * @private
  * @param  {Object=} credentials  authenticated credentials
@@ -63,16 +65,19 @@ _oauthClientInit = (credentials) ->
  * @param  {String}             accessTokenSecret
 ###
 _oauthSuccess = (req, res, next, name, accessToken, accessTokenSecret) ->
+    data =
+        accessToken: accessToken
+        accessTokenSecret: accessTokenSecret
 
+    @authenticated(data)
+    
     if @oauthHandleTokenCallback?
         @oauthHandleTokenCallback null,
             service: 'twitter'
-            data:
-                accessToken: accessToken
-                accessTokenSecret: accessTokenSecret
+            data: data
+
 
 module.exports = class Twitter extends Service
-
     constructor: (apiData, config) ->
         @consumerKey       = apiData['consumerKey']
         @consumerSecret    = apiData['consumerSecret']
@@ -92,7 +97,7 @@ module.exports = class Twitter extends Service
      * @type {Object}
     ###
     servicesKey:
-        'tweets': require('./actions/twitter_tweets')
+        'twitter_tweet': require('./actions/twitter_tweets')
 
     ###*
      * The view for initiating a twitter OAuth call.
@@ -122,6 +127,7 @@ module.exports = class Twitter extends Service
     ###
     oauthHandleToken: (callback, req, res, next) ->
         @oauthHandleTokenCallback = callback
+
         @oauth2Client.oauthCallback.apply this, [].slice.call(arguments, 1)
 
     ###*
@@ -129,18 +135,25 @@ module.exports = class Twitter extends Service
      *
      * @public
      * @fires Twitter#addTokens
-     * @params {Object} data An object containing `accessToken` and `accessTokenSecret` for Google
+     * @params {Object} data An object containing `accessToken` and `accessTokenSecret` for Twitter
     ###
     addTokens: (data) ->
         ###*  return true so that the caller knows it reauthenticated successfully  ###
         return _oauthClientInit.call(@, data)
+
+    authenticated: (data) ->
+        if @oauth2Client
+            @accessToken = data.accessToken
+            @accessTokenSecret = data.accessTokenSecret
+        else
+            _oauthClientInit.call(@, data)
 
     ###*
      * Updates the services requestData with this one (most likely one from a DB)
      *
      * @public
      * @fires Twitter#configureRequest
-     * @param  {String} service     the Google service to update
+     * @param  {String} service     the Twitter service to update
      * @param  {Object} requestData the actual requestData
     ###
     configureRequest: (service, requestData) ->
@@ -161,7 +174,7 @@ module.exports = class Twitter extends Service
      * Given a service with a callback, completes a data call. More options to come
      *
      * @public
-     * @fires Google#initRequest
+     * @fires Twitter#initRequest
      * @params {Object} requestObj  the object which contains the service, callback & possible other options to come
      * @params {Object=} additionalParams  Additional parameters to extend the default params with
     ###

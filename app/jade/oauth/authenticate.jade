@@ -1,7 +1,11 @@
 - var base = '/authenticate/'
 .services
-	h1 Services to Authenticate
+    h1 Services to Authenticate
 
-	ul
-		- each service in services
-			li: a(href="#{base + service}")= service
+    ul
+        - each service in servicesList
+            - var data = services[service]
+            if data.authenticated
+                li.authenticated:= service + ' - authenticated'
+            else
+                li: a(href="#{base + service}")= service 

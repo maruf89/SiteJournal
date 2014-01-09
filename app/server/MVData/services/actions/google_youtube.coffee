@@ -1,8 +1,17 @@
+"use strict"
+
 _                 = require('lodash')
 GoogleAction      = require('./google_action')
 
+###*
+ * Youtube class for getting all liked video content
+ *
+ * @namespace Youtube
+###
 module.exports = class Youtube extends GoogleAction
     service: 'youtube'
+
+    display: 'youtube_like'
 
     scope: 'https://gdata.youtube.com'
 
@@ -17,10 +26,14 @@ module.exports = class Youtube extends GoogleAction
 
     method: 'list'
 
-    ###*
+    ###
      * See notes in action.coffee
      *
-     * * IMPORTANT: Called as Google object NOT as Youtube Action
+     * * IMPORTANT Called as Service object NOT as Action
+     *
+     * @param  {Object} requestObj  the request object with service data + callback info
+     * @param  {Error}  err         query error
+     * @param  {Object} data        query response
     ###
     parseData: (requestObj, err, data) ->
 
@@ -43,12 +56,12 @@ module.exports = class Youtube extends GoogleAction
         if not action.currentRequest and data.pageInfo
             action.currentRequest = 'oldest'
 
-            latestPublished = data.items[0].snippet.publishedAt
-            action.requestData.latestActivity = latestPublished
+            #  store the latest published
+            action.requestData.latestActivity = data.items[0].snippet.publishedAt
 
         else if action.requestData.end
-            latestPublished = data.items[0].snippet.publishedAt
-            action.requestData.latestActivity = latestPublished
+            #  store the latest published
+            action.requestData.latestActivity = data.items[0].snippet.publishedAt
 
         ###*  check if the last returned item is older than our oldest stored item, if so store it's datestamp  ###
         lastActivity = data.items[data.items.length - 1].snippet.publishedAt

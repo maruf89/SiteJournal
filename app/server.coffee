@@ -11,6 +11,7 @@ config =
   base: process.env.ABSOLUTE_SSL_URL
   oauthPath: 'authenticate/oauth2callback'
   app: process.env.APP_URI
+  cookieDomain: process.env.COOKIE_DOMAIN
 
 ###*  Data Collector config file  ###
 dataConfig    = require('../dataConfig.json')
@@ -30,7 +31,6 @@ path          = require('path')
 
 ###*  Module that uses mvd and does the actual data requesting  ###
 dataCollector = require('./server/DataCollector').configure(dataConfig)
-
 
 ###*  SSL Certificates required to run https  ###
 options =
@@ -72,7 +72,7 @@ app.locals.basedir = './../'
 app.configure ->
   @set "port", 9000
   @set "sslPort", 9443
-  @set "IPAddress", "173.234.60.108"
+  @set "IPAddress", "mariusmiliunas.com"
   @set "views", __dirname
   @set "view engine", "jade"
   @set "view options", layout: false
@@ -137,12 +137,15 @@ if app.get("env") is "development"
 else
   app.use express.static("dist")
 
+app.use(express.directory(__dirname + '/doc'))
+app.use(express.static(__dirname + '/doc'))
+
 ###*  Site Router   ###
 require('./routes')(app)
 
 ###*  Start up both HTTP and HTTPS  ###
 httpServer.listen app.locals.settings.port, app.locals.settings.IPAddress, ->
-   console.log "HTTP server started on #{app.locals.settings.IPAddress}:#{app.locals.settings.port}"
+  console.log "HTTP server started on #{app.locals.settings.IPAddress}:#{app.locals.settings.port}"
 
 httpsServer.listen app.locals.settings.sslPort, app.locals.settings.IPAddress, ->
   console.log "HTTPS server started on port #{app.locals.settings.IPAddress}:#{app.locals.settings.sslPort}"

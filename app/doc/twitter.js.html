@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MVData/services/twitter.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: MVData/services/twitter.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>"use strict";
+var Service, StoreData, Twitter, TwitterAPI, utils, _, _extendClient, _oauthClientInit, _oauthSuccess,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Service = require('./utils/service');
+
+StoreData = require('./utils/storeData');
+
+utils = require('./utils/utils');
+
+TwitterAPI = require('twitter-oauth');
+
+_ = require('lodash');
+
+/**
+ * @namespace Twitter
+*/
+
+
+_extendClient = function() {
+  return this.timeline = function(params, oauthToken, oauthTokenSecret, callback) {
+    var processData, _params;
+    processData = function(err, data, limit) {
+      return callback(err, {
+        limit: limit,
+        data: data
+      });
+    };
+    if (_.isObject(params)) {
+      _params = utils.serialize(params);
+    } else if (_.isString(params)) {
+      _params = params;
+    } else {
+      console.log("Twitter timeline requires params argument to either be a string or object");
+      return false;
+    }
+    return this.fetch("https://api.twitter.com/1.1/statuses/user_timeline.json?" + _params, oauthToken, oauthTokenSecret, processData);
+  };
+};
+
+/**
+ * Instantiate the Twitter OAuth client
+ *
+ * @private
+ * @param  {Object=} credentials  authenticated credentials
+*/
+
+
+_oauthClientInit = function(credentials) {
+  /**  return if already exists*/
+
+  if (this.oauth2Client) {
+    return;
+  }
+  this.oauth2Client = TwitterAPI({
+    consumerKey: this.consumerKey,
+    consumerSecret: this.consumerSecret,
+    domain: this.config.base,
+    loginCallback: this.config.oauthPath,
+    oauthCallbackCallback: _oauthSuccess.bind(this)
+  });
+  _extendClient.call(this.oauth2Client);
+  /**  store the credentials if they exist*/
+
+  if (credentials) {
+    this.accessToken = credentials.accessToken;
+    return this.accessTokenSecret = credentials.accessTokenSecret;
+  }
+};
+
+/**
+ * The final callback with the oAuth Tokens
+ *
+ * @private
+ * @callback
+ * @param  {IncomingRequest}    req
+ * @param  {OutgoingResponse}   res
+ * @param  {Function}           next
+ * @param  {String}             name              Twitter users name
+ * @param  {String}             accessToken
+ * @param  {String}             accessTokenSecret
+*/
+
+
+_oauthSuccess = function(req, res, next, name, accessToken, accessTokenSecret) {
+  if (this.oauthHandleTokenCallback != null) {
+    return this.oauthHandleTokenCallback(null, {
+      service: 'twitter',
+      data: {
+        accessToken: accessToken,
+        accessTokenSecret: accessTokenSecret
+      }
+    });
+  }
+};
+
+module.exports = Twitter = (function(_super) {
+  __extends(Twitter, _super);
+
+  function Twitter(apiData, config) {
+    this.consumerKey = apiData['consumerKey'];
+    this.consumerSecret = apiData['consumerSecret'];
+    this.accessToken = null;
+    this.accessTokenSecret = null;
+    Twitter.__super__.constructor.call(this, apiData, config);
+  }
+
+  /**
+   * The name of the service
+   * @type {String}
+  */
+
+
+  Twitter.prototype.name = 'Twitter';
+
+  /**
+   * Correllates to the service data passed in from services.json
+   * @type {Object}
+  */
+
+
+  Twitter.prototype.servicesKey = {
+    'tweets': require('./actions/twitter_tweets')
+  };
+
+  /**
+   * The view for initiating a twitter OAuth call.
+   *
+   * @public
+   * @fires Twitter#oauthInit
+   * @param  {Request}   req
+   * @param  {Response}  res
+   * @param  {Function}  next
+  */
+
+
+  Twitter.prototype.oauthInit = function(req, res, next) {
+    _oauthClientInit.call(this);
+    return this.oauth2Client.oauthConnect.apply(this, arguments);
+  };
+
+  /**
+   * The view that handles the token returned from authorizing twitters app.
+   * It will process that token, and make another request to google to fetch
+   * the actual access token.
+   *
+   * @public
+   * @fires Twitter#oauthHandleToken
+   * @param  {Function}  callback
+   * @param  {Request}   req
+   * @param  {Response}  res
+   * @param  {Function}  next     [description]
+  */
+
+
+  Twitter.prototype.oauthHandleToken = function(callback, req, res, next) {
+    this.oauthHandleTokenCallback = callback;
+    return this.oauth2Client.oauthCallback.apply(this, [].slice.call(arguments, 1));
+  };
+
+  /**
+   * Add access + refresh tokens to a twitter oauth client
+   *
+   * @public
+   * @fires Twitter#addTokens
+   * @params {Object} data An object containing `accessToken` and `accessTokenSecret` for Twitter
+  */
+
+
+  Twitter.prototype.addTokens = function(data) {
+    /**  return true so that the caller knows it reauthenticated successfully*/
+
+    return _oauthClientInit.call(this, data);
+  };
+
+  /**
+   * Updates the services requestData with this one (most likely one from a DB)
+   *
+   * @public
+   * @fires Twitter#configureRequest
+   * @param  {String} service     the Twitter service to update
+   * @param  {Object} requestData the actual requestData
+  */
+
+
+  Twitter.prototype.configureRequest = function(service, requestData) {
+    if (requestData != null) {
+      return this[service].configureRequest(JSON.parse(requestData));
+    }
+  };
+
+  /**
+   * Returns the fields for the required this.addTokens properties
+   *
+   * @public
+   * @fires Twitter#requiredTokens
+   * @return {array}  the fields
+  */
+
+
+  Twitter.prototype.requiredTokens = function() {
+    return ['accessToken', 'accessTokenSecret'];
+  };
+
+  /**
+   * Given a service with a callback, completes a data call. More options to come
+   *
+   * @public
+   * @fires Twitter#initRequest
+   * @params {Object} requestObj  the object which contains the service, callback & possible other options to come
+   * @params {Object=} additionalParams  Additional parameters to extend the default params with
+  */
+
+
+  Twitter.prototype.initRequest = function(requestObj, additionalParams) {
+    var action, parseData, request;
+    action = this[requestObj.action];
+    parseData = action.parseData.bind(this, requestObj);
+    request = action.prepareAction(additionalParams);
+    return this.oauth2Client[request.method](request.params, this.accessToken, this.accessTokenSecret, parseData);
+  };
+
+  return Twitter;
+
+})(Service);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="DB.html">DB</a></li></ul><h3>Namespaces</h3><ul><li><a href="Action.html">Action</a></li><li><a href="DataCollector.html">DataCollector</a></li><li><a href="GoogleAction.html">GoogleAction</a></li><li><a href="history..html">Tweets
+Generate parameters for the request based on previous request data. Determines
+whether to query only for the latest data, or to get the entire history.</a></li><li><a href="tweets.html">Tweets
+The action that gets and handles all tweets</a></li><li><a href="Twitter.html">Twitter</a></li><li><a href="Youtube.html">Youtube</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_oauthClientInit">_oauthClientInit</a></li><li><a href="global.html#accessToken">accessToken</a></li><li><a href="global.html#currentRequest">currentRequest</a></li><li><a href="global.html#decrement">decrement</a></li><li><a href="global.html#extendDefault">extendDefault</a></li><li><a href="global.html#increment">increment</a></li><li><a href="global.html#oauth2Client">oauth2Client</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Dec 05 2013 16:03:06 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
