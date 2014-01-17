@@ -1,8 +1,8 @@
 .item
     width 100%
     max-width 30em
-    min-width 20em
-    min-height 15em
+    min-width 5em
+    min-height 3em
     display inline-block
     vertical-align top
 
@@ -16,14 +16,14 @@
 
 .item.youtube_like
     .tag
-        background-color #C33333
+        background-color _youtube-red
 
     img
         cursor pointer
 
 .item.plus_post
     .tag
-        background-color #53a93f
+        background-color _plus-green
 
     p
         color _white
@@ -44,11 +44,51 @@
 
 .item.twitter_tweet
     .tag
-        background-color #04aeec
+        background-color _twitter-blue
     
     .inner
         padding-top 2.5em
         
 .item.soundcloud_favorite
+    width em(402)
+    margin 1.5em 1em
+    border-radius .25em
+    border 1px solid _dark-gray
+    overflow hidden
+    cursor pointer
+    background _white
+
     .tag
-        background-color #f93c00
+        background-color _soundcloud-orange
+
+    h3
+        padding .5em
+        font-size 1.25em
+
+    .music-row
+        height em(80)
+        width 100%
+        
+    .artwork
+        width em(80)
+        float left
+
+    .waveform
+        width em(400 - 80)
+        height 100%
+        float right
+        position relative
+
+        *
+            position absolute
+            top 0
+            left 0
+            width 100%
+            height 100%
+
+    .background-color
+        background _soundcloud-orange
+
+.item.facebook_public
+    .tag
+        background-color facebook-dark-blue

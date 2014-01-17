@@ -78,7 +78,7 @@ module.exports = class Favorites extends Action
      * @param  {Object} data        query response
     ###
     parseData: (requestObj, err, data) ->
-        
+        debugger 
         if err
             if err.limitReached
                 console.log 'Rate limit reached'
@@ -120,6 +120,9 @@ module.exports = class Favorites extends Action
 
         for index in [0...dataLength]
             item = data[index]
+            
+            # We don't want it if we can't play it
+            continue if not item.streamable
 
             store = {}
 
@@ -137,13 +140,14 @@ module.exports = class Favorites extends Action
                 # Generate a current timestamp of our items (keep the correct order and give newer items higher stamps)
                 key = (new Date()).getTime() + (index - dataLength) - dataLength
 
-            store.artwork_url = item.artwork_url
-            store.created_at  = item.created_at
-            store.description = item.description
-            store.id          = item.id
-            store.title       = item.title
-            store.permalink   = item.permalink_url
-
+            store.artwork_url  = item.artwork_url
+            store.created_at   = item.created_at
+            store.description  = item.description
+            store.id           = item.id
+            store.title        = item.title
+            store.waveform_url = item.waveform_url
+            # store.permalink   = item.permalink_url
+            
             action.storeData.items.insert(key, store);
 
         # if we have less items than the max limit, we know it's the end

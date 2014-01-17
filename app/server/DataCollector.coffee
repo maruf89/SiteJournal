@@ -7,6 +7,8 @@ db           = require('./DB')
 #  Add an action like 'youtube' or 'plus' and this will halt requests to that action
 pause        = []
 
+clean        = []
+
 database     = 'item'
 requestData  = 'requestData'
 
@@ -26,7 +28,7 @@ _extendDefault = _.partialRight(_.assign, (a, b) -> b or a)
  * @param  {Error}  err     error
  * @param  {Array}  keys    Array of keys return from the database
 ###
-_processRemoval: (action, err, keys) ->
+_processRemoval = (action, err, keys) ->
     return false if not _.isArray(keys)
 
     # Remove each individual key from the 'all' database for the action
@@ -50,6 +52,9 @@ class DataCollector
     constructor: ->
         ###*  Hold all authenticated services in an array  ###
         @authenticatedServices = []
+
+        clean.forEach (action) =>
+            @cleanse(action)
 
     ###*
      * Iterate through each service and check wether it contains

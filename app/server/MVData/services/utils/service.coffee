@@ -87,6 +87,7 @@ module.exports = class Service
     ###
     requestCallback: (requestObj, error, empty) ->
         if error
+            debugger
             @requestData.error = error
 
         action = @[requestObj.action]

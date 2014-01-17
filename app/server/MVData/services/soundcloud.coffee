@@ -50,7 +50,7 @@ module.exports = class Soundcloud extends Service
      * @type {Object}
     ###
     servicesKey:
-        'soundcloud_favorite': require('./actions/soundcloud_favorites')
+        'soundcloud_favorite': require('./actions/soundcloud_favorite')
 
     ###*
      * The view for initiating a soundcloud OAuth call. Will redirect to Soundclouds' auth URL
@@ -85,12 +85,10 @@ module.exports = class Soundcloud extends Service
         query = req.query
 
         @oauth2Client.getToken query.code, (err, tokens) =>
-
             if err
                 return callback err
 
             @oauth2Client.getMe (err, userData) ->
-
                 if err
                     return callback {message: 'Failed to retrieve user data for soundcloud'}, {service: 'soundcloud', data: tokens}
 
@@ -110,6 +108,18 @@ module.exports = class Soundcloud extends Service
     addTokens: (data) ->
         ###*  return true so that the caller knows it reauthenticated successfully  ###
         return _oauthClientInit.call(@, data)
+
+    ###*
+     * Add access tokens after oauth2Client has been initiated
+     * 
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+    ###
+    authenticated: (data) ->
+        if @oauth2Client
+            @oauth2Client.credentials = data
+        else
+            _oauthClientInit.call(@, data)
 
     ###*
      * Updates the services requestData with this one (most likely one from a DB)

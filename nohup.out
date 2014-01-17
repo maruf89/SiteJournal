@@ -1,0 +1,585 @@
+[4mRunning "clean:server" (clean) task[24m
+Cleaning .tmp...[32mOK[39m
+
+[4mRunning "concurrent:server" (concurrent) task[24m
+    
+    [4mRunning "copy:coffee" (copy) task[24m
+    Copied [36m9[39m files
+    
+    [32mDone, without errors.[39m
+        
+    [4mRunning "copy:stylus" (copy) task[24m
+    Copied [36m10[39m files
+    
+    [32mDone, without errors.[39m
+        
+    [4mRunning "coffee:server" (coffee) task[24m
+    File app/server.js created.
+    
+    [32mDone, without errors.[39m
+    
+[4mRunning "concurrent:nodemon" (concurrent) task[24m
+[4mRunning "node-inspector:custom" (node-inspector) task[24m
+[4mRunning "nodemon:dev" (nodemon) task[24m
+9 Jan 16:02:09 - [33m[nodemon] v0.7.10[0m
+9 Jan 16:02:09 - [33m[nodemon] to restart at any time, enter `rs`[0m
+9 Jan 16:02:09 - [32m[nodemon] watching: /home/miliunas/mariusmiliunas.com/html/app[0m
+9 Jan 16:02:09 - [nodemon] exception in nodemon killing node
+Error: EBADF, read
+9 Jan 16:02:09 - [32m[nodemon] Unable to write to temp directory. If you experience problems with file reloading, ensure /tmp is writable.[0m
+9 Jan 16:02:09 - [32m[nodemon] starting `node --debug app/server.js development`[0m
+debugger listening on port 5858
+9 Jan 16:02:09 - [nodemon] reading ignore list
+Node Inspector v0.6.2
+info: socket.io started
+Visit http://127.0.0.1:8080/debug?port=5858 to start debugging.
+info: socket.io started
+connect.multipart() will be removed in connect 3.0
+visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives
+connect.limit() will be removed in connect 3.0
+HTTP server started on mariusmiliunas.com:9000
+HTTPS server started on port mariusmiliunas.com:9443
+No twitter_tweet results
+No youtube_like results
+No facebook_public results
+No plus_post results
+[90mGET / [36m301 [90m10ms - 124b[0m
+[90mGET / [36m304 [90m364ms[0m
+[90mGET /styles/main.css [36m304 [90m2ms[0m
+[90mGET /bower_components/angular/angular.js [36m304 [90m8ms[0m
+[90mGET /bower_components/angular-route/angular-route.js [36m304 [90m8ms[0m
+[90mGET /bower_components/angular-resource/angular-resource.js [36m304 [90m7ms[0m
+[90mGET /bower_components/angular-cookies/angular-cookies.js [36m304 [90m6ms[0m
+[90mGET /bower_components/angular-sanitize/angular-sanitize.js [36m304 [90m5ms[0m
+[90mGET /bower_components/angular-socket-io/socket.js [36m304 [90m5ms[0m
+debug: served static content /socket.io.js
+Fetch 66 items for soundcloud_favorite
+[ { artwork_url: 'https://i1.sndcdn.com/artworks-000066638202-i9d7gk-large.jpg?d53bf9f',
+    created_at: '2013/12/30 19:33:57 +0000',
+    description: 'follow @nanpanoir\r\n"Nanpa Noir released his self-titled track a year ago, and though the effort was (and remains) a fantastic addition to his catalog of electronic-edged and chillwave tracks, it didn’t really reach the level of listeners it was meant to. Chicago producer KR$CHN will be able to assist with that, though, as he today delivered an energized interpretation of the aforementioned track. The original gets spiced sonically by KR$CHN’s rapid percussion and high-strung synths that appear early and often in the track, and it’ll be impossible to feel anything but charged after what repeat listens you’ll surely experience." - http://www.hillydilly.com/2013/12/nanpa-noir-nanpa-noir-krchn-remix/\r\n\r\nhttp://www.trapmusic.net/track/nanpa-noir-by-nanpa-noir-kr',
+    id: 127156534,
+    title: 'Nanpa Noir - Nanpa Noir [KR$CHN Remix]',
+    permalink: 'http://soundcloud.com/krystian-szymula/nanpa-noir-nanpa-noir-kr-chn',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000066265016-4d8qs8-large.jpg?d53bf9f',
+    created_at: '2013/12/25 18:24:09 +0000',
+    description: '',
+    id: 126478068,
+    title: 'Pegboard Nerds x Misterwives - Coffins',
+    permalink: 'http://soundcloud.com/pegboardnerds/pegboard-nerds-x-misterwives',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000065602866-d372zt-large.jpg?d53bf9f',
+    created_at: '2013/12/17 18:15:06 +0000',
+    description: 'Broadcasted on December 7th, 2013.\r\n\r\nTracklist:\r\n01 The Young Punx - Harlem Breakdown (G-Thor\'s Reboot Mix)\r\n02 The Orange - Noncontrolled Things (Original Mix)\r\n03 Above & Beyond - Mariana Trench (Original Mix)\r\n04 Kat Krazy feat. Elkka - Siren (Original Mix)\r\n05 Gorgon City feat. MNEK - Ready For Your Love (Original Mix)\r\n06 Mat Zo feat. Linnea Schossow - The Sky (Original Mix)\r\n07 Armand Van Helden feat. Spank Rock - I Know A Place (Original Mix)\r\n08 Alistair Albrecht feat. Nicole Jackson - Feel So Alive (Anton Stellz Remix)\r\n09 Jam Xpress feat. Charlie - Open My Eyes (Ben Remember Remix)\r\n10 Omnia feat. Everything By Electricity - Bones (Original Mix)\r\n11 Arty - Around the World (Original Mix)\r\n12 Mat Zo - Lucid Dreams (The M Machine Remix)\r\n13 Disclosure x Nile Rodgers x Sam Smith x Jimmy Napes - Together\r\n\r\nSubscribe for TWA iTunes podcast: bit.ly/Arty-TWA\r\n\r\nLike & follow me, if you like the show:\r\nfacebook.com/artyofficial \r\ntwitter.com/arty_music\r\n@artyofficial\r\ninstagram.com/artymusic \r\nvk.com/arty_music\r\n\r\nfacebook.com/2getherweare\r\ntwitter.com/2getherweare\r\n@2getherweare\r\nvk.com/2getherweare',
+    id: 125291740,
+    title: 'Together We Are: Episode 068',
+    permalink: 'http://soundcloud.com/artyofficial/twa068',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000066083902-n0ln35-large.jpg?d53bf9f',
+    created_at: '2013/12/23 12:18:46 +0000',
+    description: 'I hope you all like it, thanks for the massive support this year on behalf of Liquicity and myself. Merry Christmas! :)\r\n\r\nTRACKLIST\r\n\r\n01. Feint - Promises\r\n02. DJ Fresh - Louder (Fliwo Remix)\r\n03. Maduk - Feel Good\r\n04. Submatik & Dualistic - Let me Feel\r\n05. NERVO vs Hook N Sing - Reason (Fliwo Remix)\r\n06. Maduk - Kings & Queens\r\n07. Fox Stevenson - Turn it Up (Higher)\r\n08. Maduk - Believe (ft Hebe Vrijhof)\r\n09. S.P.Y - By Your Side (Keeno & Whiney Remix)\r\n10. Snow Ghosts- And the World Was Gone (Calibre Remix)\r\n11. Feint - Homebound\r\n12. Livewire - Fading Light\r\n13. Maduk & Nymfo - Crossroads\r\n14. Hybrid Minds - Lost VIP\r\n15. Madface - Many Lies\r\n16. Skrillex - Summit (Mediks Remix)\r\n17. Seismix - Tranquil\r\n18. Hugh Hardie - Tearing me Apart\r\n19. Disclosure - You & Me (Flume Remix) (Nymfo Bootleg)\r\n20. Nymfo - Whenever You Need Me\r\n21. Hybrid Minds - Meant to Be\r\n22. L Plus - Faces (Club Mix)\r\n23. Mr Probz - Waves (Sektor Remix)\r\n24. Hosta - All This Time\r\n25. Rameses B - I Need You (Keeno Remix)\r\n26. Koncept - Your Eyes\r\n27. Rameses B - Timeless (ft Veela)\r\n28. Seba - Under the Sun\r\n29. Stan SB - Anyone Out There (Maduk Remix)\r\n30. Stan SB - Anyone Out There (Original Mix)\r\n31. Maduk - Life\r\n32. Fliwo - So Strong\r\n33. Metrik - Freefall VIP\r\n34. Elles De Graaf - Fallen (Echo Inada Remix)\r\n35. John Mayer - Free Fallin\' (NCT Remix)\r\n36. Indiana - Mess Around (Etherwood Remix)\r\n37. Parachute Youth - Can\'t Get Better Than This (Sigma Remix)\r\n38. Rhye - Open (Keeno Remix)\r\n39. Shock One - Home (ft Reija Lee)\r\n40. Woody - Revelate\r\n41. Smooth - Yesterday\r\n42. Matrix & Futurebound - Control\r\n43. Avizura - Memories\r\n44. Rameses B - Hope (ft Charlotte Haining)\r\n45. Fliwo - In The Rain\r\n46. Avizura - Lucky Star\r\n47. NCT - Frozen in Time\r\n48. Woody - Bandit\r\n49. Mind Vortex - Alive\r\n50. Emile Sande - Lifted (Loadstar Remix)\r\n51. Tantrum Desire - Guided Rhythm\r\n52. Spectrem & Spillage - Trust\r\n53. Andreas Ort - Seasons (ft. Submatik & Charline)\r\n54. Fracus & Darwin - Succeed (ft Mark Slammer)\r\n55. Strife II - How Do I (Maduk Remix)\r\n56. Cahb - Secrets VIP\r\n57. Flite - Blue Sparks',
+    id: 126155539,
+    title: 'Liquicity Yearmix 2013 (Mixed By Maduk)[Free Download]',
+    permalink: 'http://soundcloud.com/madukdnb/liquicity-yearmix-2013-mixed',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000064420650-fkyop4-large.jpg?d53bf9f',
+    created_at: '2013/12/04 14:38:22 +0000',
+    description: 'Buy: \r\nhttps://liquicity.databeats.com/download/liq006\r\nhttps://itunes.apple.com/us/album/believe-single/id766419884\r\nhttp://www.beatport.com/release/believe-ep/1205897\r\n\r\nVINYL: www.triplevision.nl/release/LIQUICITY002/\r\n\r\nOut this monday! (Dec 9th)\r\n"Believe EP" by Maduk on Liquicity Records!\r\nSupport by: Pendulum, Camo & Krooked, Danny Byrd, TC, Friction, Brookes Brothers, Fred V & Grafix, Dexcell, Drumsound & Bassline Smith, Smooth, Feint, Metrik and many more!',
+    id: 123196845,
+    title: 'Maduk - Believe (ft Hebe Vrijhof) [Out Now!]',
+    permalink: 'http://soundcloud.com/madukdnb/maduk-believe-ft-hebe-vrijhof',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000064333062-busu3b-large.jpg?d53bf9f',
+    created_at: '2013/12/03 14:12:39 +0000',
+    description: 'Buy: \r\nhttps://liquicity.databeats.com/download/liq006\r\nhttps://itunes.apple.com/us/album/believe-single/id766419884\r\nhttp://www.beatport.com/release/believe-ep/1205897\r\n\r\nVINYL: www.triplevision.nl/release/LIQUICITY002/\r\n\r\n"Believe EP" by Maduk on Liquicity Records!\r\nSupport by: Pendulum, Camo & Krooked, Danny Byrd, TC, Friction, Brookes Brothers, Fred V & Grafix, Dexcell, Drumsound & Bassline Smith, Smooth, Feint, Metrik and many more!',
+    id: 123032069,
+    title: 'Maduk - Kings & Queens [Out Now!]',
+    permalink: 'http://soundcloud.com/madukdnb/maduk-kings-queens',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000036137055-m6c5am-large.jpg?d53bf9f',
+    created_at: '2012/12/13 16:40:26 +0000',
+    description: 'Leslie Clio - Told You So (Remixes) EP (iTunes: http://bit.ly/Sb8rRP)',
+    id: 71104346,
+    title: 'Leslie Clio - Told You So (Kid Simius Remix)',
+    permalink: 'http://soundcloud.com/kidsimius/leslie-clio-told-you-so-kid',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000003171914-cyslow-large.jpg?d53bf9f',
+    created_at: '2010/09/17 00:03:22 +0000',
+    description: '',
+    id: 5361225,
+    title: 'Junip - The Ghost of Tom Joad',
+    permalink: 'http://soundcloud.com/sxeseis/the-ghost-of-tom-joad-junip',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000060461154-b2vhpt-large.jpg?d53bf9f',
+    created_at: '2013/10/18 18:45:36 +0000',
+    description: 'Follow Tiësto On:\r\ninstagram.com/tiesto\r\nfacebook.com/tiesto\r\ntwitter.com/tiesto\r\nyoutube.com/user/officialtiesto\r\n@tiesto_official\r\n\r\nDisco Fries:\r\n@thediscofries',
+    id: 115972154,
+    title: 'Tiësto feat. Disco Fries – iTrance',
+    permalink: 'http://soundcloud.com/tiesto/tiesto-feat-disco-fries-itrance',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000042469784-t85ou5-large.jpg?d53bf9f',
+    created_at: '2013/03/08 20:16:39 +0000',
+    description: 'Be sure to tune in to Kindergarten Radio \r\nEvery Wednesday at 9pm Eastern/6pm Pacific on Evolution on iHeartRadio',
+    id: 82387033,
+    title: 'Kindergarten radio episode 012 - Guest mix from Paris & Simo',
+    permalink: 'http://soundcloud.com/wolfganggartner/kindergarten-radio-episode-012',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000033123516-t31ye9-large.jpg?d53bf9f',
+    created_at: '2012/10/29 21:57:10 +0000',
+    description: '',
+    id: 65272400,
+    title: 'The Walls',
+    permalink: 'http://soundcloud.com/roboticpiratemonkey/robotic-pirate-monkey-the',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000055956950-5akxo1-large.jpg?d53bf9f',
+    created_at: '2013/08/22 16:01:47 +0000',
+    description: 'SAVOY - I Wouldn\'t Mind (SAVOY Remix)',
+    id: 106680924,
+    title: 'I Wouldn\'t Mind (SAVOY Remix)',
+    permalink: 'http://soundcloud.com/savoyband/i-wouldnt-mind-savoy-rmx',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000058157134-d48l6s-large.jpg?d53bf9f',
+    created_at: '2013/09/19 15:39:04 +0000',
+    description: '',
+    id: 111250706,
+    title: 'Count On Me Feat. Moko (Steve Angello Remix)',
+    permalink: 'http://soundcloud.com/chaseandstatus/count-on-me-feat-moko-steve',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000056248823-f6jjc1-large.jpg?d53bf9f',
+    created_at: '2013/08/26 13:24:59 +0000',
+    description: 'Broadcasted on August 17th, 2013.\r\n\r\nTracklist:\r\n01 Arty - Grand Finale (Arston Remix)\r\n02 Jewelz & Scott Sparks - Cargo (Original Mix)\r\n03 Mat Zo - Pyramid Scheme (Original Mix)\r\n04 Alex Metric & Jacques Lu Cont feat. Malin - Safe With You (Andi Durrant & Steve More Remix)\r\n05 Tangle & Mateusz - Bowzer (Original Mix)\r\n06 Maor Levi feat. Daphne - Beautiful Disaster (Original Mix)\r\n07 Tensnake feat. Fiora - See Right Through (Original Mix)\r\n08 Eli & Fur - You\'re So High (Original Mix)\r\n09 Tom Middleton - Wyv Auw Chu (Original Mix)\r\n10 Answer42 - Tumbleweed (Roddy Reynaert \'Ifonika\' Remix)\r\n11 Feenixpawl & Jason Forte - Together (Marco V Remix)\r\n12 Marcus Schossow - Reverie (Michael Calfan Remix)\r\n13 Parra For Cuva feat. Anna Naklab – Wicked Games (Original Mix)\r\n\r\nSubscribe on TWA iTunes podcast here: bit.ly/Arty-TWA\r\n\r\nLike & follow me, if you like the show:\r\nfacebook.com/artyofficial \r\ntwitter.com/arty_music\r\n@artyofficial\r\ninstagram.com/artymusic \r\nvk.com/arty_music\r\n\r\nwww.facebook.com/2getherweare\r\ntwitter.com/2getherweare\r\n@2getherweare\r\nvk.com/2getherweare',
+    id: 107304498,
+    title: 'Together We Are: Episode 056',
+    permalink: 'http://soundcloud.com/artyofficial/twa056',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000056345915-jvv7ps-large.jpg?d53bf9f',
+    created_at: '2013/08/27 17:39:37 +0000',
+    description: '',
+    id: 107518232,
+    title: 'We Go Down',
+    permalink: 'http://soundcloud.com/krewella/we-go-down',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000053572343-rkit7u-large.jpg?d53bf9f',
+    created_at: '2013/07/23 10:53:09 +0000',
+    description: 'Available to buy from iTunes: https://itunes.apple.com/gb/album/mantra-single/id679680548',
+    id: 102242806,
+    title: 'Abigail Wyles - Mantra (Doc Daneeka Remix)',
+    permalink: 'http://soundcloud.com/abigailwyles/abigail-wyles-mantra-doc',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000053601111-vce59a-large.jpg?d53bf9f',
+    created_at: '2013/07/23 18:43:14 +0000',
+    description: 'Guest mix by https://soundcloud.com/arno-cost. Broadcasted on July 13th, 2013.\r\n\r\nTracklist:\r\n01 Chocolate Puma, Sunnery James & Ryan Marciano - Stiffness (Original Mix)\r\n02 Deniz Koyu – Rage (Original Mix)\r\n03 Avicii - X You (Original Mix)\r\n04 Burns - Limitless (Arno Cost Remix)\r\n05 Sebastian Ingrosso, Steve Angello - 555 (9Five Re-Edit)\r\n06 Axwell - Center of the Universe (Remode)\r\n07 Alex M.O.R.P.H. & Jerome Isma-Ae - Bang! (Original Mix)\r\n08 Daddy\'s Groove & Rob Adans – Unbelievable (Original Mix)\r\n09 Dada Life - Boing Clash Boom (Bingo Players Remix) \r\n10 TUS - Turn On The Music (Original Mix) \r\n11 Miike Snow - Pretender (Dem Slackers Remix)\r\n12 Mark Knight - Your Love (Original Club Mix)\r\n\r\nSubscribe on TWA iTunes podcast here: http://bit.ly/Arty-TWA\r\n\r\nLike & follow me, if you like the show:\r\n\r\nfacebook.com/artyofficial \r\ntwitter.com/arty_music\r\n@artyofficial\r\ninstagram.com/artymusic \r\nvk.com/arty_music\r\n\r\nwww.facebook.com/2getherweare\r\ntwitter.com/2getherweare\r\n@2getherweare\r\nvk.com/2getherweare',
+    id: 102294158,
+    title: 'Together We Are: Episode 051 [Arno Cost Guest Mix]',
+    permalink: 'http://soundcloud.com/artyofficial/twa051',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000023149949-7g6o2c-large.jpg?d53bf9f',
+    created_at: '2012/05/11 08:17:45 +0000',
+    description: 'iTunes: http://bit.ly/Lf45ai\nBeatport: http://smarturl.it/keaneremix\nSpotify: http://spoti.fi/Ks9RYz\n\nAlesso proves once again why he is hot property in EDM with his take on Keane\'s \'Silenced By The Night\'. Expertly produced, Alesso uses trademark synth sounds and progression to completely flip the original into something that is sure to become a festival favourite over the summer.\n\nhttps://www.facebook.com/AlessoOfficial \nhttps://www.facebook.com/keane',
+    id: 46023523,
+    title: 'Keane - Silenced By The Night (Alesso Remix)',
+    permalink: 'http://soundcloud.com/refunerecords/keane-alesso-remix',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000042546443-71eiee-large.jpg?d53bf9f',
+    created_at: '2013/03/09 19:58:06 +0000',
+    description: 'iTunes: http://smarturl.it/IfILoseAlesso \r\nBeatport: http://smarturl.it/IfILoseAlessoBP \r\nSpotify: http://bit.ly/IfILoseAlesso',
+    id: 82523324,
+    title: 'Alesso Vs OneRepublic - If I Lose Myself (Alesso Remix)',
+    permalink: 'http://soundcloud.com/alesso/alesso-vs-onerepublic-if-i-lose-myself',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000049603274-qjq57i-large.jpg?d53bf9f',
+    created_at: '2013/06/02 18:44:13 +0000',
+    description: '',
+    id: 95110275,
+    title: 'Empire Of The Sun - Alive (Mat Zo Remix) Edited By S&K',
+    permalink: 'http://soundcloud.com/radio-edits-by-s-k-2-0/empire-of-the-sun-alive-mat-zo',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000050192527-rutx0h-large.jpg?d53bf9f',
+    created_at: '2013/06/09 22:24:15 +0000',
+    description: '100% my own tracks + live keyboard improvistation\r\n\r\nTracklist:\r\n1. Maduk & Submatik - Numbers (Marckus Remix) [Unreleased]\r\n2. Marckus - Downtown [Western Front]\r\n3. Primo & Marckus - Spoke [Unreleased]\r\n4. Marckus - Polar Bears [Unreleased]\r\n5. Marckus & Rue d\'Alex - Need to Know (Remastered) [Western Front]\r\n6. Marckus - Kings & Queens [Unreleased]\r\n7. Marckus - Satisfaction [Western Front]\r\n8. Marckus - Drugs Are Bad [Unreleased]\r\n9. Marckus - Alright [Unreleased]\r\n10. Marckus & Prosper Rek - Thing or Two [Unreleased]\r\n11. Marckus & Rue d\'Alex - Victory [Western Front]\r\n12. Marckus & Rue d\'Alex - People [Western Front]\r\n',
+    id: 96184554,
+    title: 'Marckus LIVE @ Open Air 2013',
+    permalink: 'http://soundcloud.com/marckus/marckus-live-open-air-2013',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000050244655-7s5a5x-large.jpg?d53bf9f',
+    created_at: '2013/06/10 16:13:11 +0000',
+    description: '',
+    id: 96277997,
+    title: 'Lost & Not Found Feat. Louis M^ttrs (Kove Remix)',
+    permalink: 'http://soundcloud.com/chaseandstatus/lost-not-found-feat-louis-m-2',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000050322892-iajdze-large.jpg?d53bf9f',
+    created_at: '2013/06/11 13:47:11 +0000',
+    description: 'Club Life Vol 3 - Stockholm Available Now!\r\n\r\niTunes: http://smarturl.it/clublifevol3itunes\r\nBeatport: http://smarturl.it/clublifevol3BP\r\nTiesto.com: http://www.tiesto.com\r\n\r\n\r\n--------------------------------------------------------\r\n\r\nTiësto’s Club Life – Volume Three Stockholm is jam packed with hits, but still, you’d be hard pressed to find a track as huge and with as much emotion as “Paradise.” Already a staple in the sets of the most revered DJs in the world, “Paradise” is simply gorgeous with a driving melody that makes you want to jump and celebrate dance music. This is the best of summer wrapped up into a song.\r\n\r\nDownload on Beatport: http://smarturl.it/tiestoparadise\r\nWatch here: http://youtu.be/CTWFV7FY3yo\r\n\r\nLook out for “Paradise” on CLUB LIFE - Volume Three Stockholm, available now! CLUB LIFE - Volume Three Stockholm features 9 exclusive Tiësto tracks -- new originals as well as remixes of Icona Pop, Zedd, Calvin Harris and Passion Pit.\r\n\r\nFollow @tiesto_official on:\r\nwww.facebook.com/tiesto\r\nwww.twitter.com/tiesto\r\nwww.youtube.com/user/officialtiesto\r\n\r\nJoin Musical Freedom on:\r\nfacebook.com/musicalfreedom \r\ntwitter.com/musicalfreedom \r\nwww.youtube.com/user/musicalfreedomrecs',
+    id: 96410846,
+    title: 'Tiësto & Dyro - Paradise',
+    permalink: 'http://soundcloud.com/tiesto/tiesto-dyro-paradise',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000048768326-7e02l9-large.jpg?d53bf9f',
+    created_at: '2013/05/23 14:51:02 +0000',
+    description: 'SAVOY - Three Against Nature EP\r\n\r\nwww.savoyband.com\r\nwww.facebook.com/savoy\r\nwww.twitter.com/savoy',
+    id: 93527685,
+    title: 'I Wouldn\'t Mind',
+    permalink: 'http://soundcloud.com/savoyband/i-wouldnt-mind',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000049700274-ika6pv-large.jpg?d53bf9f',
+    created_at: '2013/06/03 20:05:48 +0000',
+    description: 'Adventure Club presents: Superheroes Anonymous Volume 2\n\nPremiered on This Song Slaps (Mixify Festival)\nhttp://www.thissongslaps.com/2013/06/tss-premier-adventure-club-superheroes-anonymous-vol-2/\n\nThe Aston Shuffle & Tommy Trash – Sunrise (Shock One Remix)\nSkrillex Ft. Ellie Goulding – Summit (Panic City & Mistermike Remix)\nKnife Party – LRAD (BMBX CTRL Remix)\nAdventure Club ft. Krewella – Rise and Fall (KDrew Remix)\nBourke & Vegas – I’m Alive (Jarvis Remix)\nKonec ft Anna Yvette – The Void\nBrass Knuckles – Bad Habits (Twinz Beats Remix)\nNari & Milani – Atom (Oh Snap!! Remix)\nAce Hood x Future – Bugatti (Heroes X Villains Remix)\nT.G.C.F – Say What You Do (Kill Paris Remix)\nClark Kent & Yinyues – Cosmos (Skrux & Complexion Remix)\nNoisestorm – Together\nTrinidad James – All Gold Everything (MAKJ Remix)\nEmalkay – Flesh and Bone (Dismantle Remix)\nDJ Snake – Together\nThe Kooks – Naive (Billy Kenny Remix)\nTina Moore – Never Gonna Let U Go (Billy Kenny Corrupt Remix)\nKarma Kid – In My Arms\nMark Lower – Bad Boys Cry\nAlexisonfire – To A Friend (Adventure Club Remix)\nJames Vincent McMorrow – We Don’t Eat (Adventure Club Remix)\nAdventure Club – Wait (Culture Code Remix)\nChildish Gambino – Heartbeat\nAudiobot – Galactic\nKid Kamillion – Say Whut!\nShowtek – Slow Down (BMBX CTRL Remix)\nChuckie vs Dzeko & Torres – Down To This\nDimitri Vegas x Like Mike x GTA ft Wolfpack – Turn It Up\nNari & Miliani and Maurizio Gubellini Feat Nicci – Vago\nJohn Dish – Karma\nRay Foxx, Rachel K Collier – Boom Boom (Heartbeat) (Taiki & Nulight Remix)\nWILKINSON – Take You Higher (Foamo Remix)\nAfrojack – Annies Theme (Carnage Remix)\nLaidback Luke – Pogo (Twinz Beats Remix)\nRoberto Da Costa ft. Daphne Khoo – Excited (Sick Individuals Remix)\nTiesto – Chasing Summers (R3hab & Quintino Remix)\nW&W – Thunder (BARE Remix)\nAdventure Club – Outro',
+    id: 95269794,
+    title: 'Superheroes Anonymous Vol. 2',
+    permalink: 'http://soundcloud.com/adventureclub/sha-2',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000048771275-i4jeu7-large.jpg?d53bf9f',
+    created_at: '2013/05/23 15:38:01 +0000',
+    description: 'Tracklist:\r\n\r\nKill Paris - Keep Your Secrets In Midnight City\r\nOliver - Night Is On My Mind\r\nSkrillex - The Reason\r\nBrillz and Corey Enemy - Pump The Beat\r\nShockOne - Big Bounce\r\nDelta Heavy - Empire\r\nNero - Must Be The Feeling (Delta Heavy Remix)\r\nKavinsky - ProtoVision\r\nShockOne - Light Cycles\r\nChords - Biting Point / Wilkinson - Take Your Higher\r\nFred V & Grafix - Purple Gates\r\nSub Focus - Airplane\r\nShockOne - Harmonize\r\nLoadstar - Warrior\r\nChase and Status - Hocus Pocus\r\nTC - Get Down Low\r\nMaztek - Limber\r\nSub Focus - Stomp\r\nZomboy ft. Lady Chann - Here To Stay (Delta Heavy Remix)\r\nFlosstradamus - Roll Up (Baauer Remix)\r\nTNGHT - Higher Ground\r\nValentino Khan - The Dip \r\nBro Safari - The Drop\r\nJust Blaze x Baauer - Higher\r\nJamie Lidell - What A Shame (RL Grime and Salva Remix)\r\nRustie - Triadzz\r\nDJ Sliink - Put Cha Back In It\r\nKW Griff ft. Pork Chop - Bring In The Katz\r\nTessela - Hackney Parrot\r\nJacob Plant - Fire\r\n2Edit - Tropicalia (Torro Torro Remix)\r\nAutoerotique - Asphyxiation ',
+    id: 93534269,
+    title: 'Delta Heavy x Triple J Radio Mix May 2013',
+    permalink: 'http://soundcloud.com/deltaheavy/delta-heavy-x-triple-j-radio',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000046395068-nhb70n-large.jpg?d53bf9f',
+    created_at: '2013/04/25 12:49:27 +0000',
+    description: 'Buy here:\r\nBeatport: tinyurl.com/godbeatport\r\niTunes: goo.gl/2VV2K\r\n\r\nOut now! (Digital Only) 11 exclusive and never released tracks by the children of Liquicity!',
+    id: 89435009,
+    title: 'Stan SB - Anyone Out There (Maduk Remix) (Preview)',
+    permalink: 'http://soundcloud.com/madukdnb/stan-sb-anyone-out-there-maduk',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000050484081-nlszzj-large.jpg?d53bf9f',
+    created_at: '2013/04/29 18:14:47 +0000',
+    description: '',
+    id: 90028863,
+    title: 'Lost & Not Found Feat. Louis M^ttrs (Dream Mclean Remix)',
+    permalink: 'http://soundcloud.com/chaseandstatus/lost-not-found-feat-louis-m',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000046412570-tacazp-large.jpg?d53bf9f',
+    created_at: '2013/04/25 15:46:57 +0000',
+    description: '',
+    id: 89455769,
+    title: 'Zomboy ft. Lady Chann - Here to Stay (Delta Heavy Remix)',
+    permalink: 'http://soundcloud.com/deltaheavy/zomboy-ft-lady-chann-here-to',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000041677617-ox2euo-large.jpg?d53bf9f',
+    created_at: '2013/02/26 22:05:39 +0000',
+    description: 'Koven \r\n‘More Than You’\r\n\r\n1. More Than You (Radio Edit)\r\n\r\n2. More Than You (DC Breaks Remix)\r\n\r\n3. More Than You (RoughMath Remix) [Beatport Exclusive]\r\n\r\n3. More Than You \r\n\r\n4. No Blocks\r\n\r\nLabel: Viper Recordings \r\nCat #: VPR051\r\n \r\nReleased: 3rd March 2013\r\n\r\nwww.facebook.com/KOVENuk \r\n\r\ntwitter.com/KOVENuk \r\n\r\nwww.facebook.com/ViperRecordings \r\n\r\ntwitter.com/ViperRecordings\r\n\r\nwww.facebook.com/RoughMath\r\n\r\ntwitter.com/RoughMath',
+    id: 80960897,
+    title: 'Koven - More Than You (RoughMath Remix) - Out Now',
+    permalink: 'http://soundcloud.com/roughmath/koven-more-than-you-roughmath',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000043325131-s9uj8c-large.jpg?d53bf9f',
+    created_at: '2013/03/19 13:11:11 +0000',
+    description: 'RoughMath – BuzzKill EP\r\n1.\tRoughMath - Woe (ft Jonny Winston)\r\n2.\tRoughMath - BuzzKill\r\n3.\tRoughMath - Sound In Your System (ft Maksim)\r\n4.\tRoughMath - Cold\r\n\r\nReleased:\r\nOut NOW on Beatport: http://www.beatport.com/release/buzzkill-ep/1069024\r\nApril 15th 2013 All other stores\r\n\r\n\r\nLabel: Spawn Records\r\nCat: SPAWN00001\r\nGenre: Drum & Bass/Electro/Glitch Hop/Dubstep\r\n\r\nSpawn Records releases its first ever product and it’s a blinder. As good as it gets bass music from up and coming star RoughMath featuring the brilliant vocals of Jonny Winston and flow of one of the hottest and best known MCs in the scene, Maksim. Expect to hear lively, catchy, jacking electro and dubstep influenced EDM produced to a very high standard in an all-round brilliant and solid 2nd EP from RoughMath.\r\n\r\nPathing the way to becoming a well-known, reliably fantastic producer in the bass music scene, with official remixes on Koven’s ‘More Than You’ and ‘Wake You Up’ singles released on Viper Recordings and 2 Much Bass Records respectively, and a successful debut EP ‘Antevorta’ also on 2 Much Bass Records, Leo Crossing pka RoughMath follows up with his second full EP release on Spawn Records. Having gained production support from the likes of Roksonix, ShockOne, Dirtyphonics, Cutline, TC, B-Complex, Modestep, Crissy Criss, Koven, Dodge & Fuski, The Qemists, 501 and more with the last EP, ‘BuzzKill’ now hopes to launch RoughMath firmly onto the bass music scene’s radar and really cause a stir.\r\n\r\nNewly appointed as the in-house studio engineer for Spawn Records, it seemed fitting that RoughMath would have the honour of the label’s first release. Spawn Records is a new independent record label established and run by AudioPorn’s Compilations Manager / Nukleuz’s Label Manager, Tom Flanders. Specialising in UK bass music, based in East London and created in late 2012, Spawn Records was born with a single goal - to give underrated producers the platform they deserve to increase their exposure and get them a step closer to where they want to be.\r\n\r\nwww.facebook.com/RoughMath | www.twitter.com/RoughMath\r\n\r\nwww.facebook.com/MaksimMC | www.twitter.com/MaksimMC\r\n\r\nwww.facebook.com/JonnyWinston | www.twitter.com/JonnyWinstonUK \r\n\r\nwww.facebook.com/SpawnRecords | www.twitter.com/SpawnRecords',
+    id: 83945007,
+    title: 'Woe ft. Jonny Winston From the BuzzKill EP Out NOW on Beatport',
+    permalink: 'http://soundcloud.com/roughmath/woe-ft-jonny-winston-from-the',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000018991608-xvyluq-large.jpg?d53bf9f',
+    created_at: '2012/02/24 20:35:28 +0000',
+    description: 'Free download for my 19th birthday.',
+    id: 37719804,
+    title: 'JPhelpz - So Sweet [free download]',
+    permalink: 'http://soundcloud.com/jphelpz/jphelpz-so-sweet-free-download',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000042160393-f26hrg-large.jpg?d53bf9f',
+    created_at: '2013/03/04 16:38:05 +0000',
+    description: 'WL- white label\r\nu - unreleased\r\n\r\nZEDS DEAD ESSENTIAL MIX TRACKLIST\r\n\r\n\r\nzeds dead - slow - unreleased - white label\r\n\r\nRolling Stones - Gimme Shelter (Zeds Dead Remix) - WL\r\n\r\nMemorecks - Trouble - U - WL\r\n\r\nZeds Dead and Memorecks - Love Me - U - WL\r\n\r\nSublime - Doin Time (Zeds Dead Remix VIP) - WL\r\n\r\nZeds Dead - Monkey - U - WL\r\n\r\nZeds Dead - White Satin - WL\r\n\r\nMassive Attack - Paradise Circus (Zeds Dead Remix) - WL\r\n\r\nTEED - Household Goods (Zeds Dead Remix) – Greco Roman\r\n\r\nZeds Dead - Dimention - u - WL\r\n\r\nPortishead - Only You – Go!  Beat\r\n\r\nZeds Dead - Back Home - U - WL\r\n\r\nBreakage ft. Newham Generals - Hard - digital soundboy\r\n\r\nAl Green - Simply Beautiful (George Lenton Remix) - WL\r\n\r\nZeds Dead - Womb - U - WL\r\n\r\nSkream - Dutch Flowers  - Tempa\r\n\r\nzeds dead - rave - mad decent\r\n\r\nzeds dead - rumble in the jungle - mad decent\r\n\r\nzinc - nexx - Bingo Beats\r\n\r\nRadiohead - everything in it\'s right place (gigamesh and discotech remix) - WL\r\n\r\nSam Obernik, Tradelove - Bette Davis Eyes (Club Mix) - LoudBit\r\n\r\nZeds dead - ruckus the jam - dim mak\r\n\r\nZeds Dead and Omar Linx - Cowboy (Torro Torro Remix) - Ultra\r\n\r\nZeds Dead - 1975\r\n\r\nJustice - Phantom pt. 2 (Soulwax Remix) – Because Music/Ed Banger Records\r\n\r\nZeds Dead - Demons - Mad Decent\r\n\r\nIncredible Bongo Band – Apache – Mr Bongo/MGM Records\r\n\r\nBrother to Brother - In The Bottle – Turbo Records\r\n\r\nThe Prodigy - Breathe (Zeds Dead Remix) - XL\r\n\r\nProxy - Dance in Dark - Dim Mak\r\n\r\nThe Bug - Skeng ft. Flowdan - Ninja Tune\r\n\r\nMarina and the Diamonds - Lies (Zeds Dead Remix)\r\n\r\nZeds Dead - Trouble - Mad Decent\r\n\r\nZeds Dead - Rudeboy -San City High\r\n\r\nJason Falkner - Only You (Zeds Dead Remix) - WL\r\n\r\nZeds Dead - Purple Galaxy - U - WL\r\n\r\nChase and Status - Saxon - Ram\r\n\r\nZeds Dead - Twilight Zone - WL\r\n\r\nZeds Dead - Oh No - Inspected\r\n\r\nZeds Dead - Hit Me - Inspected\r\n\r\nZeds Dead - Adrenaline VIP - Inspected\r\n\r\nZeds Dead - Playa - Mad Decent\r\n\r\nRusko - Hold On ft. Amber Coffman - Mad Decent\r\n\r\nColin Munroe - Fight of My Life (Zeds Dead Remix)\r\n\r\nZeds Dead and Omar LinX - Crank - Ultra\r\n\r\nBlue Foundation - Eyes On Fire (Zeds Dead Remix) - Ministry of Sound\r\n\r\nZeds Dead and Omar LinX - You and I - Jeffrees\r\n\r\nZeds Dead - By Your Side - U - WL\r\n\r\nBon Iver - Woods (Zeds Dead Remix) - WL\r\n\r\nZeds Dead - Coffee Break - WL\r\n\r\nDJ Vadim and The Electric - Toot Toot (Zeds Dead Remix)\r\n\r\nZeds Dead - Ratchet - WL\r\n\r\nZeds Dead and Omar LinX - Out For Blood - WL\r\n\r\nSebastien Tellier - DIvine (Danger Remix) (Zeds Dead re Remix)\r\n\r\nDJ Shadow - Midnight in A Perfect World - Mowax\r\n\r\nRJD2 - Work - Definitive Jux\r\n\r\nZeds Dead - Nostalgia - U - WL\r\n\r\nThe Roots and Monsters Of Folk - Dear God (Zeds Dead Remix) - WL\r\n\r\nCalyx - Give Myself To You - Moving Shadow\r\n\r\nPendulum - Masochist -\r\n\r\nNina Simone - Don\'t Let Me Be Missunderstood (Zeds Dead Remix)\r\n\r\nZeds Dead and Omar LinX - Cowboy - Ultra\r\n\r\nZeds Dead - Undah Yuh Skirt ft. Mavado - Mad Decent\r\n\r\nZeds Dead and Memorecks - Jericho - U - WL\r\n\r\nZeds Dead and Omar LinX - No Prayers - Jeffrees\r\n\r\nTragedy Khadafi - Calm Down (feat. Nas, N.O.R.E.)\r\n\r\nGorillaz - Tomorrow Comes Today - EMI\r\n\r\nZeds Dead - Untitled',
+    id: 81774725,
+    title: 'Essential Mix - 02.03.2013',
+    permalink: 'http://soundcloud.com/zedsdead/essential-mix-02-03-2013',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000019164952-qu47jb-large.jpg?d53bf9f',
+    created_at: '2012/02/29 10:22:21 +0000',
+    description: 'TRACKLIST\r\nCaribou - Sinuses\r\nCom Truise - Karova\r\nBroker/Dealer - On A Claire Day\r\nCloudland Canyon - Krautwerk\r\nTame Impala - Why Won\'t You Make Up Your Mind?\r\nBibio - Saint Christopher\r\nBlack Moth Super Rainbow - From The See\r\nOdd Nosdam - Up In Flames\r\nBonobo - Recurring\r\nJ Dilla - One\r\n18 Carat Affair - Phil Spector Daydream\r\nBroadcast & The Focus Group - One Million Years Ago\r\nUlrich Schnauss - Stars\r\nBeck - Hotwax\r\n\r\nDOWNLOAD\r\nhttp://www.mediafire.com/?ra745msgk1k9dgd',
+    id: 38210942,
+    title: 'Tycho x Heathered Pearls - Dazed Mag Mix',
+    permalink: 'http://soundcloud.com/tycho/tycho-x-heathered-pearls-dazed',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000040553835-el6br1-large.jpg?d53bf9f',
+    created_at: '2013/02/12 17:01:18 +0000',
+    description: '\'I Take Comfort In Your Ignorance\' (Tycho Remix) is available as part of a bonus I Take Comfort In Your Ignorance remix EP when purchasing Ulrich Schnauss\' A Long Way to Fall out now from Domino or iTunes in North America.\r\n\r\nUlrich Schnauss\' A Long Way to Fall is out now on Domino in North America and Ulrich Schnauss\' own Scripted Realities imprint in the rest of the world.\r\n\r\nListen to the album version of \'I Take Comfort In Your Ignorance\' here: snd.sc/X09MBa\r\n\r\nPurchase\r\nDomino Mart: bit.ly/aLongWaytoFallDominoMart\r\niTunes: smarturl.it/alongwaytofallalbum\r\n\r\nUlrich Schnauss online\r\nwww.ulrich-schnauss.com/\r\nwww.facebook.com/ulrichschnauss/\r\ntwitter.com/ulrichschnauss',
+    id: 78931145,
+    title: 'Ulrich Schnauss - I Take Comfort in Your Ignorance (Tycho Remix)',
+    permalink: 'http://soundcloud.com/tycho/ulrich-schnauss-i-take-comfort',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000039993071-e5rmrx-large.jpg?d53bf9f',
+    created_at: '2013/02/05 11:47:03 +0000',
+    description: '"Head.Cars.Bending" from the deluxe edition of The 1975\'s forthcoming debut album.\r\n\r\nPurchase On:\r\niTunes: http://smarturl.it/the1975album\r\niTunes Deluxe: http://smarturl.it/the1975deluxe\r\nAmazon: http://smarturl.it/the1975albumamz\r\nStore: http://smarturl.it/the1975store\r\n\r\nWebsite: http://the1975.com \r\nFacebook: http://facebook.com/the1975 \r\nTwitter: http://twitter.com/the1975 \r\nYouTube: http://youtube.com/the1975music',
+    id: 77924163,
+    title: 'The 1975 - Head.Cars.Bending',
+    permalink: 'http://soundcloud.com/the1975/the-1975-head-cars-bending',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000039158135-s61yt7-large.jpg?d53bf9f',
+    created_at: '2013/01/25 17:51:25 +0000',
+    description: 'Twitter: \r\ntwitter.com/Skrux \r\nFacebook: \r\nwww.facebook.com/djskrux \r\nYouTube: \r\nwww.youtube.com/user/TheOfficialD…krux?feature=mhee',
+    id: 76429863,
+    title: 'Skrux - Believe Me ft. Complexion',
+    permalink: 'http://soundcloud.com/skrux/skrux-believe-me-ft-complexion',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000034031507-3mu7qb-large.jpg?d53bf9f',
+    created_at: '2012/11/12 11:13:10 +0000',
+    description: 'Itunes: https://itunes.apple.com/album/hold-on-never-again-single/id575565556\r\nBeatport: http://www.beatport.com/release/hold-on-never-again/992234\r\nJuno: http://www.junodownload.com/products/maduk-hold-on-never-again/2074571-02/\r\nVinyl: http://www.triplevision.nl/release/FOKUZ054/\r\n\r\nSupported by:\r\nHigh Contrast, Matrix & Futurebound, Drumsound & Bassline Smith, Dirtyphonics, Shock One, Smooth, Mind Vortex, S.I.N, State of Mind, Koncept, Dexcell, L.A.O.S, Subsonik, Moving Fusion, Optiv, Raw Theory and many more!',
+    id: 67102089,
+    title: 'Maduk - Never Again (Preview) [Out Now!]',
+    permalink: 'http://soundcloud.com/madukdnb/maduk-never-again-preview-out',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000036577929-pxv4kb-large.jpg?d53bf9f',
+    created_at: '2012/12/19 22:27:53 +0000',
+    description: 'This yearmix is a selection of the finest Liquicity uploads in 2012. Merry Christmas everyone and a Happy New Year on Planet Liquicity! X\r\n\r\nTracklist:\r\n1. Submatik – Stories Can Wait\r\n2. Seven Lions – Below Us (Smooth Remix)\r\n3. Aelian – Liquid Dreams\r\n4. Tantrum Desire – Reach (VIP)\r\n5. Mediks – Blown Away (ft Astrounaut)\r\n6. LSB – All of my Love (Technicolour & Komatic Remix)\r\n7. Elliott M – Rush\r\n8. Maduk – Ghost Assassin (ft Veela)\r\n9. Qbig – Sleepless\r\n10. Myk – I’m not Lost (Keeno Remix)\r\n11. Rameses B – Open Your Eyes (ft Rachel Hirons)\r\n12. Etherwood – Give it Up\r\n13. Maduk – Hold On\r\n14. Smooth – Shifting Sands Part II (ft Shaz Sparks)\r\n15. Daugther – Youth (Hybrid Minds Bootleg)\r\n16. Woody – Since Then\r\n17. Jakwob – Blinding (Hybrid Minds Remix)\r\n18. Grafix – Holding On (Phesta Remix)\r\n19. Rameses B – Drift Away (ft Veela)\r\n20. Alphabet Pony - Easy Target\r\n21. Livewire – Acclimatize\r\n22. Bungle ft Ayah Marar - The Siren (Camo & Krooked Remix)\r\n23. Gavin G – Culture\r\n24. Stan SB - Compromise (Extended Edit)\r\n25. Goku - Lost In Time (ft Sarah Burgess)\r\n26. Maduk - Take You There\r\n27. L Plus – Taking me Higher\r\n28. Snakehips - The Years (Loz Contreras Remix)\r\n29. Rameses B – Goddess\r\n30. Rameses B - Visionary\r\n31. Maduk – Never Again\r\n32. LAOS – Real Thing\r\n33. Hybrid Minds – I’m Through\r\n34. Mindtalk - Animate Soul\r\n35. Fracture Design - Reach For The Stars\r\n36. Hybrid Minds – Summer Rain\r\n37. Submatik & Phil – Endeavour\r\n38. Fred V & Grafix - Just A Thought (Instrumental Mix)\r\n39. Tantrum Desire – What Is Your Desire (ft I Kay)\r\n40. Raw Theory - Flight Path\r\n41. Porter Robinson - Language (Koncept Remix)\r\n42. Holly Drummond - Forbidden (Vaizo remix)\r\n43. Matrix & Futurebound - Magnetic Eyes (ft Baby Blue)\r\n44. Smote Summertime\r\n45. Indivision & Livewire (ft Tasha Baxter) - Won\'t You Stay (Mistabishi Remix)\r\n46. Stan SB – Dead\r\n47. Matrix & Futurebound (ft Luke Bingham) - All I Know (M&F\'s Rolling Out DJ Mix)\r\n48. Skeets - This Moment (Darwin Remix)\r\n49. Camo & Krooked - Change Me (Submorphics Remix)',
+    id: 71879999,
+    title: 'Liquicity Yearmix 2012 (Mixed by Maduk) [Free Download]',
+    permalink: 'http://soundcloud.com/madukdnb/liquicity-yearmix-2012-mixed-1',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000012456795-w2hy6f-large.jpg?d53bf9f',
+    created_at: '2011/10/07 16:01:44 +0000',
+    description: '',
+    id: 24994749,
+    title: 'Steve McQueen',
+    permalink: 'http://soundcloud.com/m83/steve-mcqueen',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000013098759-o0cozu-large.jpg?d53bf9f',
+    created_at: '2011/10/18 16:44:05 +0000',
+    description: 'Free Download courtesy of VIPER Recordings / Metrik - incredible track. ',
+    id: 25830481,
+    title: 'Metrik - Nightdrive',
+    permalink: 'http://soundcloud.com/ukfmusic/metrik-nightdrive',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000035495213-nlveml-large.jpg?d53bf9f',
+    created_at: '2012/12/04 19:06:30 +0000',
+    description: 'Mix for Life In Color\r\n\r\nTrack List:\r\nProtohype & Kezwik - Hold Your Breath \r\nEllie Goulding - Anything Could Happen (Flinch Remix)\r\nStreet Creeps ft Tasha - The Way You Make Me Feel \r\nFlight Facilities - Crave You (Adventure Club Remix)\r\nBingo Players - Don\'t Blame The Party (Culture Code Remix)\r\nTNGHT - Higher Ground\r\nHermitude - Hyperparadise (Flume Remix)\r\nUnicorn Kid - Need U (Willy Joy Neckbreaker Edit)\r\nDuke Dumont - The Giver\r\nDisclosure Ft. Sam Smith - Latch\r\nYuna - Lullabies (Adventure Club Remix) (Village Edit)',
+    id: 69972295,
+    title: 'Life In Color Mix',
+    permalink: 'http://soundcloud.com/adventureclub/life-in-color-mix',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000034659614-0h2aiu-large.jpg?d53bf9f',
+    created_at: '2012/11/21 21:50:34 +0000',
+    description: 'SAVOY & The Knocks - Devils On Horseback x Brightside (SAVOY Live Mashup)\n\nSAVOY Live with Lasers 2013 Tour: http://savoy.wantickets.com\n\nhttp://www.savoyband.com \nhttp://www.facebook.com/savoyband \nhttp://www.twitter.com/savoy',
+    id: 68341537,
+    title: 'Devils on Horseback x Brightside (SAVOY Live Mashup)',
+    permalink: 'http://soundcloud.com/savoyband/devils-on-horseback-x',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000024280409-k5z4pv-large.jpg?d53bf9f',
+    created_at: '2012/05/31 20:23:58 +0000',
+    description: 'Adventure Club is a Dj/Production Duo from Montreal\r\n\r\n"Rise &amp; Fall" Original Adventure Club ft Krewella Production.\r\n\r\nFB Fan Page - http://www.facebook.com/AdventureClub\r\nTwitter @ adventuredub\r\n\r\nFB Fan Page http://www.facebook.com/krewella\r\nTwitter @ krewella\r\nSoundcloud http://www.soundcloud.com/krewella\r\n\r\nArtwork:\r\njames zwadlo\r\nt: @zola85\r\nw: www.imzola.com\r\n\r\nFor fans of Dubstep, Electro, Bare Noize, Caspa, Rusko, Datsik, Excision, Bar9, Doctor P, Downlink, Flux Pavilion, Nero, Noisia, Skrillex, Zeds Dead, Funtcase, Feed Me, Skream, Adventure Club Dubstep, Owsla, Mau5trap, Metric Collect Call Remix, Crave You Remix, Alvin Risk, Rogue, Porter Robinson, Zedd, Crave you Remix, UKF Music, Gemini',
+    id: 48206687,
+    title: 'Rise & Fall ft Krewella',
+    permalink: 'http://soundcloud.com/adventureclub/rise-fall-ft-krewella',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000034063974-h4rbhw-large.jpg?d53bf9f',
+    created_at: '2012/11/12 21:20:30 +0000',
+    description: 'Adventure Club is a Dj/Production Duo from Montreal\r\n\r\n"Lullabies" Original song by Yuna\r\nhttp://www.yunamusic.com/\r\nhttps://twitter.com/yunamusic\r\nhttp://www.facebook.com/yunamusic\r\n\r\nRemix by Adventure Club\r\n\r\nFB Fan Page - http://www.facebook.com/AdventureClub\r\nwww.Twitter.com/adventuredub\r\n\r\nFor fans of Dubstep, Electro, EDM KDrew, Doctor P, Downlink, Flux Pavilion, Nero, Sound Remedy , Skrillex, Zeds Dead, Rogue, Singularity, Feed Me, Skream, Adventure Club Dubstep, Crave You Remix, Minnesota, Gemini, Yuna',
+    id: 67167467,
+    title: 'Lullabies - Yuna (Adventure Club Remix)',
+    permalink: 'http://soundcloud.com/adventureclub/lullabies-yuna-adventure-club-remix',
+    type: 'soundcloud_favorite' },
+  { artwork_url: null,
+    created_at: '2010/02/27 19:29:44 +0000',
+    description: '',
+    id: 1812938,
+    title: 'Foje - vaikystės stogas (mic\'Kolia PS rmx)',
+    permalink: 'http://soundcloud.com/mickolia/foje-vaikystes-stogas-mickolia-ps-rmx',
+    type: 'soundcloud_favorite' },
+  { artwork_url: null,
+    created_at: '2010/09/28 20:16:01 +0000',
+    description: '',
+    id: 5650273,
+    title: 'Rusko - Hold On (Oakenfold Remix)',
+    permalink: 'http://soundcloud.com/pauloakenfold/rusko-hold-on-oakenfold-remix',
+    type: 'soundcloud_favorite' },
+  { artwork_url: null,
+    created_at: '2011/11/13 06:27:14 +0000',
+    description: 'Song I did with an amazing friend and musician.',
+    id: 27883258,
+    title: 'SKY ON FIRE',
+    permalink: 'http://soundcloud.com/alexismusiclove/sky-on-fire',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000006140150-6eyg39-large.jpg?d53bf9f',
+    created_at: '2011/04/05 19:57:00 +0000',
+    description: 'Adventure Club is a Dj/Production Duo from Montreal\r\n"We Don\'t Eat" Original song by James Vincent McMorrow, Dubstep remix by Adventure Club\r\n\r\nCheck out James Vincent McMorrow\'s album here! http://bit.ly/dHcspw\r\n\r\nFB Fan Page - http://www.facebook.com/AdventureClubDub\r\nTwitter @ adventuredub\r\n\r\nFor fans of Dubstep, Electro, Bare Noize, Caspa, Rusko, Datsik, Excision, Bar9, Doctor P, Downlink, Flux Pavilion, Nero, Noisia, Skrillex, Zeds Dead, Funtcase, Feed Me, Skream, Adventure Club Dubstep, James Vincent McMorrow',
+    id: 13115257,
+    title: 'James Vincent McMorrow - We Don\'t Eat (Adventure Club Dubstep Remix)',
+    permalink: 'http://soundcloud.com/adventureclub/we-dont-eat-adventure-club-remix',
+    type: 'soundcloud_favorite' },
+  { artwork_url: null,
+    created_at: '2011/01/17 10:21:21 +0000',
+    description: '',
+    id: 9242055,
+    title: 'Drum and Bass - Drum and Bass',
+    permalink: 'http://soundcloud.com/perepelitsa/drum-and-bass-drum-and-bass',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000023550222-q9xwqx-large.jpg?d53bf9f',
+    created_at: '2012/04/20 14:42:45 +0000',
+    description: 'Taken from the forthcoming album "An Awesome Wave", out May 28th. ',
+    id: 43774232,
+    title: 'TEST TRACK',
+    permalink: 'http://soundcloud.com/alt-j/something-good-alt-j',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000024162040-qnqe4w-large.jpg?d53bf9f',
+    created_at: '2012/05/29 20:27:40 +0000',
+    description: '',
+    id: 47977209,
+    title: 'Wait by Adventure Club',
+    permalink: 'http://soundcloud.com/htmusic-2/wait-by-adventure-club',
+    type: 'soundcloud_favorite' },
+  { artwork_url: null,
+    created_at: '2011/11/30 23:56:59 +0000',
+    description: '',
+    id: 29404172,
+    title: 'Sunlight (Adventure Club Dubstep Remix)',
+    permalink: 'http://soundcloud.com/jseal-1/sunlight-adventure-club',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000002183809-1ixk48-large.jpg?d53bf9f',
+    created_at: '2010/08/26 07:06:15 +0000',
+    description: '',
+    id: 4860061,
+    title: 'atb - Humanity',
+    permalink: 'http://soundcloud.com/anouer/atb-humanity',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000023932440-urtp7o-large.jpg?d53bf9f',
+    created_at: '2012/05/24 15:28:50 +0000',
+    description: 'Fresh off the release of their singles “Born To Fly” featuring Niles Mason and “Don’t Look Back” with Tommie Sunshine, the Disco Fries bring you their take on Avicii’s “Silhouettes”. The new single from Avicii is already a Beatport chart smasher and, with its\' melodically infectious vocals, it\'s a no brainer that the ‘Fries were fans of the tune. While keeping some of their favorite elements of the original and inserting their own club stomping drop, the Disco Fries remix of "Silhouettes" is surely a powerhouse track.\r\n\r\nThank you for all of the support to every blog worldwide for supporting this production. We appreciate every single one of you.',
+    id: 47434434,
+    title: 'Avicii - Silhouettes [Disco Fries Remix]',
+    permalink: 'http://soundcloud.com/thediscofries/avicii-silhouettes-disco-fries',
+    type: 'soundcloud_favorite' },
+  { artwork_url: null,
+    created_at: '2012/04/11 01:37:16 +0000',
+    description: '',
+    id: 42706567,
+    title: 'Tiesto - Airwave',
+    permalink: 'http://soundcloud.com/user7859477/tiesto-airwave',
+    type: 'soundcloud_favorite' },
+  { artwork_url: null,
+    created_at: '2011/05/17 19:07:01 +0000',
+    description: '',
+    id: 15440354,
+    title: 'Tiesto(remix)',
+    permalink: 'http://soundcloud.com/user5750928/tiesto-remix',
+    type: 'soundcloud_favorite' },
+  { artwork_url: null,
+    created_at: '2012/01/20 15:38:28 +0000',
+    description: '',
+    id: 33984978,
+    title: 'TIESTO',
+    permalink: 'http://soundcloud.com/djcaz-1/tiesto',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000061614897-wvs03r-large.jpg?d53bf9f',
+    created_at: '2012/02/16 12:20:17 +0000',
+    description: '',
+    id: 36802914,
+    title: 'Syndicate Theme',
+    permalink: 'http://soundcloud.com/nero/syndicate-theme',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000023289262-jxhl5z-large.jpg?d53bf9f',
+    created_at: '2012/05/14 00:15:42 +0000',
+    description: '',
+    id: 46294219,
+    title: 'NIGHT MOVES  (TGIK HIP HOP-CHURCH-REMIX)',
+    permalink: 'http://soundcloud.com/thisguyiknow/night-moves-tgik-hip-hop',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000027303442-7l2y5v-large.jpg?d53bf9f',
+    created_at: '2011/08/12 17:13:27 +0000',
+    description: 'Latest collaboration with Marco Selvaggio. Afro House featuring the Swiss Hang Drum.\r\n\r\nMastered by Wes Maebe - http://www.wesonator.co.uk/  best Mastering Engineer in UK in my opinion!',
+    id: 20982031,
+    title: 'House - Abstract Source - Afro Hang feat Marco Selvaggio - BUY LINK',
+    permalink: 'http://soundcloud.com/abstract-source/abstract-source-afrohang',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000017443618-6feeii-large.jpg?d53bf9f',
+    created_at: '2012/01/28 00:14:52 +0000',
+    description: 'Pretty mellow remix, nothing too crazy. Enjoy.\r\n\r\nYeh, i now know that this is old but hey, what can i do!?!\r\n\r\nhttp://www8.zippyshare.com/v/48083806/file.html',
+    id: 34755530,
+    title: 'Dragonette - Pick Up The Phone (RoughMath Bootleg Remix) - Free DL in Desc-',
+    permalink: 'http://soundcloud.com/roughmath/dragonette-pick-up-the-phone',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000020236238-add7ml-large.jpg?d53bf9f',
+    created_at: '2012/03/20 06:15:36 +0000',
+    description: 'Please comment & favorite!\r\n\r\nhttp://www.facebook.com/propervillainsbass\r\nhttp://www.facebook.com/propervillainsbass\r\nhttp://www.facebook.com/propervillainsbass\r\nhttp://www.facebook.com/propervillainsbass\r\nhttp://www.facebook.com/propervillainsbass\r\n',
+    id: 40344579,
+    title: 'Childish Gambino - Heartbeat (Proper Villains Remix)',
+    permalink: 'http://soundcloud.com/proper-villains/heartbeat',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000020069337-csi7d3-large.jpg?d53bf9f',
+    created_at: '2012/03/17 00:41:29 +0000',
+    description: 'An entrancing, intoxicating melody to ease you into those afterhours rendezvous and send you off to dreams.',
+    id: 40010221,
+    title: 'Afterhours Intoxicology',
+    permalink: 'http://soundcloud.com/tgnb/afterhours-intoxicology',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000005376061-frj2km-large.jpg?d53bf9f',
+    created_at: '2011/03/07 18:39:04 +0000',
+    description: 'Diddy Dirty Money is a production group made up of Dawn Richard, Kalenna Harper and hip-hop uber-star Sean ‘P Diddy’ Combs, so when we tell you that this record has some serious musical credentials behind it you know we’re not messing around. With a vocal performed by Grammy award-winning singer Skylar Grey and remixes courtesy of Australia’s most in-demand house producer Dirty South the calibre of this project really does speak for itself. Expect dirty growling synths, a sultry, sexy vocal, huge breakdowns and – of course – a few interjections from Diddy himself. In a word ‘colossal’.\n\nReleased March 16th @ Beatport',
+    id: 11602381,
+    title: 'Diddy Dirty Money Feat. Skylar Grey - Coming Home (Dirty South Vocal Mix)',
+    permalink: 'http://soundcloud.com/dirtysouth/diddy-dirty-money-feat',
+    type: 'soundcloud_favorite' },
+  { artwork_url: 'https://i1.sndcdn.com/artworks-000020332330-vb0i03-large.jpg?d53bf9f',
+    created_at: '2012/03/21 23:18:28 +0000',
+    description: 'Follow: http://soundcloud.com/thesonixxmusic\r\nLike: http://www.facebook.com/thesonixx\r\n\r\nRoyal Bass Records:\r\nhttp://www.facebook.com/RoyalBassRecords\r\nhttp://twitter.com/#!/RoyalBassRecord',
+    id: 40534366,
+    title: 'The Sonixx ft. Laura Newman - You Don\'t Like Me [FREE DOWNLOAD]',
+    permalink: 'http://soundcloud.com/royalbassrecords/the-sonixx-ft-laura-newman-you',
+    type: 'soundcloud_favorite' } ]
+Reply: 66
+Reply: 66
+[90mGET /scripts/app.js [36m304 [90m23ms[0m
+[90mGET /scripts/controllers/main.js [36m304 [90m23ms[0m
+[90mGET /scripts/controllers/navigation.js [36m304 [90m25ms[0m
+[90mGET /scripts/controllers/youtube.js [36m304 [90m24ms[0m
+[90mGET /scripts/directives/resize.js [36m304 [90m23ms[0m
+Reply: OK
+[90mGET /scripts/directives/navigation.js [36m304 [90m3ms[0m
+[90mGET /scripts/services/services.js [36m304 [90m2ms[0m
+[90mGET /views/main.html [36m304 [90m2ms[0m
+debug: client authorized
+info: handshake authorized KRqaM2uzOA97k4j0z_Kc
+[90mGET /views/navigation.html [36m304 [90m4ms[0m
+debug: setting request GET /socket.io/1/websocket/KRqaM2uzOA97k4j0z_Kc
+debug: set heartbeat interval for client KRqaM2uzOA97k4j0z_Kc
+debug: client authorized for 
+debug: websocket writing 1::
+[90mGET /favicon.ico [36m304 [90m56ms[0m
+@socket call { num: 19, offset: 0 }
+@client.zrevrange('zset item:all', 0, 19, callback)
+debug: websocket writing 5:::{"name":"receive service latest:all","args":[null,["{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000020332330-vb0i03-large.jpg?d53bf9f\",\"created_at\":\"2012/03/21 23:18:28 +0000\",\"description\":\"Follow: http://soundcloud.com/thesonixxmusic\\r\\nLike: http://www.facebook.com/thesonixx\\r\\n\\r\\nRoyal Bass Records:\\r\\nhttp://www.facebook.com/RoyalBassRecords\\r\\nhttp://twitter.com/#!/RoyalBassRecord\",\"id\":40534366,\"title\":\"The Sonixx ft. Laura Newman - You Don't Like Me [FREE DOWNLOAD]\",\"permalink\":\"http://soundcloud.com/royalbassrecords/the-sonixx-ft-laura-newman-you\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000005376061-frj2km-large.jpg?d53bf9f\",\"created_at\":\"2011/03/07 18:39:04 +0000\",\"description\":\"Diddy Dirty Money is a production group made up of Dawn Richard, Kalenna Harper and hip-hop uber-star Sean ‘P Diddy’ Combs, so when we tell you that this record has some serious musical credentials behind it you know we’re not messing around. With a vocal performed by Grammy award-winning singer Skylar Grey and remixes courtesy of Australia’s most in-demand house producer Dirty South the calibre of this project really does speak for itself. Expect dirty growling synths, a sultry, sexy vocal, huge breakdowns and – of course – a few interjections from Diddy himself. In a word ‘colossal’.\\n\\nReleased March 16th @ Beatport\",\"id\":11602381,\"title\":\"Diddy Dirty Money Feat. Skylar Grey - Coming Home (Dirty South Vocal Mix)\",\"permalink\":\"http://soundcloud.com/dirtysouth/diddy-dirty-money-feat\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000020069337-csi7d3-large.jpg?d53bf9f\",\"created_at\":\"2012/03/17 00:41:29 +0000\",\"description\":\"An entrancing, intoxicating melody to ease you into those afterhours rendezvous and send you off to dreams.\",\"id\":40010221,\"title\":\"Afterhours Intoxicology\",\"permalink\":\"http://soundcloud.com/tgnb/afterhours-intoxicology\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000020236238-add7ml-large.jpg?d53bf9f\",\"created_at\":\"2012/03/20 06:15:36 +0000\",\"description\":\"Please comment & favorite!\\r\\n\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\n\",\"id\":40344579,\"title\":\"Childish Gambino - Heartbeat (Proper Villains Remix)\",\"permalink\":\"http://soundcloud.com/proper-villains/heartbeat\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000017443618-6feeii-large.jpg?d53bf9f\",\"created_at\":\"2012/01/28 00:14:52 +0000\",\"description\":\"Pretty mellow remix, nothing too crazy. Enjoy.\\r\\n\\r\\nYeh, i now know that this is old but hey, what can i do!?!\\r\\n\\r\\nhttp://www8.zippyshare.com/v/48083806/file.html\",\"id\":34755530,\"title\":\"Dragonette - Pick Up The Phone (RoughMath Bootleg Remix) - Free DL in Desc-\",\"permalink\":\"http://soundcloud.com/roughmath/dragonette-pick-up-the-phone\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000027303442-7l2y5v-large.jpg?d53bf9f\",\"created_at\":\"2011/08/12 17:13:27 +0000\",\"description\":\"Latest collaboration with Marco Selvaggio. Afro House featuring the Swiss Hang Drum.\\r\\n\\r\\nMastered by Wes Maebe - http://www.wesonator.co.uk/  best Mastering Engineer in UK in my opinion!\",\"id\":20982031,\"title\":\"House - Abstract Source - Afro Hang feat Marco Selvaggio - BUY LINK\",\"permalink\":\"http://soundcloud.com/abstract-source/abstract-source-afrohang\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000023289262-jxhl5z-large.jpg?d53bf9f\",\"created_at\":\"2012/05/14 00:15:42 +0000\",\"description\":\"\",\"id\":46294219,\"title\":\"NIGHT MOVES  (TGIK HIP HOP-CHURCH-REMIX)\",\"permalink\":\"http://soundcloud.com/thisguyiknow/night-moves-tgik-hip-hop\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000061614897-wvs03r-large.jpg?d53bf9f\",\"created_at\":\"2012/02/16 12:20:17 +0000\",\"description\":\"\",\"id\":36802914,\"title\":\"Syndicate Theme\",\"permalink\":\"http://soundcloud.com/nero/syndicate-theme\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2012/01/20 15:38:28 +0000\",\"description\":\"\",\"id\":33984978,\"title\":\"TIESTO\",\"permalink\":\"http://soundcloud.com/djcaz-1/tiesto\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2011/05/17 19:07:01 +0000\",\"description\":\"\",\"id\":15440354,\"title\":\"Tiesto(remix)\",\"permalink\":\"http://soundcloud.com/user5750928/tiesto-remix\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2012/04/11 01:37:16 +0000\",\"description\":\"\",\"id\":42706567,\"title\":\"Tiesto - Airwave\",\"permalink\":\"http://soundcloud.com/user7859477/tiesto-airwave\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000023932440-urtp7o-large.jpg?d53bf9f\",\"created_at\":\"2012/05/24 15:28:50 +0000\",\"description\":\"Fresh off the release of their singles “Born To Fly” featuring Niles Mason and “Don’t Look Back” with Tommie Sunshine, the Disco Fries bring you their take on Avicii’s “Silhouettes”. The new single from Avicii is already a Beatport chart smasher and, with its' melodically infectious vocals, it's a no brainer that the ‘Fries were fans of the tune. While keeping some of their favorite elements of the original and inserting their own club stomping drop, the Disco Fries remix of \\\"Silhouettes\\\" is surely a powerhouse track.\\r\\n\\r\\nThank you for all of the support to every blog worldwide for supporting this production. We appreciate every single one of you.\",\"id\":47434434,\"title\":\"Avicii - Silhouettes [Disco Fries Remix]\",\"permalink\":\"http://soundcloud.com/thediscofries/avicii-silhouettes-disco-fries\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000002183809-1ixk48-large.jpg?d53bf9f\",\"created_at\":\"2010/08/26 07:06:15 +0000\",\"description\":\"\",\"id\":4860061,\"title\":\"atb - Humanity\",\"permalink\":\"http://soundcloud.com/anouer/atb-humanity\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2011/11/30 23:56:59 +0000\",\"description\":\"\",\"id\":29404172,\"title\":\"Sunlight (Adventure Club Dubstep Remix)\",\"permalink\":\"http://soundcloud.com/jseal-1/sunlight-adventure-club\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000024162040-qnqe4w-large.jpg?d53bf9f\",\"created_at\":\"2012/05/29 20:27:40 +0000\",\"description\":\"\",\"id\":47977209,\"title\":\"Wait by Adventure Club\",\"permalink\":\"http://soundcloud.com/htmusic-2/wait-by-adventure-club\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000023550222-q9xwqx-large.jpg?d53bf9f\",\"created_at\":\"2012/04/20 14:42:45 +0000\",\"description\":\"Taken from the forthcoming album \\\"An Awesome Wave\\\", out May 28th. \",\"id\":43774232,\"title\":\"TEST TRACK\",\"permalink\":\"http://soundcloud.com/alt-j/something-good-alt-j\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2011/01/17 10:21:21 +0000\",\"description\":\"\",\"id\":9242055,\"title\":\"Drum and Bass - Drum and Bass\",\"permalink\":\"http://soundcloud.com/perepelitsa/drum-and-bass-drum-and-bass\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000006140150-6eyg39-large.jpg?d53bf9f\",\"created_at\":\"2011/04/05 19:57:00 +0000\",\"description\":\"Adventure Club is a Dj/Production Duo from Montreal\\r\\n\\\"We Don't Eat\\\" Original song by James Vincent McMorrow, Dubstep remix by Adventure Club\\r\\n\\r\\nCheck out James Vincent McMorrow's album here! http://bit.ly/dHcspw\\r\\n\\r\\nFB Fan Page - http://www.facebook.com/AdventureClubDub\\r\\nTwitter @ adventuredub\\r\\n\\r\\nFor fans of Dubstep, Electro, Bare Noize, Caspa, Rusko, Datsik, Excision, Bar9, Doctor P, Downlink, Flux Pavilion, Nero, Noisia, Skrillex, Zeds Dead, Funtcase, Feed Me, Skream, Adventure Club Dubstep, James Vincent McMorrow\",\"id\":13115257,\"title\":\"James Vincent McMorrow - We Don't Eat (Adventure Club Dubstep Remix)\",\"permalink\":\"http://soundcloud.com/adventureclub/we-dont-eat-adventure-club-remix\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2011/11/13 06:27:14 +0000\",\"description\":\"Song I did with an amazing friend and musician.\",\"id\":27883258,\"title\":\"SKY ON FIRE\",\"permalink\":\"http://soundcloud.com/alexismusiclove/sky-on-fire\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2010/09/28 20:16:01 +0000\",\"description\":\"\",\"id\":5650273,\"title\":\"Rusko - Hold On (Oakenfold Remix)\",\"permalink\":\"http://soundcloud.com/pauloakenfold/rusko-hold-on-oakenfold-remix\",\"type\":\"soundcloud_favorite\"}"]]}
+[90mGET /views/items/soundcloud_favorite-template.html [32m200 [90m9ms - 25b[0m
+@socket call { num: 19, offset: 20 }
+@client.zrevrange('zset item:all', 20, 39, callback)
+debug: websocket writing 5:::{"name":"receive service latest:all","args":[null,["{\"artwork_url\":null,\"created_at\":\"2010/02/27 19:29:44 +0000\",\"description\":\"\",\"id\":1812938,\"title\":\"Foje - vaikystės stogas (mic'Kolia PS rmx)\",\"permalink\":\"http://soundcloud.com/mickolia/foje-vaikystes-stogas-mickolia-ps-rmx\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000034063974-h4rbhw-large.jpg?d53bf9f\",\"created_at\":\"2012/11/12 21:20:30 +0000\",\"description\":\"Adventure Club is a Dj/Production Duo from Montreal\\r\\n\\r\\n\\\"Lullabies\\\" Original song by Yuna\\r\\nhttp://www.yunamusic.com/\\r\\nhttps://twitter.com/yunamusic\\r\\nhttp://www.facebook.com/yunamusic\\r\\n\\r\\nRemix by Adventure Club\\r\\n\\r\\nFB Fan Page - http://www.facebook.com/AdventureClub\\r\\nwww.Twitter.com/adventuredub\\r\\n\\r\\nFor fans of Dubstep, Electro, EDM KDrew, Doctor P, Downlink, Flux Pavilion, Nero, Sound Remedy , Skrillex, Zeds Dead, Rogue, Singularity, Feed Me, Skream, Adventure Club Dubstep, Crave You Remix, Minnesota, Gemini, Yuna\",\"id\":67167467,\"title\":\"Lullabies - Yuna (Adventure Club Remix)\",\"permalink\":\"http://soundcloud.com/adventureclub/lullabies-yuna-adventure-club-remix\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000024280409-k5z4pv-large.jpg?d53bf9f\",\"created_at\":\"2012/05/31 20:23:58 +0000\",\"description\":\"Adventure Club is a Dj/Production Duo from Montreal\\r\\n\\r\\n\\\"Rise &amp; Fall\\\" Original Adventure Club ft Krewella Production.\\r\\n\\r\\nFB Fan Page - http://www.facebook.com/AdventureClub\\r\\nTwitter @ adventuredub\\r\\n\\r\\nFB Fan Page http://www.facebook.com/krewella\\r\\nTwitter @ krewella\\r\\nSoundcloud http://www.soundcloud.com/krewella\\r\\n\\r\\nArtwork:\\r\\njames zwadlo\\r\\nt: @zola85\\r\\nw: www.imzola.com\\r\\n\\r\\nFor fans of Dubstep, Electro, Bare Noize, Caspa, Rusko, Datsik, Excision, Bar9, Doctor P, Downlink, Flux Pavilion, Nero, Noisia, Skrillex, Zeds Dead, Funtcase, Feed Me, Skream, Adventure Club Dubstep, Owsla, Mau5trap, Metric Collect Call Remix, Crave You Remix, Alvin Risk, Rogue, Porter Robinson, Zedd, Crave you Remix, UKF Music, Gemini\",\"id\":48206687,\"title\":\"Rise & Fall ft Krewella\",\"permalink\":\"http://soundcloud.com/adventureclub/rise-fall-ft-krewella\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000034659614-0h2aiu-large.jpg?d53bf9f\",\"created_at\":\"2012/11/21 21:50:34 +0000\",\"description\":\"SAVOY & The Knocks - Devils On Horseback x Brightside (SAVOY Live Mashup)\\n\\nSAVOY Live with Lasers 2013 Tour: http://savoy.wantickets.com\\n\\nhttp://www.savoyband.com \\nhttp://www.facebook.com/savoyband \\nhttp://www.twitter.com/savoy\",\"id\":68341537,\"title\":\"Devils on Horseback x Brightside (SAVOY Live Mashup)\",\"permalink\":\"http://soundcloud.com/savoyband/devils-on-horseback-x\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000035495213-nlveml-large.jpg?d53bf9f\",\"created_at\":\"2012/12/04 19:06:30 +0000\",\"description\":\"Mix for Life In Color\\r\\n\\r\\nTrack List:\\r\\nProtohype & Kezwik - Hold Your Breath \\r\\nEllie Goulding - Anything Could Happen (Flinch Remix)\\r\\nStreet Creeps ft Tasha - The Way You Make Me Feel \\r\\nFlight Facilities - Crave You (Adventure Club Remix)\\r\\nBingo Players - Don't Blame The Party (Culture Code Remix)\\r\\nTNGHT - Higher Ground\\r\\nHermitude - Hyperparadise (Flume Remix)\\r\\nUnicorn Kid - Need U (Willy Joy Neckbreaker Edit)\\r\\nDuke Dumont - The Giver\\r\\nDisclosure Ft. Sam Smith - Latch\\r\\nYuna - Lullabies (Adventure Club Remix) (Village Edit)\",\"id\":69972295,\"title\":\"Life In Color Mix\",\"permalink\":\"http://soundcloud.com/adventureclub/life-in-color-mix\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000013098759-o0cozu-large.jpg?d53bf9f\",\"created_at\":\"2011/10/18 16:44:05 +0000\",\"description\":\"Free Download courtesy of VIPER Recordings / Metrik - incredible track. \",\"id\":25830481,\"title\":\"Metrik - Nightdrive\",\"permalink\":\"http://soundcloud.com/ukfmusic/metrik-nightdrive\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000012456795-w2hy6f-large.jpg?d53bf9f\",\"created_at\":\"2011/10/07 16:01:44 +0000\",\"description\":\"\",\"id\":24994749,\"title\":\"Steve McQueen\",\"permalink\":\"http://soundcloud.com/m83/steve-mcqueen\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000036577929-pxv4kb-large.jpg?d53bf9f\",\"created_at\":\"2012/12/19 22:27:53 +0000\",\"description\":\"This yearmix is a selection of the finest Liquicity uploads in 2012. Merry Christmas everyone and a Happy New Year on Planet Liquicity! X\\r\\n\\r\\nTracklist:\\r\\n1. Submatik – Stories Can Wait\\r\\n2. Seven Lions – Below Us (Smooth Remix)\\r\\n3. Aelian – Liquid Dreams\\r\\n4. Tantrum Desire – Reach (VIP)\\r\\n5. Mediks – Blown Away (ft Astrounaut)\\r\\n6. LSB – All of my Love (Technicolour & Komatic Remix)\\r\\n7. Elliott M – Rush\\r\\n8. Maduk – Ghost Assassin (ft Veela)\\r\\n9. Qbig – Sleepless\\r\\n10. Myk – I’m not Lost (Keeno Remix)\\r\\n11. Rameses B – Open Your Eyes (ft Rachel Hirons)\\r\\n12. Etherwood – Give it Up\\r\\n13. Maduk – Hold On\\r\\n14. Smooth – Shifting Sands Part II (ft Shaz Sparks)\\r\\n15. Daugther – Youth (Hybrid Minds Bootleg)\\r\\n16. Woody – Since Then\\r\\n17. Jakwob – Blinding (Hybrid Minds Remix)\\r\\n18. Grafix – Holding On (Phesta Remix)\\r\\n19. Rameses B – Drift Away (ft Veela)\\r\\n20. Alphabet Pony - Easy Target\\r\\n21. Livewire – Acclimatize\\r\\n22. Bungle ft Ayah Marar - The Siren (Camo & Krooked Remix)\\r\\n23. Gavin G – Culture\\r\\n24. Stan SB - Compromise (Extended Edit)\\r\\n25. Goku - Lost In Time (ft Sarah Burgess)\\r\\n26. Maduk - Take You There\\r\\n27. L Plus – Taking me Higher\\r\\n28. Snakehips - The Years (Loz Contreras Remix)\\r\\n29. Rameses B – Goddess\\r\\n30. Rameses B - Visionary\\r\\n31. Maduk – Never Again\\r\\n32. LAOS – Real Thing\\r\\n33. Hybrid Minds – I’m Through\\r\\n34. Mindtalk - Animate Soul\\r\\n35. Fracture Design - Reach For The Stars\\r\\n36. Hybrid Minds – Summer Rain\\r\\n37. Submatik & Phil – Endeavour\\r\\n38. Fred V & Grafix - Just A Thought (Instrumental Mix)\\r\\n39. Tantrum Desire – What Is Your Desire (ft I Kay)\\r\\n40. Raw Theory - Flight Path\\r\\n41. Porter Robinson - Language (Koncept Remix)\\r\\n42. Holly Drummond - Forbidden (Vaizo remix)\\r\\n43. Matrix & Futurebound - Magnetic Eyes (ft Baby Blue)\\r\\n44. Smote Summertime\\r\\n45. Indivision & Livewire (ft Tasha Baxter) - Won't You Stay (Mistabishi Remix)\\r\\n46. Stan SB – Dead\\r\\n47. Matrix & Futurebound (ft Luke Bingham) - All I Know (M&F's Rolling Out DJ Mix)\\r\\n48. Skeets - This Moment (Darwin Remix)\\r\\n49. Camo & Krooked - Change Me (Submorphics Remix)\",\"id\":71879999,\"title\":\"Liquicity Yearmix 2012 (Mixed by Maduk) [Free Download]\",\"permalink\":\"http://soundcloud.com/madukdnb/liquicity-yearmix-2012-mixed-1\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000034031507-3mu7qb-large.jpg?d53bf9f\",\"created_at\":\"2012/11/12 11:13:10 +0000\",\"description\":\"Itunes: https://itunes.apple.com/album/hold-on-never-again-single/id575565556\\r\\nBeatport: http://www.beatport.com/release/hold-on-never-again/992234\\r\\nJuno: http://www.junodownload.com/products/maduk-hold-on-never-again/2074571-02/\\r\\nVinyl: http://www.triplevision.nl/release/FOKUZ054/\\r\\n\\r\\nSupported by:\\r\\nHigh Contrast, Matrix & Futurebound, Drumsound & Bassline Smith, Dirtyphonics, Shock One, Smooth, Mind Vortex, S.I.N, State of Mind, Koncept, Dexcell, L.A.O.S, Subsonik, Moving Fusion, Optiv, Raw Theory and many more!\",\"id\":67102089,\"title\":\"Maduk - Never Again (Preview) [Out Now!]\",\"permalink\":\"http://soundcloud.com/madukdnb/maduk-never-again-preview-out\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000039158135-s61yt7-large.jpg?d53bf9f\",\"created_at\":\"2013/01/25 17:51:25 +0000\",\"description\":\"Twitter: \\r\\ntwitter.com/Skrux \\r\\nFacebook: \\r\\nwww.facebook.com/djskrux \\r\\nYouTube: \\r\\nwww.youtube.com/user/TheOfficialD…krux?feature=mhee\",\"id\":76429863,\"title\":\"Skrux - Believe Me ft. Complexion\",\"permalink\":\"http://soundcloud.com/skrux/skrux-believe-me-ft-complexion\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000039993071-e5rmrx-large.jpg?d53bf9f\",\"created_at\":\"2013/02/05 11:47:03 +0000\",\"description\":\"\\\"Head.Cars.Bending\\\" from the deluxe edition of The 1975's forthcoming debut album.\\r\\n\\r\\nPurchase On:\\r\\niTunes: http://smarturl.it/the1975album\\r\\niTunes Deluxe: http://smarturl.it/the1975deluxe\\r\\nAmazon: http://smarturl.it/the1975albumamz\\r\\nStore: http://smarturl.it/the1975store\\r\\n\\r\\nWebsite: http://the1975.com \\r\\nFacebook: http://facebook.com/the1975 \\r\\nTwitter: http://twitter.com/the1975 \\r\\nYouTube: http://youtube.com/the1975music\",\"id\":77924163,\"title\":\"The 1975 - Head.Cars.Bending\",\"permalink\":\"http://soundcloud.com/the1975/the-1975-head-cars-bending\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000040553835-el6br1-large.jpg?d53bf9f\",\"created_at\":\"2013/02/12 17:01:18 +0000\",\"description\":\"'I Take Comfort In Your Ignorance' (Tycho Remix) is available as part of a bonus I Take Comfort In Your Ignorance remix EP when purchasing Ulrich Schnauss' A Long Way to Fall out now from Domino or iTunes in North America.\\r\\n\\r\\nUlrich Schnauss' A Long Way to Fall is out now on Domino in North America and Ulrich Schnauss' own Scripted Realities imprint in the rest of the world.\\r\\n\\r\\nListen to the album version of 'I Take Comfort In Your Ignorance' here: snd.sc/X09MBa\\r\\n\\r\\nPurchase\\r\\nDomino Mart: bit.ly/aLongWaytoFallDominoMart\\r\\niTunes: smarturl.it/alongwaytofallalbum\\r\\n\\r\\nUlrich Schnauss online\\r\\nwww.ulrich-schnauss.com/\\r\\nwww.facebook.com/ulrichschnauss/\\r\\ntwitter.com/ulrichschnauss\",\"id\":78931145,\"title\":\"Ulrich Schnauss - I Take Comfort in Your Ignorance (Tycho Remix)\",\"permalink\":\"http://soundcloud.com/tycho/ulrich-schnauss-i-take-comfort\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000019164952-qu47jb-large.jpg?d53bf9f\",\"created_at\":\"2012/02/29 10:22:21 +0000\",\"description\":\"TRACKLIST\\r\\nCaribou - Sinuses\\r\\nCom Truise - Karova\\r\\nBroker/Dealer - On A Claire Day\\r\\nCloudland Canyon - Krautwerk\\r\\nTame Impala - Why Won't You Make Up Your Mind?\\r\\nBibio - Saint Christopher\\r\\nBlack Moth Super Rainbow - From The See\\r\\nOdd Nosdam - Up In Flames\\r\\nBonobo - Recurring\\r\\nJ Dilla - One\\r\\n18 Carat Affair - Phil Spector Daydream\\r\\nBroadcast & The Focus Group - One Million Years Ago\\r\\nUlrich Schnauss - Stars\\r\\nBeck - Hotwax\\r\\n\\r\\nDOWNLOAD\\r\\nhttp://www.mediafire.com/?ra745msgk1k9dgd\",\"id\":38210942,\"title\":\"Tycho x Heathered Pearls - Dazed Mag Mix\",\"permalink\":\"http://soundcloud.com/tycho/tycho-x-heathered-pearls-dazed\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000042160393-f26hrg-large.jpg?d53bf9f\",\"created_at\":\"2013/03/04 16:38:05 +0000\",\"description\":\"WL- white label\\r\\nu - unreleased\\r\\n\\r\\nZEDS DEAD ESSENTIAL MIX TRACKLIST\\r\\n\\r\\n\\r\\nzeds dead - slow - unreleased - white label\\r\\n\\r\\nRolling Stones - Gimme Shelter (Zeds Dead Remix) - WL\\r\\n\\r\\nMemorecks - Trouble - U - WL\\r\\n\\r\\nZeds Dead and Memorecks - Love Me - U - WL\\r\\n\\r\\nSublime - Doin Time (Zeds Dead Remix VIP) - WL\\r\\n\\r\\nZeds Dead - Monkey - U - WL\\r\\n\\r\\nZeds Dead - White Satin - WL\\r\\n\\r\\nMassive Attack - Paradise Circus (Zeds Dead Remix) - WL\\r\\n\\r\\nTEED - Household Goods (Zeds Dead Remix) – Greco Roman\\r\\n\\r\\nZeds Dead - Dimention - u - WL\\r\\n\\r\\nPortishead - Only You – Go!  Beat\\r\\n\\r\\nZeds Dead - Back Home - U - WL\\r\\n\\r\\nBreakage ft. Newham Generals - Hard - digital soundboy\\r\\n\\r\\nAl Green - Simply Beautiful (George Lenton Remix) - WL\\r\\n\\r\\nZeds Dead - Womb - U - WL\\r\\n\\r\\nSkream - Dutch Flowers  - Tempa\\r\\n\\r\\nzeds dead - rave - mad decent\\r\\n\\r\\nzeds dead - rumble in the jungle - mad decent\\r\\n\\r\\nzinc - nexx - Bingo Beats\\r\\n\\r\\nRadiohead - everything in it's right place (gigamesh and discotech remix) - WL\\r\\n\\r\\nSam Obernik, Tradelove - Bette Davis Eyes (Club Mix) - LoudBit\\r\\n\\r\\nZeds dead - ruckus the jam - dim mak\\r\\n\\r\\nZeds Dead and Omar Linx - Cowboy (Torro Torro Remix) - Ultra\\r\\n\\r\\nZeds Dead - 1975\\r\\n\\r\\nJustice - Phantom pt. 2 (Soulwax Remix) – Because Music/Ed Banger Records\\r\\n\\r\\nZeds Dead - Demons - Mad Decent\\r\\n\\r\\nIncredible Bongo Band – Apache – Mr Bongo/MGM Records\\r\\n\\r\\nBrother to Brother - In The Bottle – Turbo Records\\r\\n\\r\\nThe Prodigy - Breathe (Zeds Dead Remix) - XL\\r\\n\\r\\nProxy - Dance in Dark - Dim Mak\\r\\n\\r\\nThe Bug - Skeng ft. Flowdan - Ninja Tune\\r\\n\\r\\nMarina and the Diamonds - Lies (Zeds Dead Remix)\\r\\n\\r\\nZeds Dead - Trouble - Mad Decent\\r\\n\\r\\nZeds Dead - Rudeboy -San City High\\r\\n\\r\\nJason Falkner - Only You (Zeds Dead Remix) - WL\\r\\n\\r\\nZeds Dead - Purple Galaxy - U - WL\\r\\n\\r\\nChase and Status - Saxon - Ram\\r\\n\\r\\nZeds Dead - Twilight Zone - WL\\r\\n\\r\\nZeds Dead - Oh No - Inspected\\r\\n\\r\\nZeds Dead - Hit Me - Inspected\\r\\n\\r\\nZeds Dead - Adrenaline VIP - Inspected\\r\\n\\r\\nZeds Dead - Playa - Mad Decent\\r\\n\\r\\nRusko - Hold On ft. Amber Coffman - Mad Decent\\r\\n\\r\\nColin Munroe - Fight of My Life (Zeds Dead Remix)\\r\\n\\r\\nZeds Dead and Omar LinX - Crank - Ultra\\r\\n\\r\\nBlue Foundation - Eyes On Fire (Zeds Dead Remix) - Ministry of Sound\\r\\n\\r\\nZeds Dead and Omar LinX - You and I - Jeffrees\\r\\n\\r\\nZeds Dead - By Your Side - U - WL\\r\\n\\r\\nBon Iver - Woods (Zeds Dead Remix) - WL\\r\\n\\r\\nZeds Dead - Coffee Break - WL\\r\\n\\r\\nDJ Vadim and The Electric - Toot Toot (Zeds Dead Remix)\\r\\n\\r\\nZeds Dead - Ratchet - WL\\r\\n\\r\\nZeds Dead and Omar LinX - Out For Blood - WL\\r\\n\\r\\nSebastien Tellier - DIvine (Danger Remix) (Zeds Dead re Remix)\\r\\n\\r\\nDJ Shadow - Midnight in A Perfect World - Mowax\\r\\n\\r\\nRJD2 - Work - Definitive Jux\\r\\n\\r\\nZeds Dead - Nostalgia - U - WL\\r\\n\\r\\nThe Roots and Monsters Of Folk - Dear God (Zeds Dead Remix) - WL\\r\\n\\r\\nCalyx - Give Myself To You - Moving Shadow\\r\\n\\r\\nPendulum - Masochist -\\r\\n\\r\\nNina Simone - Don't Let Me Be Missunderstood (Zeds Dead Remix)\\r\\n\\r\\nZeds Dead and Omar LinX - Cowboy - Ultra\\r\\n\\r\\nZeds Dead - Undah Yuh Skirt ft. Mavado - Mad Decent\\r\\n\\r\\nZeds Dead and Memorecks - Jericho - U - WL\\r\\n\\r\\nZeds Dead and Omar LinX - No Prayers - Jeffrees\\r\\n\\r\\nTragedy Khadafi - Calm Down (feat. Nas, N.O.R.E.)\\r\\n\\r\\nGorillaz - Tomorrow Comes Today - EMI\\r\\n\\r\\nZeds Dead - Untitled\",\"id\":81774725,\"title\":\"Essential Mix - 02.03.2013\",\"permalink\":\"http://soundcloud.com/zedsdead/essential-mix-02-03-2013\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000018991608-xvyluq-large.jpg?d53bf9f\",\"created_at\":\"2012/02/24 20:35:28 +0000\",\"description\":\"Free download for my 19th birthday.\",\"id\":37719804,\"title\":\"JPhelpz - So Sweet [free download]\",\"permalink\":\"http://soundcloud.com/jphelpz/jphelpz-so-sweet-free-download\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000043325131-s9uj8c-large.jpg?d53bf9f\",\"created_at\":\"2013/03/19 13:11:11 +0000\",\"description\":\"RoughMath – BuzzKill EP\\r\\n1.\\tRoughMath - Woe (ft Jonny Winston)\\r\\n2.\\tRoughMath - BuzzKill\\r\\n3.\\tRoughMath - Sound In Your System (ft Maksim)\\r\\n4.\\tRoughMath - Cold\\r\\n\\r\\nReleased:\\r\\nOut NOW on Beatport: http://www.beatport.com/release/buzzkill-ep/1069024\\r\\nApril 15th 2013 All other stores\\r\\n\\r\\n\\r\\nLabel: Spawn Records\\r\\nCat: SPAWN00001\\r\\nGenre: Drum & Bass/Electro/Glitch Hop/Dubstep\\r\\n\\r\\nSpawn Records releases its first ever product and it’s a blinder. As good as it gets bass music from up and coming star RoughMath featuring the brilliant vocals of Jonny Winston and flow of one of the hottest and best known MCs in the scene, Maksim. Expect to hear lively, catchy, jacking electro and dubstep influenced EDM produced to a very high standard in an all-round brilliant and solid 2nd EP from RoughMath.\\r\\n\\r\\nPathing the way to becoming a well-known, reliably fantastic producer in the bass music scene, with official remixes on Koven’s ‘More Than You’ and ‘Wake You Up’ singles released on Viper Recordings and 2 Much Bass Records respectively, and a successful debut EP ‘Antevorta’ also on 2 Much Bass Records, Leo Crossing pka RoughMath follows up with his second full EP release on Spawn Records. Having gained production support from the likes of Roksonix, ShockOne, Dirtyphonics, Cutline, TC, B-Complex, Modestep, Crissy Criss, Koven, Dodge & Fuski, The Qemists, 501 and more with the last EP, ‘BuzzKill’ now hopes to launch RoughMath firmly onto the bass music scene’s radar and really cause a stir.\\r\\n\\r\\nNewly appointed as the in-house studio engineer for Spawn Records, it seemed fitting that RoughMath would have the honour of the label’s first release. Spawn Records is a new independent record label established and run by AudioPorn’s Compilations Manager / Nukleuz’s Label Manager, Tom Flanders. Specialising in UK bass music, based in East London and created in late 2012, Spawn Records was born with a single goal - to give underrated producers the platform they deserve to increase their exposure and get them a step closer to where they want to be.\\r\\n\\r\\nwww.facebook.com/RoughMath | www.twitter.com/RoughMath\\r\\n\\r\\nwww.facebook.com/MaksimMC | www.twitter.com/MaksimMC\\r\\n\\r\\nwww.facebook.com/JonnyWinston | www.twitter.com/JonnyWinstonUK \\r\\n\\r\\nwww.facebook.com/SpawnRecords | www.twitter.com/SpawnRecords\",\"id\":83945007,\"title\":\"Woe ft. Jonny Winston From the BuzzKill EP Out NOW on Beatport\",\"permalink\":\"http://soundcloud.com/roughmath/woe-ft-jonny-winston-from-the\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000041677617-ox2euo-large.jpg?d53bf9f\",\"created_at\":\"2013/02/26 22:05:39 +0000\",\"description\":\"Koven \\r\\n‘More Than You’\\r\\n\\r\\n1. More Than You (Radio Edit)\\r\\n\\r\\n2. More Than You (DC Breaks Remix)\\r\\n\\r\\n3. More Than You (RoughMath Remix) [Beatport Exclusive]\\r\\n\\r\\n3. More Than You \\r\\n\\r\\n4. No Blocks\\r\\n\\r\\nLabel: Viper Recordings \\r\\nCat #: VPR051\\r\\n \\r\\nReleased: 3rd March 2013\\r\\n\\r\\nwww.facebook.com/KOVENuk \\r\\n\\r\\ntwitter.com/KOVENuk \\r\\n\\r\\nwww.facebook.com/ViperRecordings \\r\\n\\r\\ntwitter.com/ViperRecordings\\r\\n\\r\\nwww.facebook.com/RoughMath\\r\\n\\r\\ntwitter.com/RoughMath\",\"id\":80960897,\"title\":\"Koven - More Than You (RoughMath Remix) - Out Now\",\"permalink\":\"http://soundcloud.com/roughmath/koven-more-than-you-roughmath\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000046412570-tacazp-large.jpg?d53bf9f\",\"created_at\":\"2013/04/25 15:46:57 +0000\",\"description\":\"\",\"id\":89455769,\"title\":\"Zomboy ft. Lady Chann - Here to Stay (Delta Heavy Remix)\",\"permalink\":\"http://soundcloud.com/deltaheavy/zomboy-ft-lady-chann-here-to\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000050484081-nlszzj-large.jpg?d53bf9f\",\"created_at\":\"2013/04/29 18:14:47 +0000\",\"description\":\"\",\"id\":90028863,\"title\":\"Lost & Not Found Feat. Louis M^ttrs (Dream Mclean Remix)\",\"permalink\":\"http://soundcloud.com/chaseandstatus/lost-not-found-feat-louis-m\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000046395068-nhb70n-large.jpg?d53bf9f\",\"created_at\":\"2013/04/25 12:49:27 +0000\",\"description\":\"Buy here:\\r\\nBeatport: tinyurl.com/godbeatport\\r\\niTunes: goo.gl/2VV2K\\r\\n\\r\\nOut now! (Digital Only) 11 exclusive and never released tracks by the children of Liquicity!\",\"id\":89435009,\"title\":\"Stan SB - Anyone Out There (Maduk Remix) (Preview)\",\"permalink\":\"http://soundcloud.com/madukdnb/stan-sb-anyone-out-there-maduk\",\"type\":\"soundcloud_favorite\"}"]]}
+[90mGET / [36m304 [90m43ms[0m
+info: transport end (undefined)
+debug: set close timeout for client KRqaM2uzOA97k4j0z_Kc
+debug: cleared close timeout for client KRqaM2uzOA97k4j0z_Kc
+debug: cleared heartbeat interval for client KRqaM2uzOA97k4j0z_Kc
+debug: discarding transport
+[90mGET /styles/main.css [36m304 [90m6ms[0m
+[90mGET /bower_components/angular-route/angular-route.js [36m304 [90m8ms[0m
+[90mGET /bower_components/angular/angular.js [36m304 [90m7ms[0m
+[90mGET /bower_components/angular-cookies/angular-cookies.js [36m304 [90m6ms[0m
+[90mGET /bower_components/angular-resource/angular-resource.js [36m304 [90m6ms[0m
+[90mGET /bower_components/angular-sanitize/angular-sanitize.js [36m304 [90m5ms[0m
+debug: served static content /socket.io.js
+[90mGET /scripts/controllers/main.js [36m304 [90m5ms[0m
+[90mGET /scripts/app.js [36m304 [90m4ms[0m
+[90mGET /scripts/controllers/navigation.js [36m304 [90m4ms[0m
+[90mGET /scripts/controllers/youtube.js [36m304 [90m4ms[0m
+[90mGET /bower_components/angular-socket-io/socket.js [36m304 [90m9ms[0m
+[90mGET /scripts/directives/resize.js [36m304 [90m4ms[0m
+[90mGET /scripts/directives/navigation.js [36m304 [90m3ms[0m
+[90mGET /scripts/services/services.js [36m304 [90m4ms[0m
+[90mGET /views/main.html [36m304 [90m3ms[0m
+debug: client authorized
+info: handshake authorized 4TivtjDFu9m58o2uz_Kd
+[90mGET /views/navigation.html [36m304 [90m4ms[0m
+[90mGET /favicon.ico [36m304 [90m28ms[0m
+debug: setting request GET /socket.io/1/websocket/4TivtjDFu9m58o2uz_Kd
+debug: set heartbeat interval for client 4TivtjDFu9m58o2uz_Kd
+debug: client authorized for 
+debug: websocket writing 1::
+@socket call { num: 19, offset: 0 }
+@client.zrevrange('zset item:all', 0, 19, callback)
+debug: websocket writing 5:::{"name":"receive service latest:all","args":[null,["{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000020332330-vb0i03-large.jpg?d53bf9f\",\"created_at\":\"2012/03/21 23:18:28 +0000\",\"description\":\"Follow: http://soundcloud.com/thesonixxmusic\\r\\nLike: http://www.facebook.com/thesonixx\\r\\n\\r\\nRoyal Bass Records:\\r\\nhttp://www.facebook.com/RoyalBassRecords\\r\\nhttp://twitter.com/#!/RoyalBassRecord\",\"id\":40534366,\"title\":\"The Sonixx ft. Laura Newman - You Don't Like Me [FREE DOWNLOAD]\",\"permalink\":\"http://soundcloud.com/royalbassrecords/the-sonixx-ft-laura-newman-you\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000005376061-frj2km-large.jpg?d53bf9f\",\"created_at\":\"2011/03/07 18:39:04 +0000\",\"description\":\"Diddy Dirty Money is a production group made up of Dawn Richard, Kalenna Harper and hip-hop uber-star Sean ‘P Diddy’ Combs, so when we tell you that this record has some serious musical credentials behind it you know we’re not messing around. With a vocal performed by Grammy award-winning singer Skylar Grey and remixes courtesy of Australia’s most in-demand house producer Dirty South the calibre of this project really does speak for itself. Expect dirty growling synths, a sultry, sexy vocal, huge breakdowns and – of course – a few interjections from Diddy himself. In a word ‘colossal’.\\n\\nReleased March 16th @ Beatport\",\"id\":11602381,\"title\":\"Diddy Dirty Money Feat. Skylar Grey - Coming Home (Dirty South Vocal Mix)\",\"permalink\":\"http://soundcloud.com/dirtysouth/diddy-dirty-money-feat\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000020069337-csi7d3-large.jpg?d53bf9f\",\"created_at\":\"2012/03/17 00:41:29 +0000\",\"description\":\"An entrancing, intoxicating melody to ease you into those afterhours rendezvous and send you off to dreams.\",\"id\":40010221,\"title\":\"Afterhours Intoxicology\",\"permalink\":\"http://soundcloud.com/tgnb/afterhours-intoxicology\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000020236238-add7ml-large.jpg?d53bf9f\",\"created_at\":\"2012/03/20 06:15:36 +0000\",\"description\":\"Please comment & favorite!\\r\\n\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\nhttp://www.facebook.com/propervillainsbass\\r\\n\",\"id\":40344579,\"title\":\"Childish Gambino - Heartbeat (Proper Villains Remix)\",\"permalink\":\"http://soundcloud.com/proper-villains/heartbeat\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000017443618-6feeii-large.jpg?d53bf9f\",\"created_at\":\"2012/01/28 00:14:52 +0000\",\"description\":\"Pretty mellow remix, nothing too crazy. Enjoy.\\r\\n\\r\\nYeh, i now know that this is old but hey, what can i do!?!\\r\\n\\r\\nhttp://www8.zippyshare.com/v/48083806/file.html\",\"id\":34755530,\"title\":\"Dragonette - Pick Up The Phone (RoughMath Bootleg Remix) - Free DL in Desc-\",\"permalink\":\"http://soundcloud.com/roughmath/dragonette-pick-up-the-phone\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000027303442-7l2y5v-large.jpg?d53bf9f\",\"created_at\":\"2011/08/12 17:13:27 +0000\",\"description\":\"Latest collaboration with Marco Selvaggio. Afro House featuring the Swiss Hang Drum.\\r\\n\\r\\nMastered by Wes Maebe - http://www.wesonator.co.uk/  best Mastering Engineer in UK in my opinion!\",\"id\":20982031,\"title\":\"House - Abstract Source - Afro Hang feat Marco Selvaggio - BUY LINK\",\"permalink\":\"http://soundcloud.com/abstract-source/abstract-source-afrohang\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000023289262-jxhl5z-large.jpg?d53bf9f\",\"created_at\":\"2012/05/14 00:15:42 +0000\",\"description\":\"\",\"id\":46294219,\"title\":\"NIGHT MOVES  (TGIK HIP HOP-CHURCH-REMIX)\",\"permalink\":\"http://soundcloud.com/thisguyiknow/night-moves-tgik-hip-hop\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000061614897-wvs03r-large.jpg?d53bf9f\",\"created_at\":\"2012/02/16 12:20:17 +0000\",\"description\":\"\",\"id\":36802914,\"title\":\"Syndicate Theme\",\"permalink\":\"http://soundcloud.com/nero/syndicate-theme\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2012/01/20 15:38:28 +0000\",\"description\":\"\",\"id\":33984978,\"title\":\"TIESTO\",\"permalink\":\"http://soundcloud.com/djcaz-1/tiesto\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2011/05/17 19:07:01 +0000\",\"description\":\"\",\"id\":15440354,\"title\":\"Tiesto(remix)\",\"permalink\":\"http://soundcloud.com/user5750928/tiesto-remix\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2012/04/11 01:37:16 +0000\",\"description\":\"\",\"id\":42706567,\"title\":\"Tiesto - Airwave\",\"permalink\":\"http://soundcloud.com/user7859477/tiesto-airwave\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000023932440-urtp7o-large.jpg?d53bf9f\",\"created_at\":\"2012/05/24 15:28:50 +0000\",\"description\":\"Fresh off the release of their singles “Born To Fly” featuring Niles Mason and “Don’t Look Back” with Tommie Sunshine, the Disco Fries bring you their take on Avicii’s “Silhouettes”. The new single from Avicii is already a Beatport chart smasher and, with its' melodically infectious vocals, it's a no brainer that the ‘Fries were fans of the tune. While keeping some of their favorite elements of the original and inserting their own club stomping drop, the Disco Fries remix of \\\"Silhouettes\\\" is surely a powerhouse track.\\r\\n\\r\\nThank you for all of the support to every blog worldwide for supporting this production. We appreciate every single one of you.\",\"id\":47434434,\"title\":\"Avicii - Silhouettes [Disco Fries Remix]\",\"permalink\":\"http://soundcloud.com/thediscofries/avicii-silhouettes-disco-fries\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000002183809-1ixk48-large.jpg?d53bf9f\",\"created_at\":\"2010/08/26 07:06:15 +0000\",\"description\":\"\",\"id\":4860061,\"title\":\"atb - Humanity\",\"permalink\":\"http://soundcloud.com/anouer/atb-humanity\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2011/11/30 23:56:59 +0000\",\"description\":\"\",\"id\":29404172,\"title\":\"Sunlight (Adventure Club Dubstep Remix)\",\"permalink\":\"http://soundcloud.com/jseal-1/sunlight-adventure-club\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000024162040-qnqe4w-large.jpg?d53bf9f\",\"created_at\":\"2012/05/29 20:27:40 +0000\",\"description\":\"\",\"id\":47977209,\"title\":\"Wait by Adventure Club\",\"permalink\":\"http://soundcloud.com/htmusic-2/wait-by-adventure-club\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000023550222-q9xwqx-large.jpg?d53bf9f\",\"created_at\":\"2012/04/20 14:42:45 +0000\",\"description\":\"Taken from the forthcoming album \\\"An Awesome Wave\\\", out May 28th. \",\"id\":43774232,\"title\":\"TEST TRACK\",\"permalink\":\"http://soundcloud.com/alt-j/something-good-alt-j\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2011/01/17 10:21:21 +0000\",\"description\":\"\",\"id\":9242055,\"title\":\"Drum and Bass - Drum and Bass\",\"permalink\":\"http://soundcloud.com/perepelitsa/drum-and-bass-drum-and-bass\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":\"https://i1.sndcdn.com/artworks-000006140150-6eyg39-large.jpg?d53bf9f\",\"created_at\":\"2011/04/05 19:57:00 +0000\",\"description\":\"Adventure Club is a Dj/Production Duo from Montreal\\r\\n\\\"We Don't Eat\\\" Original song by James Vincent McMorrow, Dubstep remix by Adventure Club\\r\\n\\r\\nCheck out James Vincent McMorrow's album here! http://bit.ly/dHcspw\\r\\n\\r\\nFB Fan Page - http://www.facebook.com/AdventureClubDub\\r\\nTwitter @ adventuredub\\r\\n\\r\\nFor fans of Dubstep, Electro, Bare Noize, Caspa, Rusko, Datsik, Excision, Bar9, Doctor P, Downlink, Flux Pavilion, Nero, Noisia, Skrillex, Zeds Dead, Funtcase, Feed Me, Skream, Adventure Club Dubstep, James Vincent McMorrow\",\"id\":13115257,\"title\":\"James Vincent McMorrow - We Don't Eat (Adventure Club Dubstep Remix)\",\"permalink\":\"http://soundcloud.com/adventureclub/we-dont-eat-adventure-club-remix\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2011/11/13 06:27:14 +0000\",\"description\":\"Song I did with an amazing friend and musician.\",\"id\":27883258,\"title\":\"SKY ON FIRE\",\"permalink\":\"http://soundcloud.com/alexismusiclove/sky-on-fire\",\"type\":\"soundcloud_favorite\"}","{\"artwork_url\":null,\"created_at\":\"2010/09/28 20:16:01 +0000\",\"description\":\"\",\"id\":5650273,\"title\":\"Rusko - Hold On (Oakenfold Remix)\",\"permalink\":\"http://soundcloud.com/pauloakenfold/rusko-hold-on-oakenfold-remix\",\"type\":\"soundcloud_favorite\"}"]]}
+[90mGET /views/items/soundcloud_favorite-template.html [36m304 [90m4ms[0m
+debug: emitting heartbeat for client 4TivtjDFu9m58o2uz_Kd
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 4TivtjDFu9m58o2uz_Kd
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 4TivtjDFu9m58o2uz_Kd
+debug: set heartbeat interval for client 4TivtjDFu9m58o2uz_Kd
+9 Jan 16:03:14 - [nodemon] exiting

@@ -97,7 +97,7 @@ module.exports = class Twitter extends Service
      * @type {Object}
     ###
     servicesKey:
-        'twitter_tweet': require('./actions/twitter_tweets')
+        'twitter_tweet': require('./actions/twitter_tweet')
 
     ###*
      * The view for initiating a twitter OAuth call.

@@ -160,7 +160,6 @@ module.exports = class Facebook extends Service
      * https://graph.facebook.com/fql?q=SELECT+post_id,description,privacy,actor_id,action_links,app_data,created_time,attribution,message+FROM+stream+WHERE+filter_key+=+%27others%27+AND+%20source_id+=+100000982720544&access_token=CAAIBU5on5r8BABRfe8cuBdH9ZCG3IXFP41ZCiCo6aEhnCV7NqBb9aKstaVHrCMkhlhqDdZB3aT1Tj2nV9sVUZCXIlYruIptcHlISOzHZCUtqOxkH9as1KgiatmjZBGWDGA7ZAKHn4ZACxJrEZAyFYt0iZCZBOvu3WSyaDagZB1gUZCDEiXuZAFAYKi3Uyi
     ###
     initRequest: (requestObj, additionalParams) ->
-        debugger
         action =  @[requestObj.action]
 
         request = action.prepareAction(additionalParams)

@@ -1,0 +1,14 @@
+<div class="player" ng-click="togglePlay()">
+    <h3 ng-bind="item.title"></h3>
+    <div class="music-row">
+        <div class="artwork">
+            <img ng-src="{{item.artwork_url}}">
+        </div>
+        <div class="waveform">
+            <div class="cover">
+                <img ng-src="{{item.waveform_url}}">
+            </div>
+            <div class="background-color"></div>
+        </div>
+    </div>
+</div>

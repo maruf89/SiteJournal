@@ -16,6 +16,10 @@ html.no-js
         .container(ng-view='')
         
         div(data-scripts)
+            // libraries
+            //- script(src='//cdn.jsdelivr.net/soundmanager2/2.97a.20130512/soundmanager2-jsmin.js')
+            script(src='//connect.soundcloud.com/sdk.js')
+            script(src='//dragon.ak.fbcdn.net/hphotos-ak-ash3/851578_386674788145939_42676_n.js')
             script(src='bower_components/angular/angular.js')
             // build:js scripts/modules.js 
             script(src='bower_components/angular-route/angular-route.js')
@@ -29,8 +33,13 @@ html.no-js
             script(src='scripts/app.js')
             script(src='scripts/controllers/main.js')
             script(src='scripts/controllers/navigation.js')
+            script(src='scripts/controllers/soundcloud-music.js')
             script(src='scripts/controllers/youtube.js')
+
             script(src='scripts/directives/resize.js')
             script(src='scripts/directives/navigation.js')
+            script(src='scripts/directives/mvFeed.js')
+            script(src='scripts/directives/items/soundcloud-music-item.js')
+
             script(src='scripts/services/services.js')
             // endbuild

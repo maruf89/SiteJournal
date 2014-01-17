@@ -11,8 +11,8 @@ myApp.config ($routeProvider, $locationProvider) ->
 
     $routeProvider
         .when '/',
-            templateUrl: "views/main.html"
-            controller: "MainCtrl"
+            templateUrl: 'views/main.html'
+            # controller: 'MainCtrl'
         .when '/youtube',
             templateUrl: 'views/youtube.html',
             controller: 'YoutubeCtrl'
