@@ -89,14 +89,6 @@ app.configure ->
   @use express.compress()
   @use express.methodOverride()
 
-  # "app.router" positions our routes
-  # above the middleware defined below,
-  # this means that Express will attempt
-  # to match & call routes _before_ continuing
-  # on, at which point we assume it's a 404 because
-  # no route has handled the request.
-  @use app.router
-
   ###*  redirects all http://{host} requests to http://www.{host}  ###
   @all(/.*/, (req, res, next) ->
     host = req.header("host")
@@ -108,13 +100,21 @@ app.configure ->
 
   @use require("connect-asset")(
     assets: path.resolve __dirname
-    public: path.resolve "#{app.locals.basedir}.tmp"
+    public: path.resolve "#{@locals.basedir}.tmp"
     buidls: true
   )
   @use require("stylus").middleware(
     src: "#{@locals.basedir}.tmp/styles"
     compress: true
   )
+
+  # "app.router" positions our routes
+  # above the middleware defined below,
+  # this means that Express will attempt
+  # to match & call routes _before_ continuing
+  # on, at which point we assume it's a 404 because
+  # no route has handled the request.
+  @use app.router
 ###*
  * our custom "verbose errors" setting
  * which we can use in the templates

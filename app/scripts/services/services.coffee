@@ -36,23 +36,27 @@ myApp.factory 'fetcher', ['socket', (socket) ->
 
 
 playerInstance = 0;
+###*
+ * TODO: Create a Media object that has a 'tracker' property, which we pass around and 
+ *         don't have to worry about errors being thrown for missing property
+###
 
 myApp.factory 'MVPlayer', ['SoundCloud', (SoundCloud) ->
 
     cur =
         service: null
-        song: {}
+        media: {}
         pId: null
         sId: null
 
     vars =
         initSong: null
 
-    updatePlayer = (service, data) ->
+    updatePlayer = (service, media) ->
         if not vars.initSong then throw new Error('Missing initInstance for updatePlayer. Don\'t know which service started this request')
 
         cur.service = service
-        cur.song = data
+        cur.media = media
         cur.pId = vars.initSong.pId
         cur.sId = vars.initSong.sId
         vars.initSong = null
@@ -115,8 +119,8 @@ myApp.factory 'MVPlayer', ['SoundCloud', (SoundCloud) ->
         _curService = services[cur.service]
 
         # else destroy the current to make way for the new
-        if cur.song.playing
-            _curService.destroy.apply(_curService, cur.song)
+        if cur.media.tracker?.playing
+            _curService.destroy.call(_curService, cur.media)
 
         _service = services[serviceData.service]
         vars.initSong = serviceData
@@ -132,11 +136,11 @@ myApp.factory 'SoundCloud', [ ->
     SC = window.SC
 
     ###*
-     * Stores the current sound object if there is one
+     * Stores the current media object if there is one
      * @type {object}
     ###
     current =
-        sound: null
+        media: null
         tracker: {}
 
     ###*
@@ -162,39 +166,37 @@ myApp.factory 'SoundCloud', [ ->
         return '_sc' + soundcloudInstance++
 
     ###*
-     * Play/Pause depending on the state of the current sound
+     * Play/Pause depending on the state of the current media
      * @return {[type]} [description]
     ###
     togglePlay: ->
-        if current.sound
+        if current.media
             if current.tracker.playing then @pause() else @play()
 
     ###*
      * Given a set of SC#stream arguments + tracker,
      * initiate the song and attach the tracker
      * 
-     * @param  {string}   track    sound cloud track URI
+     * @param  {string}   track    media cloud track URI
      * @param  {object}   options  Soundcloud player options
      * @param  {Function} callback
      * @param  {object}   tracker  passed in object to bind the service to the controller
     ###
     initSong: (track, options, callback, tracker = {}) ->
-        SC.stream track, options, (sound) ->
-            current.sound = sound
+        SC.stream track, options, (media) ->
+            current.media = media
             current.tracker = tracker
             tracker.playing = true
 
-            updatePlayer
-                service: 'soundcloud'
-                data: current
+            updatePlayer('soundcloud', current)
 
-            callback(sound)
+            callback(media)
 
         return true
 
     play: ->
         if not current.tracker.playing
-            current.sound.play()
+            current.media.play()
             current.tracker.playing = true
 
     ###*
@@ -202,22 +204,22 @@ myApp.factory 'SoundCloud', [ ->
     ###
     pause: ->
         if current.tracker.playing
-            current.sound.pause()
+            current.media.pause()
             current.tracker.playing = false
 
         return true
 
     destroy: (soundData) ->
-        return false if not soundData.sound?
+        return false if not soundData.media?
 
-        # destroy the current sound object
-        soundData.sound.destruct()
+        # destroy the current media object
+        soundData.media.destruct()
 
-        # update the tracker object so the individual sound is notified
+        # update the tracker object so the individual media is notified
         # that it's no longer active
         current.tracker.playing = false
 
         # then reset the current object
         current.tracker = {}
-        current.sound = null
+        current.media = null
 ]

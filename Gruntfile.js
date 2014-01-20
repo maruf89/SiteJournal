@@ -71,26 +71,13 @@ module.exports = function (grunt) {
         files: ['./{,*/}*.coffee'],
         tasks: ['coffee:server', 'wait:reload']
       },
-      reload: {
-        files: ['./{,*/}*.jade'],
-        tasks: ['wait:reload']
-      },
-      // coffee: {
-      //   files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-      //   tasks: ['coffee:dist', 'wait:reload']
-      // },
-      // coffeeTest: {
-      //   files: ['test/spec/{,*/}*.coffee'],
-      //   tasks: ['coffee:test']
-      // },
-      scripts: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-        tasks: ['copy:coffee', 'reload']
-      },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.styl'],
-        tasks: ['copy:stylus', 'reload']
-      }
+        tasks: ['copy:stylus']
+      },
+      gruntfile: {
+        files: ['Gruntfile.js']
+      },
     },
     autoprefixer: {
       options: ['last 1 version'],
@@ -332,8 +319,8 @@ module.exports = function (grunt) {
         },
         tasks: [
           'nodemon:dev',
-          'node-inspector'
-          //'shell'
+          'node-inspector',
+          'watch'
         ]
       },
       server: [
