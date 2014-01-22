@@ -78,7 +78,6 @@ module.exports = class Favorites extends Action
      * @param  {Object} data        query response
     ###
     parseData: (requestObj, err, data) ->
-        debugger 
         if err
             if err.limitReached
                 console.log 'Rate limit reached'

@@ -241,12 +241,31 @@ class DB
      * @param  {Function} callback  whatever is returned by Redis as a result of attempting the method
      * @param  {Boolean=} reversed  Whether to query results from the back
      ###
-    zget: (database, section, from, to, callback, reversed = false) ->
+    zget: (database, section, from, to, callback, reversed = false, optional = []) ->
         dbKey = "zset #{database}:#{section}"
         method = if reversed then 'zrange' else 'zrevrange'
 
-        console.log "@client.#{method}('#{dbKey}', #{from}, #{to}, callback)"
-        @client[method](dbKey, from, to, callback)
+        unless _.isFunction(callback)
+            throw new Error('Expecting parameter 5 to be a callback function')
+
+        args = [dbKey, from, to]
+        args = args.concat(optional) if optional.length
+        args.push(callback)
+
+        @client[method].apply(@client, args)
+
+    zupdate: (database, section, key, extension, callback = ->) ->
+        dbKey = "zset #{database}:#{section}"
+
+        @client.zrangebyscore dbKey, key, key, (err, res) =>
+            newVal = _.extend(JSON.parse(res[0]), extension);
+            newVal = JSON.stringify(newVal)
+
+            @client.zremrangebyscore dbKey, key, key, (err) =>
+                if err
+                    throw new Error('Error removing key value on update')
+                else
+                    @client.zadd(dbKey, key, newVal, callback)
 
     ###*
      * Given an array of keys, will remove them from a database

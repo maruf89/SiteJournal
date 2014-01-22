@@ -18,7 +18,7 @@ html.no-js
         div(data-scripts)
             // libraries
             //- script(src='//cdn.jsdelivr.net/soundmanager2/2.97a.20130512/soundmanager2-jsmin.js')
-            script(src='//connect.soundcloud.com/sdk.js')
+            // react library
             script(src='//dragon.ak.fbcdn.net/hphotos-ak-ash3/851578_386674788145939_42676_n.js')
             script(src='bower_components/angular/angular.js')
             // build:js scripts/modules.js 
@@ -28,18 +28,30 @@ html.no-js
             script(src='bower_components/angular-sanitize/angular-sanitize.js')
             script(src='bower_components/angular-socket-io/socket.js')
             script(src='/socket.io/socket.io.js')
+            script(src='//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.compat.min.js')
+            script(src='scripts/polyfills.js')
+
             // endbuild 
             // build:js({.tmp,app}) scripts/scripts.js 
             script(src='scripts/app.js')
             script(src='scripts/controllers/main.js')
             script(src='scripts/controllers/navigation.js')
-            script(src='scripts/controllers/soundcloud-music.js')
+            script(src='scripts/controllers/soundcloudMusic.js')
+            script(src='scripts/controllers/youtubeVideo.js')
             script(src='scripts/controllers/youtube.js')
 
             script(src='scripts/directives/resize.js')
             script(src='scripts/directives/navigation.js')
             script(src='scripts/directives/mvFeed.js')
             script(src='scripts/directives/items/soundcloud-music-item.js')
+            script(src='scripts/directives/items/youtube-video-item.js')
 
             script(src='scripts/services/services.js')
+            script(src='scripts/services/mvPlayer.js')
+            script(src='scripts/services/soundcloud.js')
+            script(src='scripts/services/youtube.js')
+
+            // secondary libraries
+            //- script(src='//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js')
+            script(src='//connect.soundcloud.com/sdk.js')
             // endbuild
