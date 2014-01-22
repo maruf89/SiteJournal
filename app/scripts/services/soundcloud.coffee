@@ -55,7 +55,7 @@ myApp.factory 'SoundCloud', [ ->
      * @param  {object}   scope    passed in object to bind the service to the controller
     ###
     initMedia: (track, options, callback, scope = {}) ->
-        _options = _extend(options, {
+        _options = _.extend(options, {
             onfinish: @ended.bind(@)
         })
 
@@ -92,6 +92,10 @@ myApp.factory 'SoundCloud', [ ->
 
     ended: ->
         updatePlayer('soundcloud', current, 'ended')
+
+    seek: (percent) ->
+        duration = current.scope.item.duration or current.media.durationEstimate
+        current.media.setPosition(~~(percent * duration))
 
     destroy: (soundData) ->
         return false if not soundData.media?

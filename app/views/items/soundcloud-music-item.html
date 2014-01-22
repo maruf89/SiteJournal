@@ -4,7 +4,7 @@
         <div class="artwork">
             <img ng-src="{{item.artwork_url}}">
         </div>
-        <div class="waveform">
+        <div class="waveform" ng-click="seek($event)">
             <div class="cover">
                 <img ng-src="{{item.waveform_url}}">
             </div>

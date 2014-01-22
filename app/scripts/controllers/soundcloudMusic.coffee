@@ -15,16 +15,13 @@ whilePlaying = ($scope, Player) ->
     event = new CustomEvent("scWhile#{$scope.$id}", { detail: {current: current} })
     document.dispatchEvent(event)
 
-onFinish = ($scope, Player) ->
-    1
-
 onSongLoaded = ($scope, socket) ->
+    $scope.item.duration = this.duration
     socket.emit('soundcloud update songLength', {
         service: 'souncloud'
         key: $scope.item.key
         duration: this.duration
     });
-    console.log('loaded')
 
 myApp.controller 'soundcloudMusic', ['$scope', 'MVPlayer', 'socket', ($scope, Player, socket) ->
     $scope.playing = false
@@ -47,6 +44,19 @@ myApp.controller 'soundcloudMusic', ['$scope', 'MVPlayer', 'socket', ($scope, Pl
     else
         _initConfig.onload = ->
             onSongLoaded.apply(this, [$scope, socket])
+
+    $scope.seek = (event) ->
+        return true unless @playing or not @item.duration
+
+        event.stopPropagation()
+        event.preventDefault()
+
+        percent = event.layerX / event.target.offsetWidth
+
+        Player.seek(instanceParam, percent)
+
+        return false
+
 
     $scope.togglePlay = ->
         if @playing then Player.togglePlay(instanceParam) else @initMedia()

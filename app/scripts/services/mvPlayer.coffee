@@ -129,6 +129,11 @@ myApp.factory 'MVPlayer', ['SoundCloud', 'Youtube', (SoundCloud, Youtube) ->
 
         _service.initMedia.apply(_service, params)
 
+    seek: (serviceData, args...) ->
+        if cur.pId is serviceData.pId
+            _service = services[cur.service]
+            _service.seek.apply(_service, args)
+
     updatePlayer: updatePlayer
 
     initNextSong: ->
