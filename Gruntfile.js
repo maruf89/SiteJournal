@@ -68,7 +68,7 @@ module.exports = function (grunt) {
     },
     watch: {
       server: {
-        files: ['./{,*/}*.coffee'],
+        files: ['<%= yeoman.app %>/server.coffee', '<%= yeoman.app %>/server/{,*/}*.coffee'],
         tasks: ['coffee:server', 'wait:reload']
       },
       styles: {
@@ -380,15 +380,17 @@ module.exports = function (grunt) {
       dev: {
         options: {
           file: 'app/server.js',
-          args: ['--debug', 'development'],
-          watchedExtensions: [
+          args: ['development'],
+          nodeArgs: ['--debug'],
+          ext: [
             'js',
+            'coffee',
             'jade',
             'styl'
           ],
           watchedFolders: ['app'],
           delayTime: 1,
-          ignoredFiles: nodemonIgnoredFiles
+          ignore: nodemonIgnoredFiles
         }
       }
     },
