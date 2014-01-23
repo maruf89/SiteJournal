@@ -8,7 +8,7 @@ playerInstance = 0;
  *         don't have to worry about errors being thrown for missing property
 ###
 
-myApp.factory 'MVPlayer', ['SoundCloud', 'Youtube', (SoundCloud, Youtube) ->
+myApp.factory 'MVPlayer', ['$rootScope', 'SoundCloud', 'Youtube', ($root, SoundCloud, Youtube) ->
 
     _this = null
 
@@ -21,6 +21,7 @@ myApp.factory 'MVPlayer', ['SoundCloud', 'Youtube', (SoundCloud, Youtube) ->
 
     config =
         continuousPlay: true
+        autoLoadMore: true
 
     vars =
         initMedia: null
@@ -136,18 +137,34 @@ myApp.factory 'MVPlayer', ['SoundCloud', 'Youtube', (SoundCloud, Youtube) ->
 
     updatePlayer: updatePlayer
 
+    initMediaAtIndex: (index) ->
+        unless instance = instances.list[index]
+            throw new Error("Song at index #{index} does not exist")
+
+        _scope = instances[instance]
+        _scope.initMedia()
+
     initNextSong: ->
         return false unless isFinite(cur.index)
 
         newIndex = cur.index + 1
 
         if not instance = instances.list[newIndex]
-            console.log('end of songs')
-            # load more items
+            if config.autoLoadMore
+                cur.media.scope.$root.activeScope.loadMore =>
+                    do @initNextSong
+            else
+                console.log('end of songs')
             return false
+        else
+            @initMediaAtIndex(newIndex);
         
-        _scope = instances[instance]
-        _scope.initMedia()
+        
+
+    initPreviousSong: ->
+        return false if cur.index is 1
+
+        initMediaAtIndex(cur.index - 1)
 ]
 
 
