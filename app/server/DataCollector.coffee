@@ -187,7 +187,7 @@ class DataCollector
      * @fires  DataCollector#cleanseAll
     ###
     cleanseAll: ->
-        _.each @config.services, (d, service) ->
+        _.each @config.services, (service) ->
             service.actions.forEach (action) ->
                 db.del(requestData, action)
                 

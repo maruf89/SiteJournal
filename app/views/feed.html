@@ -1,9 +1,4 @@
-<div class="results">
-    <article ng-repeat="item in items.list" class="item" ng-class="item.type">
-        <div ng-include="'views/wrappers/' + item.type + '-template.html'" class="inner"></div>
-        <!-- <mv-item mv-data="item.type"></mv-item> -->
-    </article>
-</div>
+<section class="results" id="feedRepeat"></section>
 <div class="reel-load-more" ng-click="loadMore()">
     <h4 ng-show="items.more">Load More</h4>
 </div>

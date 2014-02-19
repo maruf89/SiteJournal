@@ -4,6 +4,9 @@ window.$q = (selector, all = true) ->
     query = if all then 'querySelector' else 'querySelectorAll'
     document[query] selector
 
+window.$qClass = (className) ->
+    document.getElementsByClassName(className)
+
 window.myApp = angular.module('mvmdApp', ['ngRoute', 'ngResource', 'ngSanitize', 'btford.socket-io'])
 
 myApp.config ['$routeProvider', '$locationProvider', '$sceDelegateProvider', ($routeProvider, $locationProvider, $sce) ->

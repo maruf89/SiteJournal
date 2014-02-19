@@ -21,7 +21,7 @@ onSongLoaded = ($scope, socket) ->
         service: 'souncloud'
         key: $scope.item.key
         duration: this.duration
-    });
+    })
 
 myApp.controller 'soundcloudMusic', ['$scope', 'MVPlayer', 'socket', ($scope, Player, socket) ->
     $scope.playing = false

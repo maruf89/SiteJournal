@@ -4,7 +4,7 @@ myApp = window.myApp
 num = 1
 
 myApp.factory 'socket', ['$rootScope', ($rootScope) ->
-    socket = io.connect('http://www.mariusmiliunas.com')
+    socket = io.connect(window.location.protocol + '//' + window.location.hostname)
 
     on: (eventName, callback) ->
         socket.on eventName, ->

@@ -78,6 +78,14 @@ module.exports = function (grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
+      js: {
+        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        tasks: ['copy:js']
+      },
+      jsx: {
+        files: ['<%= yeoman.app %>/scripts/{,*/}*.jsx'],
+        tasks: ['react:default']
+      }
     },
     autoprefixer: {
       options: ['last 1 version'],
@@ -289,6 +297,13 @@ module.exports = function (grunt) {
         dest: '.tmp/scripts/',
         src: '{,*/}*.coffee'
       },
+      js: {
+        expand: true,
+        dot: true,
+        cwd: '<%= yeoman.app %>/scripts',
+        dest: '.tmp/scripts/',
+        src: '{,*/}*.js'
+      },
       dist: {
         files: [{
           expand: true,
@@ -324,9 +339,11 @@ module.exports = function (grunt) {
         ]
       },
       server: [
+        'react:default',
         'copy:stylus',
 	      'coffee:server',
-        'copy:coffee'
+        'copy:coffee',
+        'copy:js'
       ],
       test: [
         'coffee',
@@ -369,11 +386,17 @@ module.exports = function (grunt) {
         }]
       }
     },
-    shell: {
-      nodeInspector: {
-        command: function() {
-          return 'node-inpsoctor&';
-        }
+    react: {
+      'default': {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= yeoman.app %>/scripts',
+            src: '{,*/}*.jsx',
+            dest: '.tmp/scripts/',
+            ext: '.js'
+          }
+        ]
       }
     },
     nodemon: {
