@@ -4,18 +4,10 @@ var MVItems = MVItems || {};
 
 MVItems.twitter_tweet = React.createClass({
 
-    // componentDidMount: function () {
-    //     // grab the selector
-    //     this.selector = document.querySelector('[data-reactid="' + this._rootNodeID + '"]');
-
-    //     // connect it with Angular's infrastructure so we can use the contollers
-    //     this.props.compile(this.selector)(this.$scope);
-    // },
+    // componentDidMount: MVItems.proto.componentDidMount,
 
     render: function () {
-        this.$scope = this.props.scope;
-
-        var item = this.$scope.item;
+        var item = this.props.item;
 
         return (
             <article className="ttTweet item" data-ng-controller="twitterTweet">

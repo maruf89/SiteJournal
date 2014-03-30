@@ -19,9 +19,11 @@ _youtubeParams =
 myApp.controller 'youtubeVideo', ['$scope', '$sce', 'MVPlayer', ($scope, $sce, Player) ->
     $scope.playing = false
     $scope.state = null
+    youtubeParams = null
 
-    youtubeParams = _.clone(_youtubeParams)
-    youtubeParams.videoId = $scope.item.id
+    $scope.setup = ->
+        youtubeParams = _.clone(_youtubeParams)
+        youtubeParams.videoId = $scope.item.id
 
     ###*
      * Instantiates this instance with the MVPlayer Service

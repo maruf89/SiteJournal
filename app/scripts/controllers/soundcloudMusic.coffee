@@ -38,12 +38,12 @@ myApp.controller 'soundcloudMusic', ['$scope', 'MVPlayer', 'socket', ($scope, Pl
 
     _initConfig = _.clone(initConfig)
 
-    if $scope.item.duration
-        _initConfig.whileplaying = ->
-            whilePlaying.apply(this, [$scope, Player])
-    else
-        _initConfig.onload = ->
-            onSongLoaded.apply(this, [$scope, socket])
+    # if $scope.item.duration
+    #     _initConfig.whileplaying = ->
+    #         whilePlaying.apply(this, [$scope, Player])
+    # else
+    #     _initConfig.onload = ->
+    #         onSongLoaded.apply(this, [$scope, socket])
 
     $scope.seek = (event) ->
         return true unless @playing or not @item.duration

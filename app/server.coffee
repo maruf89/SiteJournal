@@ -48,7 +48,7 @@ httpsServer   = https.createServer(options, app)
 #  bind Socket.io to our http server
 socket        = require('socket.io').listen(httpServer)
 
-socketRequest = require('./server/socketRequest')(socket);
+socketRequest = require('./server/socketRequest')(socket)
 
 
 #

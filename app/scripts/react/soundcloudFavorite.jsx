@@ -4,27 +4,27 @@ var MVItems = MVItems || {};
 
 MVItems.soundcloud_favorite = React.createClass({
 
-    componentDidMount: function () {
-        // grab the selector
-        this.selector = document.querySelector('[data-reactid="' + this._rootNodeID + '"]');
+    componentDidMount: MVItems.proto.componentDidMount,
 
-        // connect it with Angular's infrastructure so we can use the contollers
-        this.props.compile(this.selector)(this.$scope);
+    togglePlay: function () {
+        this.$scope.togglePlay();
+    },
+
+    seek: function (e) {
+        this.$scope.seek(e);
     },
 
     render: function () {
-        this.$scope = this.props.scope;
-
-        var item = this.$scope.item;
+        var item = this.props.item;
 
         return (
-            <article className="scSound player item" data-ng-controller="soundcloudMusic" data-ng-click="togglePlay()">
-                <h3 ng-bind={item.title}></h3>
+            <article className="scSound player item" data-ng-controller="soundcloudMusic" onClick={this.togglePlay}>
+                <h3>{item.title}</h3>
                 <div className="music-row">
                     <div className="artwork">
                         <img src={item.artwork_url} />
                     </div>
-                    <div className="waveform" data-ng-click="seek($event)">
+                    <div className="waveform" onClick={this.seek}>
                         <div className="cover">
                             <img src={item.waveform_url} />
                         </div>

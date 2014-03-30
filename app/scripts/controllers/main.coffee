@@ -18,7 +18,7 @@ myApp.controller 'MainCtrl', ['$scope', 'fetcher', '$compile', ($scope, fetcher,
         $scope.items.more = true
         callback(latest) if callback
 
-        React.renderComponent feedRepeat(scope: $scope, compile: $compile), document.getElementById('feedRepeat')
+        React.renderComponent feedRepeat(scope: $scope), document.getElementById('feedRepeat')
 
     $scope.loadMore = (callback) ->
         if callback then callback = _.partialRight(fetcherCallback, callback);

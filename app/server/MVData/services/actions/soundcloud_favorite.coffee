@@ -134,7 +134,7 @@ module.exports = class Favorites extends Action
                  * Since these are not ordered by when we liked them, we have to compare each one
                  * to our latest id, and break if we already have it
                 ###
-                if item.id is action.requestData.previousActivity then break
+                if item.id is action.requestData.latestActivity then break
 
                 # Generate a current timestamp of our items (keep the correct order and give newer items higher stamps)
                 key = (new Date()).getTime() + (index - dataLength) - dataLength
